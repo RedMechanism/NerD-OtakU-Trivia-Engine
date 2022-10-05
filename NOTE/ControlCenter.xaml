@@ -1,0 +1,17 @@
+﻿<Window x:Class="NOTE.ControlCenter"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NOTE"
+        mc:Ignorable="d"
+        Title="NOTE Control Center" Height="576" Width="1024">
+    <Grid>
+        <Button x:Name="Launch_Player" Content="Lauch player!" HorizontalAlignment="Left" Margin="20,439,0,0" VerticalAlignment="Top" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
+        <Button Content="Play" HorizontalAlignment="Left" Margin="820,303,0,0" VerticalAlignment="Top" Height="61" Width="175" Click="Play_Button"/>
+        <Button x:Name="Reset_button" Content="Reset" HorizontalAlignment="Left" Margin="820,388,0,0" VerticalAlignment="Top" Height="62" Width="175" Click="Reset_Button"/>
+        <Button x:Name="Pause_button" Content="Pause" HorizontalAlignment="Left" Margin="820,471,0,0" VerticalAlignment="Top" Height="62" Width="175" Click="Pause_Button"/>
+        <Button x:Name="Load_folder" Content="Load Folder" HorizontalAlignment="Left" Margin="20,377,0,0" VerticalAlignment="Top" Height="47" Width="111" Click="Load_Folder"/>
+        <TreeView x:Name="dirTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="151,10,204,77"/>
+    </Grid>
+</Window>
