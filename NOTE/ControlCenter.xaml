@@ -7,11 +7,19 @@
         mc:Ignorable="d"
         Title="NOTE Control Center" Height="576" Width="1024">
     <Grid>
-        <Button x:Name="Launch_Player" Content="Lauch player!" HorizontalAlignment="Left" Margin="20,439,0,0" VerticalAlignment="Top" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
-        <Button Content="Play" HorizontalAlignment="Left" Margin="820,303,0,0" VerticalAlignment="Top" Height="61" Width="175" Click="Play_Button"/>
-        <Button x:Name="Reset_button" Content="Reset" HorizontalAlignment="Left" Margin="820,388,0,0" VerticalAlignment="Top" Height="62" Width="175" Click="Reset_Button"/>
+        <Button x:Name="Launch_Player" Content="Launch player!" HorizontalAlignment="Left" Margin="20,439,0,0" VerticalAlignment="Top" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
+        <Button Content="Play" HorizontalAlignment="Left" Margin="820,329,0,0" VerticalAlignment="Top" Height="61" Width="175" Click="Play_Button"/>
+        <Button x:Name="Reset_button" Content="Reset" HorizontalAlignment="Left" Margin="820,400,0,0" VerticalAlignment="Top" Height="62" Width="175" Click="Reset_Button"/>
         <Button x:Name="Pause_button" Content="Pause" HorizontalAlignment="Left" Margin="820,471,0,0" VerticalAlignment="Top" Height="62" Width="175" Click="Pause_Button"/>
         <Button x:Name="Load_folder" Content="Load Folder" HorizontalAlignment="Left" Margin="20,377,0,0" VerticalAlignment="Top" Height="47" Width="111" Click="Load_Folder"/>
         <TreeView x:Name="dirTree" Width="Auto" Background="#FFFFFFFF" BorderBrush="#FFFFFFFF" Foreground="#FFFFFFFF" Margin="151,10,204,77"/>
+        <StackPanel Margin="820,10,0,331">
+            <Button x:Name="timer60sec" Content="60 seconds" Height="48" Width="76" Click="Timer60_Button"/>
+            <Button x:Name="timer30sec" Content="30 seconds" Height="47" Width="76" Click="Timer30_Button"/>
+            <Button x:Name="timer15sec" Content="15 seconds" Height="48" Width="76" Click="Timer15_Button"/>
+            <Button Content="Clear timer" Height="41" Width="78"  Click="ClearTimer_Button"/>
+        </StackPanel>
+        <TextBox x:Name="Custom_timer_input" MaxLength="3" HorizontalAlignment="Left" Margin="860,234,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="48" Height="26" TextAlignment="Center" FontFamily="DS-Digital" FontSize="24"/>
+        <Button x:Name="Start_custom_timer" Content="Start Timer" HorizontalAlignment="Left" Margin="922,234,0,0" VerticalAlignment="Top" Height="26" Click="Start_custom_timer_Button"/>
     </Grid>
 </Window>

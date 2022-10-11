@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.IO;
+using static System.Net.Mime.MediaTypeNames;
+using System.Linq;
 
 namespace NOTE
 {
@@ -111,6 +113,98 @@ namespace NOTE
                 }
             }
         }
+
+        private void Timer60_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerRunning)
+            {
+                if (countdownRunning)
+                {
+                    MessageBox.Show("Clear running timer first!");
+                }
+                else
+                {
+                    TriviaPlayer.Instance.clock_face.Visibility = Visibility.Visible;
+                    Countdown(60, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Content = count.ToString());
+                }
+            }
+        }
+        private void Timer30_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerRunning)
+            {
+                if (countdownRunning)
+                {
+                    MessageBox.Show("Clear running timer first!");
+                }
+                else
+                {
+                    TriviaPlayer.Instance.clock_face.Visibility = Visibility.Visible;
+                    Countdown(30, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Content = count.ToString());
+                }
+            }
+        }
+        private void Timer15_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerRunning)
+            {
+                if (countdownRunning)
+                {
+                    MessageBox.Show("Clear running timer first!");
+                }
+                else
+                {
+                    TriviaPlayer.Instance.clock_face.Visibility = Visibility.Visible;
+                    Countdown(15, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Content = count.ToString());
+                }
+            }
+        }
+        private void ClearTimer_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerRunning)
+            {
+                countdownRunning = false;
+                TriviaPlayer.Instance.displayTimer.Content = "";
+                TriviaPlayer.Instance.clock_face.Visibility = Visibility.Collapsed;
+            }
+        }
+        private void Start_custom_timer_Button(object sender, RoutedEventArgs e)
+        {
+            if (Custom_timer_input.Text.All(char.IsDigit))
+            {
+                int timerInput = int.Parse(Custom_timer_input.Text);
+                if (countdownRunning)
+                {
+                    MessageBox.Show("Clear running timer first!");
+                }
+                else
+                {
+                    TriviaPlayer.Instance.clock_face.Visibility = Visibility.Visible;
+                    Countdown(timerInput, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Content = count.ToString());
+                }
+            }
+            else
+            {
+                MessageBox.Show("Enter only positive digits");
+            }
+        }
+        private bool countdownRunning = false;
+        void Countdown(int count, TimeSpan interval, Action<int> timerStart)
+        {
+            countdownRunning = true;
+            var timer = new System.Windows.Threading.DispatcherTimer();
+            timer.Interval = interval;
+            timer.Tick += (_, a) =>
+            {
+                if (count-- == 0 || !countdownRunning)
+                    timer.Stop();
+                else
+                    timerStart(count);
+            };
+            timerStart(count);
+            timer.Start();
+        }
+
     }
 
 }

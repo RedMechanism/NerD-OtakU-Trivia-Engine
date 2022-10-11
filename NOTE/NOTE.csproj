@@ -9,4 +9,14 @@
 
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="clock_face.eps" />
+    <None Remove="clock_face.png" />
+    <None Remove="Images\clock_face.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\clock_face.png" />
+  </ItemGroup>
+
 </Project>

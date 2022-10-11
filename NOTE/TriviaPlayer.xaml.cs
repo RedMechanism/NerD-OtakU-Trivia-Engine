@@ -25,11 +25,16 @@ namespace NOTE
         public static TriviaPlayer Instance;
         #pragma warning restore CS8618
         public MediaElement mediaPlayer;
+
+        public Label displayTimer;
+        public Image clock_face;
         public TriviaPlayer()
         {
             InitializeComponent();
             Instance = this;
             mediaPlayer = myMedia;
+            displayTimer = Timer_display;
+            clock_face = Clock_face_image;
         }
     }
 }
