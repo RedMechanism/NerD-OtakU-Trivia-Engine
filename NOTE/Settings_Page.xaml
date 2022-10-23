@@ -1,0 +1,36 @@
+﻿<Page x:Class="NOTE.Settings_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NOTE"
+      mc:Ignorable="d" 
+      d:DesignHeight="476" d:DesignWidth="724"
+      Title="Settings_Page">
+    <StackPanel Grid.Column="1">
+        <TextBlock Text="Customise team names" FontSize="20"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Height="18"  Name="Team1_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team1_moniker_KeyDown"/>
+            <TextBlock Height="20" Text="Team 1" Width="120"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Name="Team2_moniker" Height="18" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team2_moniker_KeyDown"/>
+            <TextBlock Height="20" Text="Team 2" Width="120"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Height="18"  Name="Team3_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team3_moniker_KeyDown"/>
+            <TextBlock Height="20" Text="Team 3" Width="120"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Height="18"  Name="Team4_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team4_moniker_KeyDown"/>
+            <TextBlock Height="20" Text="Team 4" Width="120"/>
+        </StackPanel>
+        <TextBlock Text="Point settings" FontSize="20"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Height="20" Text="Default points" Width="120"/>
+            <TextBlock x:Name="Settings_points_value" Height="20" Text="10" Width="120"/>
+            <TextBlock Height="20" Text="Specify default value: " Width="120"/>
+            <TextBox x:Name="Change_default_points" Height="18" Foreground="#FF938E8E" Width="41" Margin="10,5" KeyDown="Default_points_KeyDown"/>
+        </StackPanel>
+    </StackPanel>
+</Page>

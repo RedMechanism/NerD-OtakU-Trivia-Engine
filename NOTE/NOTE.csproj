@@ -10,13 +10,97 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="4day.png" />
+    <None Remove="Audio\Core\final_scores.mp3" />
+    <None Remove="Audio\Core\tick_sound.mp3" />
+    <None Remove="Audio\Core\time_up.wav" />
+    <None Remove="Audio\Incorrect\No Dear-Mike_Koenig-SoundBible.com.wav" />
+    <None Remove="Audio\Incorrect\Saht-exe.mp3" />
+    <None Remove="Audio\Incorrect\Slap-SoundMaster13-SoundBible.com.wav" />
+    <None Remove="Audio\Teams\Team1.mp3" />
+    <None Remove="Audio\Teams\Team2.mp3" />
+    <None Remove="Audio\Teams\Team3.mp3" />
+    <None Remove="Audio\Teams\Team4.mp3" />
+    <None Remove="Audio\tick_sound.mp3" />
+    <None Remove="Audio\timer_over.flac" />
     <None Remove="clock_face.eps" />
     <None Remove="clock_face.png" />
+    <None Remove="cross.png" />
+    <None Remove="DDays.png" />
+    <None Remove="Electabuzz.png" />
     <None Remove="Images\clock_face.png" />
+    <None Remove="nudist_beach.png" />
+    <None Remove="Pos1.png" />
+    <None Remove="Pos2.png" />
+    <None Remove="Pos3.png" />
+    <None Remove="Pos4.png" />
+    <None Remove="ramona.png" />
+    <None Remove="Team1.png" />
+    <None Remove="Team2.png" />
+    <None Remove="Team3.png" />
+    <None Remove="Team4.png" />
+    <None Remove="Videos\VictoryBackground_EjraVFX.mp4" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\clock_face.png" />
+    <EmbeddedResource Include="Audio\Core\time_up.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Core\final_scores.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Incorrect\No Dear-Mike_Koenig-SoundBible.com.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Incorrect\Saht-exe.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Incorrect\Slap-SoundMaster13-SoundBible.com.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Teams\Team1.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Teams\Team2.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Teams\Team3.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Audio\Teams\Team4.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Videos\VictoryBackground_EjraVFX.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Audio\Core\tick_sound.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Resource Include="Images\cross.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\clock_face.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Pos1.png" />
+    <Resource Include="Images\Pos2.png" />
+    <Resource Include="Images\Pos3.png" />
+    <Resource Include="Images\Pos4.png" />
+    <Resource Include="Images\Team1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Team2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Team3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Team4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
