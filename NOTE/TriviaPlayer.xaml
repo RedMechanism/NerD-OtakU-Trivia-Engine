@@ -22,12 +22,12 @@
                   LoadedBehavior = "Manual" Margin="-3,1,4,0" Stretch="Uniform" Grid.ColumnSpan="2" MediaEnded="playbackEnded"/>
             <Canvas HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,160,0">
                 <Image x:Name="Clock_face_image" Source="Images/clock_face.png" Visibility="Hidden" Height="150" Width="150"/>
-                <Label x:Name="Timer_display" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
-                   Content ="" BorderThickness="0" FontSize="90" FontWeight="Bold" FontFamily="DS-Digital" Height="131" Width="168" Canvas.Left="-11" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <TextBox x:Name="Timer_display" Text="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0"
+                  FontSize="90" FontWeight="Bold" FontFamily="DS-Digital" Height="131" Width="168" Canvas.Left="-11" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center" IsReadOnly="True" Background="#00A42929" TextChanged="Timer_sounds"/>
             </Canvas>
             <Canvas HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image x:Name="Wrong_answer_image" Source="Images/cross.png" Opacity="0" Height="280" Width="280" Canvas.Left="-306" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Image x:Name="Team_logo" Source="/Images/cross.png" Opacity="0" Height="280" Width="280" Canvas.Left="4" Canvas.Top="-147"/>
+                <Image x:Name="Team_logo" Source="/Team4.png" Opacity="0" Height="280" Width="280" Canvas.Left="4" Canvas.Top="-147"/>
                 <Label x:Name="Points_awarded_disp" Opacity="0" Content ="+5" FontSize="200" FontFamily="Luckiest Guy"
                     Foreground="#FF5BEF0B" Canvas.Left="-296" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </Canvas>
@@ -85,6 +85,117 @@
                 <Image Source="Images/Pos2.png" Height="120" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,207,0,0"/>
                 <Image Source="Images/Pos3.png" Height="120" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="75,0,0,261"/>
                 <Image Source="Images/Pos4.png" Height="110" Width="110" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="80,0,0,140"/>
+            </Grid>
+
+            <Grid x:Name="Options" Visibility="Hidden">
+                <Button x:Name="Science1" Content="Science" Foreground="Pink" HorizontalAlignment="Left" Margin="148,134,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Science" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Religion1" Content="Religion" Foreground="Pink" HorizontalAlignment="Left" Margin="959,134,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Religion" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Art1" Content="Art" Foreground="Pink" HorizontalAlignment="Left" Margin="687,134,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Art" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Wildlife1" Content="Wildlife" Foreground="Pink" HorizontalAlignment="Left" Margin="417,134,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Wildlife" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Sports1" Content="Sports" Foreground="Pink" HorizontalAlignment="Left" Margin="148,0,0,0" VerticalAlignment="Center" Height="100" Width="223" Click="Sports" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="History1" Content="History" Foreground="Pink" HorizontalAlignment="Left" Margin="959,0,0,0" VerticalAlignment="Center" Height="100" Width="223" Click="History" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Holidays1" Content="Holidays" Foreground="Pink" HorizontalAlignment="Left" Margin="687,0,0,0" VerticalAlignment="Center" Height="100" Width="223" Click="Holidays" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Urban_Myths1" Content="Urban Myths" Foreground="Pink" HorizontalAlignment="Left" Margin="417,0,0,0" VerticalAlignment="Center" Height="100" Width="223" Click="Urban_Myths" FontFamily="Ink Free" FontSize="36" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Brands1" Content="Brands" Foreground="Pink" HorizontalAlignment="Left" Margin="148,475,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Brands" FontFamily="Ink Free" FontSize="48" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Celebrities1" Content="Celebrities" Foreground="Pink" HorizontalAlignment="Left" Margin="959,475,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Celebrities" FontFamily="Ink Free" FontSize="46" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Geography1" Content="Geography" Foreground="Pink" HorizontalAlignment="Left" Margin="687,475,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Geography" FontFamily="Ink Free" FontSize="42" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="Technology1" Content="Technology" Foreground="Pink" HorizontalAlignment="Left" Margin="417,475,0,0" VerticalAlignment="Top" Height="99" Width="223" Click="Technology" FontFamily="Ink Free" FontSize="42" FontWeight="Bold">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF0762F5" Offset="0.558"/>
+                            <GradientStop Color="#FFA2C4FB" Offset="1"/>
+                            <GradientStop Color="#FF94BDFF" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
             </Grid>
         </Grid>
     </Viewbox>

@@ -208,8 +208,9 @@ namespace NOTE
                 }
                 else
                 {
+
                     TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                    Countdown(duration, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Content = count.ToString());
+                    Countdown(duration, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Text = count.ToString());
                 }
             }
         }
@@ -223,7 +224,7 @@ namespace NOTE
             if (PlayerRunning)
             {
                 countdownRunning = false;
-                TriviaPlayer.Instance.displayTimer.Content = "";
+                TriviaPlayer.Instance.displayTimer.Text = "";
                 TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Collapsed;
             }
         }
@@ -233,16 +234,11 @@ namespace NOTE
             countdownRunning = true;
             var timer = new System.Windows.Threading.DispatcherTimer();
             timer.Interval = interval;
-            timer.Tick += tick_Sound;
             timer.Tick += (_, a) =>
             {
                 if (count-- == 0)
                 {
                     Tick_sound.Stop();
-                    if (!MediaPlaying)
-                    {
-                        playSound("Audio/Core/time_up.wav");
-                    }
                     timer.Stop();
                 }
                 else if (!countdownRunning)
@@ -256,14 +252,7 @@ namespace NOTE
             timerStart(count);
             timer.Start();
         }
-        private void tick_Sound(object sender, EventArgs e)
-        {
-            Tick_sound.Position = new TimeSpan(0);
-            if (!MediaPlaying)
-            {
-                playSound("Audio/Core/tick_sound.mp3");
-            }
-        }
+
         private void Settings_Page_Button(object sender, RoutedEventArgs e)
         {
             Settings_Page settingsPage = new Settings_Page();
@@ -288,11 +277,7 @@ namespace NOTE
             }
         }
 
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //                                                                                                     //
-        //                                          SCORING SECTION                                            //
-        //                                                                                                     //
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+        #region Scoring
 
         private void AddPoints(Teams TeamX, int points)
         {
@@ -562,6 +547,8 @@ namespace NOTE
             }
         }
 
+        # endregion
+
         private void Start_pause_Button(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
@@ -571,7 +558,7 @@ namespace NOTE
                     if (Files_Page.Instance.playState)
                     {
                         TriviaPlayer.Instance.mediaPlayer.Pause();
-                        currentTime = int.Parse(TriviaPlayer.Instance.displayTimer.Content.ToString());
+                        currentTime = int.Parse(TriviaPlayer.Instance.displayTimer.Text.ToString());
                         Files_Page.Instance.playState = false;
                         countdownRunning = false;
                     }
@@ -624,6 +611,15 @@ namespace NOTE
             TriviaPlayer.Instance.FinalScores();
         }
 
+        private void Checked(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.Options.Visibility = Visibility.Visible;
+        }
+
+        private void NotCehcked(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.Options.Visibility = Visibility.Hidden;
+        }
     }
 
 }

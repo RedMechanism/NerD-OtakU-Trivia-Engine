@@ -18,7 +18,7 @@ namespace NOTE
 
         public MediaElement mediaPlayer;
 
-        public Label displayTimer;
+        public TextBox displayTimer;
         public Image clock_face;
         public TriviaPlayer()
         {
@@ -153,6 +153,97 @@ namespace NOTE
             animations.BounceDownStory(Pos3_box, 6);
             animations.BounceDownStory(Pos2_box, 8);
             animations.BounceDownStory(Pos1_box, 10);
+        }
+
+        private void Timer_sounds(object sender, TextChangedEventArgs e)
+        {
+            if (Timer_display.Text == "0")
+            {
+                if (!ControlCenter.Instance.MediaPlaying)
+                {
+                    myMedia.Source = new Uri("Audio/Core/time_up.wav", UriKind.Relative);
+                    myMedia.Play();
+                }
+            }
+            else
+            {
+                if (!ControlCenter.Instance.MediaPlaying)
+                {
+                    myMedia.Source = new Uri("Audio/Core/tick_sound.mp3", UriKind.Relative);
+                    myMedia.Play();
+                }
+            }
+        }
+
+        private void Science(object sender, RoutedEventArgs e)
+        {
+            Science1.Foreground = new SolidColorBrush(Colors.Black);
+            Science1.Background = new SolidColorBrush(Colors.Gray);
+        }
+        private void Religion(object sender, RoutedEventArgs e)
+        {
+            Religion1.Foreground = new SolidColorBrush(Colors.Black);
+            Religion1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Art(object sender, RoutedEventArgs e)
+        {
+            Art1.Foreground = new SolidColorBrush(Colors.Black);
+            Art1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Wildlife(object sender, RoutedEventArgs e)
+        {
+            Wildlife1.Foreground = new SolidColorBrush(Colors.Black);
+            Wildlife1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Sports(object sender, RoutedEventArgs e)
+        {
+            Sports1.Foreground = new SolidColorBrush(Colors.Black);
+            Sports1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void History(object sender, RoutedEventArgs e)
+        {
+            History1.Foreground = new SolidColorBrush(Colors.Black);
+            History1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Holidays(object sender, RoutedEventArgs e)
+        {
+            Holidays1.Foreground = new SolidColorBrush(Colors.Black);
+            Holidays1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Urban_Myths(object sender, RoutedEventArgs e)
+        {
+            Urban_Myths1.Foreground = new SolidColorBrush(Colors.Black);
+            Urban_Myths1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Brands(object sender, RoutedEventArgs e)
+        {
+            Brands1.Foreground = new SolidColorBrush(Colors.Black);
+            Brands1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Celebrities(object sender, RoutedEventArgs e)
+        {
+            Celebrities1.Foreground = new SolidColorBrush(Colors.Black);
+            Celebrities1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Geography(object sender, RoutedEventArgs e)
+        {
+            Geography1.Foreground = new SolidColorBrush(Colors.Black);
+            Geography1.Background = new SolidColorBrush(Colors.Gray);
+        }
+
+        private void Technology(object sender, RoutedEventArgs e)
+        {
+            Technology1.Foreground = new SolidColorBrush(Colors.Black);
+            Technology1.Background = new SolidColorBrush(Colors.Gray);
         }
     }
 }
