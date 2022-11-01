@@ -6,30 +6,51 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Media;
 
 namespace NOTE
 {
     public partial class ControlCenter : Window
     {
-        public Teams Team1 = new Teams("Team 1", 0,
-                "Images/Team1.png",
-                "Audio/Teams/Team1.mp3",
-                Colors.DeepSkyBlue, Colors.DodgerBlue);
+        public Teams Team1 = new Teams
+        {
+            Name = "Team 1",
+            Score = 0,
+            LogoPath = "Images/Team1.png",
+            SoundPath = "Audio/Teams/Team1.mp3",
+            PrimaryColour = new SolidColorBrush(Colors.DeepSkyBlue),
+            SecondaryColour = new SolidColorBrush(Colors.DodgerBlue)
+        };
 
-        public Teams Team2 = new Teams("Team 2", 0,
-                "Images/Team2.png",
-                "Audio/Teams/Team2.mp3",
-                Colors.Gold, Colors.Goldenrod);
+        public Teams Team2 = new Teams
+        {
+            Name = "Team 2",
+            Score = 0,
+            LogoPath = "Images/Team2.png",
+            SoundPath = "Audio/Teams/Team2.mp3",
+            PrimaryColour = new SolidColorBrush(Colors.Gold),
+            SecondaryColour = new SolidColorBrush(Colors.Goldenrod)
+        };
 
-        public Teams Team3 = new Teams("Team 3", 0,
-                "Images/Team3.png",
-                "Audio/Teams/Team3.mp3",
-                Colors.Lime, Colors.LimeGreen);
+        public Teams Team3 = new Teams
+        {
+            Name = "Team 3",
+            Score = 0,
+            LogoPath = "Images/Team3.png",
+            SoundPath = "Audio/Teams/Team3.mp3",
+            PrimaryColour = new SolidColorBrush(Colors.Lime),
+            SecondaryColour = new SolidColorBrush(Colors.LimeGreen)
+        };
 
-        public Teams Team4 = new Teams("Team 4", 0,
-                "Images/Team4.png",
-                "Audio/Teams/Team4.mp3",
-                Colors.Red, Colors.Crimson);
+        public Teams Team4 = new Teams
+        {
+            Name = "Team 4",
+            Score = 0,
+            LogoPath = "Images/Team4.png",
+            SoundPath = "Audio/Teams/Team4.mp3",
+            PrimaryColour = new SolidColorBrush(Colors.Red),
+            SecondaryColour = new SolidColorBrush(Colors.Crimson)
+        };
 
         public bool PlayerRunning = false;
 
@@ -43,6 +64,9 @@ namespace NOTE
             InitializeComponent();
 
             Instance = this;
+
+            _Timer = new CountdownTimer(new TimeSpan(0, 0, 60));
+            _Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);
 
             if (!File.Exists(fileName))
             {
@@ -66,50 +90,8 @@ namespace NOTE
         public int tricklePenalty = 5;
         public int penaltyPoints = 5;
         public int questionTime = 60;
-        public int currentTime;
 
-        private void LaunchPlayer_Button(object sender, RoutedEventArgs e)
-        {
-            if (PlayerRunning)
-            {
-                MessageBox.Show("An instance of the trivia player is already running");
-            }
-            else
-            {
-                TriviaPlayer player = new TriviaPlayer();
-                player.Show();
-                PlayerRunning = true;
-            }
-        }
-        private void Play_Button(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
-            {
-                if (PlayerRunning)
-                {
-                    if (Files_Page.Instance.playState)
-                    {
-                        TriviaPlayer.Instance.mediaPlayer.Pause();
-                        Files_Page.Instance.playState = false;
-                    }
-                    else
-                    {
-                        TriviaPlayer.Instance.mediaPlayer.Play();
-                        Files_Page.Instance.playState = true;
-                    }
-                }
-            }
-        }
-        private void Stop_Button(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
-            {
-                if (PlayerRunning)
-                {
-                    TriviaPlayer.Instance.mediaPlayer.Stop();
-                }
-            }
-        }
+        #region Folder and file selection
 
         private object interNode = null; //transfer tree node info between functions
         private void Load_Folder(object sender, RoutedEventArgs e)
@@ -171,111 +153,97 @@ namespace NOTE
         {
             e.Handled = true;
         }
+        private string selectRandomFile(string dir)
+        {
+            var directoryInfo = new DirectoryInfo(dir).GetFiles("*.*");
+            Random random = new Random();
+            string randomFile = directoryInfo.ElementAt(random.Next(0, directoryInfo.Length)).FullName;
+            return randomFile;
+        }
+        #endregion
+
+        #region Timing
+        protected void TimerDisplay(TimeSpan timerValue)
+        {
+            Timer_display.Content = timerValue.TotalSeconds;
+        }
+        private void TimerStart_Button(object sender, RoutedEventArgs e)
+        {
+            _Timer.Start();
+        }
+
+        private void TimerStop_Button(object sender, RoutedEventArgs e)
+        {
+            _Timer.Stop();
+        }
+
+        private void TimerReset_Button(object sender, RoutedEventArgs e)
+        {
+            _Timer.Reset();
+        }
+
+        private void TimerClear_Button(object sender, RoutedEventArgs e)
+        {
+            ClearTimer();
+        }
+
         private void Timer60_Button(object sender, RoutedEventArgs e)
         {
-            StartTimer(60);
+            SetTimer(60);
+            _Timer.Start();
         }
         private void Timer30_Button(object sender, RoutedEventArgs e)
         {
-            StartTimer(30);
+            SetTimer(30);
+            _Timer.Start();
         }
         private void Timer15_Button(object sender, RoutedEventArgs e)
         {
-            StartTimer(15);
+            SetTimer(15);
+            _Timer.Start();
         }
 
-        private void Start_custom_timer_Button(object sender, RoutedEventArgs e)
-        {
-            if (Custom_timer_input.Text.All(char.IsDigit))
-            {
-                int timerInput = int.Parse(Custom_timer_input.Text);
-                StartTimer(timerInput);
-            }
-            else
-            {
-                MessageBox.Show("Enter only positive digits");
-            }
-        }
-
-        private bool countdownRunning = false;
-        private void StartTimer(int duration)
-        {
-            if (PlayerRunning)
-            {
-                if (countdownRunning)
-                {
-                    MessageBox.Show("Clear running timer first!");
-                }
-                else
-                {
-
-                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                    Countdown(duration, TimeSpan.FromSeconds(1), count => TriviaPlayer.Instance.displayTimer.Text = count.ToString());
-                }
-            }
-        }
-        private void ClearTimer_Button(object sender, RoutedEventArgs e)
-        {
-            ClearClock();
-        }
-
-        public void ClearClock()
-        {
-            if (PlayerRunning)
-            {
-                countdownRunning = false;
-                TriviaPlayer.Instance.displayTimer.Text = "";
-                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        void Countdown(int count, TimeSpan interval, Action<int> timerStart)
-        {
-            countdownRunning = true;
-            var timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Interval = interval;
-            timer.Tick += (_, a) =>
-            {
-                if (count-- == 0)
-                {
-                    Tick_sound.Stop();
-                    timer.Stop();
-                }
-                else if (!countdownRunning)
-                {
-                    timer.Stop();
-                    Tick_sound.Stop();
-                }
-                else
-                    timerStart(count);
-            };
-            timerStart(count);
-            timer.Start();
-        }
-
-        private void Settings_Page_Button(object sender, RoutedEventArgs e)
-        {
-            Settings_Page settingsPage = new Settings_Page();
-            Page_Frame.Content = settingsPage;
-        }
-
-        private void File_viewer_Button(object sender, RoutedEventArgs e)
-        {
-            Page_Frame.Content = Files_Page.Instance;
-        }
-
-        private void Scores_page_Button(object sender, RoutedEventArgs e)
-        {
-            Page_Frame.Content = new Scores_Page();
-        }
-
-        private void Team1_moniker_KeyDown(object sender, KeyEventArgs e)
+        private void Timer_avail_changed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                MessageBox.Show(Settings_Page.Instance.Team1_moniker.Text);
+                if (Points_input.Text.All(char.IsDigit))
+                {
+                    int timerInput = int.Parse(Custom_timer_input.Text);
+                    SetTimer(timerInput);
+                    _Timer.Start();
+                }
+                else
+                {
+                    MessageBox.Show("Enter only positive digits");
+                }
             }
         }
+
+        private void SetTimer(int duration)
+        {
+            if (PlayerRunning)
+            {
+                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+            }
+            _Timer.Reset();
+            _Timer.Duration = new TimeSpan(0, 0, duration);
+            Timer_display.Content = _Timer.CurrentTime.TotalSeconds;
+        }
+
+        public void ClearTimer()
+        {
+            _Timer.Reset();
+
+            if (PlayerRunning)
+            {
+                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
+                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
+            }
+            Timer_display.Content = "";
+        }
+        # endregion
 
         #region Scoring
 
@@ -549,7 +517,24 @@ namespace NOTE
 
         # endregion
 
-        private void Start_pause_Button(object sender, RoutedEventArgs e)
+        # region Button click events
+        private void LaunchPlayer_Button(object sender, RoutedEventArgs e)
+        {
+            var playerWindowCount = Application.Current.Windows.OfType<TriviaPlayer>().Count();
+
+            if (playerWindowCount < 1)
+            {
+                TriviaPlayer player = new TriviaPlayer();
+                player.Show();
+                PlayerRunning = true;
+            }
+            else
+            {
+                Application.Current.Windows.OfType<TriviaPlayer>().First().Topmost = true;
+                SystemSounds.Beep.Play();
+            }
+        }
+        private void Play_Button(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
             {
@@ -558,19 +543,86 @@ namespace NOTE
                     if (Files_Page.Instance.playState)
                     {
                         TriviaPlayer.Instance.mediaPlayer.Pause();
-                        currentTime = int.Parse(TriviaPlayer.Instance.displayTimer.Text.ToString());
                         Files_Page.Instance.playState = false;
-                        countdownRunning = false;
                     }
                     else
                     {
                         TriviaPlayer.Instance.mediaPlayer.Play();
                         Files_Page.Instance.playState = true;
-                        StartTimer(currentTime);
                     }
                 }
             }
         }
+        private void Stop_Button(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
+            {
+                if (PlayerRunning)
+                {
+                    TriviaPlayer.Instance.mediaPlayer.Stop();
+                }
+            }
+        }
+        private void Start_pause_Button(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
+            {
+                if (PlayerRunning)
+                {
+                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+
+                    if (Files_Page.Instance.playState)
+                    {
+                        TriviaPlayer.Instance.mediaPlayer.Pause();
+                        Files_Page.Instance.playState = false;
+                        _Timer.Stop();
+                    }
+                    else
+                    {
+                        TriviaPlayer.Instance.mediaPlayer.Play();
+                        Files_Page.Instance.playState = true;
+                        _Timer.Start();
+                    }
+                }
+            }
+        }
+        private void Show_scores_Click(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.ShowScores();
+        }
+
+        private void Settings_Page_Button(object sender, RoutedEventArgs e)
+        {
+            Settings_Page settingsPage = new Settings_Page();
+            Page_Frame.Content = settingsPage;
+        }
+
+        private void File_viewer_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = Files_Page.Instance;
+        }
+
+        private void Scores_page_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Scores_Page();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.FinalScores();
+        }
+
+        #endregion
+
+        #region Sounds
+        private void playSound(string path)
+        {
+            Tick_sound.Source = new Uri(path, UriKind.Relative);
+            Tick_sound.Play();
+        }
+
+        #endregion
 
         private void Time_avail_changed(object sender, KeyEventArgs e)
         {
@@ -587,30 +639,6 @@ namespace NOTE
                 }
             }
         }
-
-        private void playSound(string path)
-        {
-            Tick_sound.Source = new Uri(path, UriKind.Relative);
-            Tick_sound.Play();
-        }
-
-        private string selectRandomFile(string dir)
-        {
-            var directoryInfo = new DirectoryInfo(dir).GetFiles("*.*");
-            Random random = new Random();
-            string randomFile = directoryInfo.ElementAt(random.Next(0, directoryInfo.Length)).FullName;
-            return randomFile;
-        }
-        private void Show_scores_Click(object sender, RoutedEventArgs e)
-        {
-            TriviaPlayer.Instance.ShowScores();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            TriviaPlayer.Instance.FinalScores();
-        }
-
         private void Checked(object sender, RoutedEventArgs e)
         {
             TriviaPlayer.Instance.Options.Visibility = Visibility.Visible;
@@ -619,6 +647,23 @@ namespace NOTE
         private void NotCehcked(object sender, RoutedEventArgs e)
         {
             TriviaPlayer.Instance.Options.Visibility = Visibility.Hidden;
+        }
+
+        private void ImChecked(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.myMedia.Visibility = Visibility.Hidden;
+            TriviaPlayer.Instance.ImagePlayer.Visibility = Visibility.Visible;
+        }
+
+        private void ImNotCehcked(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.myMedia.Visibility = Visibility.Visible;
+            TriviaPlayer.Instance.ImagePlayer.Visibility = Visibility.Hidden;
+        }
+
+        private void Page_Frame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        {
+
         }
     }
 

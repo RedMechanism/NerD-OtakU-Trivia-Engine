@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
+using System.Windows.Media.Imaging;
 
 namespace NOTE
 {
@@ -36,9 +26,13 @@ namespace NOTE
                 if (ControlCenter.Instance.PlayerRunning)
                 {
                     playState = false;
-                    ControlCenter.Instance.ClearClock();
-                    ControlCenter.Instance.currentTime = ControlCenter.Instance.questionTime;
+                    ControlCenter.Instance.ClearTimer();
+                    ControlCenter.Instance._Timer.Reset();
                     TriviaPlayer.Instance.mediaPlayer.Source = new Uri(dirTree.SelectedItem.ToString());
+                    if (ControlCenter.Instance.IsImageCheck.IsChecked == true)
+                    {
+                        TriviaPlayer.Instance.ImagePlayer.Source = new BitmapImage(new Uri(dirTree.SelectedItem.ToString()));
+                    }
                     ControlCenter.Instance.MediaPlaying = true;
                     TriviaPlayer.Instance.mediaPlayer.Stop();
                 }

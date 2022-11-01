@@ -28,13 +28,17 @@ namespace NOTE
             mediaPlayer = myMedia;
             displayTimer = Timer_display;
             clock_face = Clock_face_image;
+            ControlCenter.Instance._Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);
         }
 
         private void playbackEnded(object sender, RoutedEventArgs e)
         {
            ControlCenter.Instance.MediaPlaying = false;
         }
-
+        protected void TimerDisplay(TimeSpan timerValue)
+        {
+            Timer_display.Text = timerValue.TotalSeconds.ToString();
+        }
         private void Window_left_click(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -61,7 +65,7 @@ namespace NOTE
 
         private void Context_menu_clear_timer(object sender, RoutedEventArgs e)
         {
-            ControlCenter.Instance.ClearClock();
+            //ControlCenter.Instance.ClearClock();
         }
 
         private void Context_menu_reset_window(object sender, RoutedEventArgs e)
@@ -130,7 +134,7 @@ namespace NOTE
 
         public void FinalScores()
         {
-            ControlCenter.Instance.ClearClock();
+            //ControlCenter.Instance.ClearClock();
             MediaPlayer finalScores = new MediaPlayer();
             finalScores.Open(new Uri("Audio/Core/final_scores.mp3", UriKind.Relative));
             finalScores.Play();

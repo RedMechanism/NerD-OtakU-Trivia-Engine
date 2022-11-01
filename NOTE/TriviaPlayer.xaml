@@ -18,6 +18,7 @@
     </Window.ContextMenu>
     <Viewbox>
         <Grid Height="720" Width="1280" >
+            <Image x:Name="ImagePlayer" Source="Images/Team1.png" Visibility="Hidden"/>
             <MediaElement Name = "myMedia" 
                   LoadedBehavior = "Manual" Margin="-3,1,4,0" Stretch="Uniform" Grid.ColumnSpan="2" MediaEnded="playbackEnded"/>
             <Canvas HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,160,0">
