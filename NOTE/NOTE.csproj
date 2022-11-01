@@ -29,6 +29,10 @@
     <None Remove="DDays.png" />
     <None Remove="Electabuzz.png" />
     <None Remove="Images\clock_face.png" />
+    <None Remove="Images\Team1.png" />
+    <None Remove="Images\Team2.png" />
+    <None Remove="Images\Team3.png" />
+    <None Remove="Images\Team4.png" />
     <None Remove="nudist_beach.png" />
     <None Remove="Pos1.png" />
     <None Remove="Pos2.png" />
@@ -89,12 +93,14 @@
     <Resource Include="Images\Pos2.png" />
     <Resource Include="Images\Pos3.png" />
     <Resource Include="Images\Pos4.png" />
-    <Resource Include="Images\Team1.png">
+    <EmbeddedResource Include="Images\Team1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\Team2.png">
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\Team2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </EmbeddedResource>
+    <Resource Include="Images\Team1.png" />
+    <Resource Include="Images\Team2.png" />
     <Resource Include="Images\Team3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

@@ -1,0 +1,22 @@
+﻿<Page x:Class="NOTE.Questions_page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NOTE"
+      mc:Ignorable="d" 
+      d:DesignHeight="476" d:DesignWidth="724"
+      Title="Questions_page">
+
+    <Grid>
+        <DataGrid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Category"/>
+                <DataGridTextColumn Header="Question#"/>
+                <DataGridTextColumn Header="Team Name"/>
+                <DataGridTextColumn Header="Points Available"/>
+                <DataGridTextColumn Header="Time" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>
