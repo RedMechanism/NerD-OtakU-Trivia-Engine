@@ -8,7 +8,6 @@
         Title="N|O Trivia"  Height="720"  Width="1280" MinWidth="640"  MinHeight="360" 
         Background="Black" WindowStyle="None" MouseLeftButtonDown="Window_left_click">
     <Window.ContextMenu>
-        <!-- Having CommandParameter is crucial here -->
         <ContextMenu>
             <MenuItem Header="Show/hide scores" Click="Context_menu_scores"/>
             <MenuItem Header="Clear timer" Click="Context_menu_clear_timer"/>

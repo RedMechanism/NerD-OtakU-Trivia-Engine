@@ -9,11 +9,11 @@
     <Viewbox>
         <Grid>
             <!-- Left panel -->
-            <Button Content="Files" HorizontalAlignment="Left" Margin="20,157,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="File_viewer_Button"/>
-            <Button Content="Settings" HorizontalAlignment="Left" Margin="20,214,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Settings_Page_Button"/>
-            <Button Content="Scores" HorizontalAlignment="Left" Margin="20,280,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Scores_page_Button"/>
+            <Button Content="Files" HorizontalAlignment="Left" Margin="20,94,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="File_viewer_Button"/>
+            <Button Content="Questions" HorizontalAlignment="Left" Margin="20,148,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Questions_Page_Button"/>
+            <Button Content="Settings" HorizontalAlignment="Left" Margin="20,201,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Settings_Page_Button"/>
+            <Button Content="Scores" HorizontalAlignment="Left" Margin="20,253,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Scores_page_Button"/>
             <Button x:Name="Launch_Player" Content="Launch player!" HorizontalAlignment="Left" Margin="20,0,0,11" VerticalAlignment="Bottom" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
-            <Button x:Name="Load_folder" Content="Load Folder" HorizontalAlignment="Left" Margin="20,0,0,113" VerticalAlignment="Bottom" Height="47" Width="111" Click="Load_Folder"/>
 
             <!-- Right panel -->
             <StackPanel Orientation="Horizontal" Margin="848,106,3,371">
@@ -38,39 +38,37 @@
             <Frame  x:Name="Page_Frame" Source="Files_Page.xaml" NavigationUIVisibility="Hidden" Margin="150,0,0,0" VerticalAlignment="Top" Height="376" HorizontalAlignment="Left" Width="697" Navigated="Page_Frame_Navigated"/>
             <MediaElement x:Name="Tick_sound" LoadedBehavior="Manual" Height="0" Width="0" />
 
-            <Grid x:Name="Bottom_panel">
-                <!-- Team radio buttons -->
-                <StackPanel Orientation="Horizontal" Margin="304,383,304,121" >
-                    <RadioButton x:Name="Team1_radio_button" Content="Team 1" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                    <RadioButton x:Name="Team2_radio_button" Content="Team 2" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                    <RadioButton x:Name="Team3_radio_button" Content="Team 3" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                    <RadioButton x:Name="Team4_radio_button" Content="Team 4" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
-                </StackPanel>
+            <!-- Team radio buttons -->
+            <StackPanel Orientation="Horizontal" Margin="304,383,304,121" >
+                <RadioButton x:Name="Team1_radio_button" Content="Team 1" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <RadioButton x:Name="Team2_radio_button" Content="Team 2" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <RadioButton x:Name="Team3_radio_button" Content="Team 3" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                <RadioButton x:Name="Team4_radio_button" Content="Team 4" Width="100" Height="15" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+            </StackPanel>
 
-                <!-- Bottom panel -->
-                <Button Content="Correct" Margin="535,0,0,58" Height="48" Width="127" Click="Answer_correct_Button" Background="LightGreen" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                <Label x:Name="Status_disp" Content="No scores yet" HorizontalAlignment="Left" Margin="160,0,0,15" VerticalAlignment="Bottom"/>
-                <TextBox x:Name="Points_input" Text ="10" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="540,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="81" Height="18" KeyDown="Points_avail_changed"/>
-                <Label x:Name="Points_avail_disp" Content="10pts" HorizontalAlignment="Left" Margin="629,0,0,23" VerticalAlignment="Bottom" />
-                <Button Content="Trickle down" HorizontalAlignment="Left" Margin="681,454,0,0" VerticalAlignment="Top" Height="26" Width="80" Click="Trickle_correct_Button"/>
-                <Button Content="Flex" HorizontalAlignment="Left" Margin="681,489,0,0" VerticalAlignment="Top" Height="26" Width="80" Click="Bonus_correct_Button"/>
-                <TextBox x:Name="Trickle_points_input" Text ="5" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="767,458,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" Height="18" KeyDown="Trickle_points_avail_changed"/>
-                <Label x:Name="Trickle_points_avail_disp" Content="5pts" HorizontalAlignment="Left" Margin="817,454,0,0" VerticalAlignment="Top" Width="32" />
-                <TextBox x:Name="Bonus_points_input" Text ="5" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="767,493,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" Height="18" KeyDown="Bonus_points_avail_changed"/>
-                <Label x:Name="Bonus_points_avail_disp" Content="5pts" HorizontalAlignment="Left" Margin="817,489,0,0" VerticalAlignment="Top" Width="43" />
-                <Button Content="Start/pause" Margin="396,0,0,58" Height="48" Width="127" Click="Start_pause_Button" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                <Button Content="Wrong" Margin="255,0,0,58" Height="48" Width="127" Click="Answer_wrong_Button" Background="Red" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                <Button Content="Poison" Margin="163,0,0,78" Height="26" Width="80" Click="Trickle_wrong_Button" Background="#FF4F9418" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                <TextBox x:Name="Trickle_penalty_input" Text ="5" Foreground="#FF938E8E" Margin="164,0,0,53" TextWrapping="Wrap" Height="18" KeyDown="Trickle_penalty_avail_changed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"/>
-                <Label x:Name="Trickle_penalty_avail_disp" Content="-5pts" Margin="204,0,0,50" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-                <TextBox x:Name="Time_input" Text ="60" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="407,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="52" Height="18" KeyDown="Time_avail_changed"/>
-                <Label x:Name="Time_avail_disp" Content="60sec" HorizontalAlignment="Left" Margin="472,0,0,23" VerticalAlignment="Bottom" />
-                <Button Content="Play/Pause" HorizontalAlignment="Left" Margin="877,403,0,0" VerticalAlignment="Top" Height="31" Width="65" Click="Play_Button"/>
-                <Button x:Name="Stop_button" Content="Stop" HorizontalAlignment="Left" Margin="947,403,0,0" VerticalAlignment="Top" Height="31" Width="44" Click="Stop_Button"/>
-                <Button x:Name="Show_scores" Content="Show scores" HorizontalAlignment="Left" Margin="877,449,0,0" VerticalAlignment="Top" Height="57" Width="114" Click="Show_scores_Click"/>
-                <Button Content="End game" HorizontalAlignment="Left" Margin="877,348,0,0" VerticalAlignment="Top" Height="39" Width="115" Click="Button_Click"/>
-                <CheckBox x:Name="IsImageCheck" Content="Is Image" HorizontalAlignment="Left" Margin="726,394,0,0" VerticalAlignment="Top" Checked="ImChecked" Unchecked="ImNotCehcked" />
-            </Grid>
+            <!-- Bottom panel -->
+            <Button Content="Correct" Margin="535,0,0,58" Height="48" Width="127" Click="Answer_correct_Button" Background="LightGreen" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+            <Label x:Name="Status_disp" Content="No scores yet" HorizontalAlignment="Left" Margin="160,0,0,15" VerticalAlignment="Bottom"/>
+            <TextBox x:Name="Points_input" Text ="10" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="540,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="81" Height="18" KeyDown="Points_avail_changed"/>
+            <Label x:Name="Points_avail_disp" Content="10pts" HorizontalAlignment="Left" Margin="629,0,0,23" VerticalAlignment="Bottom" />
+            <Button Content="Trickle down" HorizontalAlignment="Left" Margin="681,454,0,0" VerticalAlignment="Top" Height="26" Width="80" Click="Trickle_correct_Button"/>
+            <Button Content="Flex" HorizontalAlignment="Left" Margin="681,489,0,0" VerticalAlignment="Top" Height="26" Width="80" Click="Bonus_correct_Button"/>
+            <TextBox x:Name="Trickle_points_input" Text ="5" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="767,458,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" Height="18" KeyDown="Trickle_points_avail_changed"/>
+            <Label x:Name="Trickle_points_avail_disp" Content="5pts" HorizontalAlignment="Left" Margin="817,454,0,0" VerticalAlignment="Top" Width="32" />
+            <TextBox x:Name="Bonus_points_input" Text ="5" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="767,493,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" Height="18" KeyDown="Bonus_points_avail_changed"/>
+            <Label x:Name="Bonus_points_avail_disp" Content="5pts" HorizontalAlignment="Left" Margin="817,489,0,0" VerticalAlignment="Top" Width="43" />
+            <Button Content="Start/pause" Margin="396,0,0,58" Height="48" Width="127" Click="Start_pause_Button" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+            <Button Content="Wrong" Margin="255,0,0,58" Height="48" Width="127" Click="Answer_wrong_Button" Background="Red" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+            <Button Content="Poison" Margin="163,0,0,78" Height="26" Width="80" Click="Trickle_wrong_Button" Background="#FF4F9418" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+            <TextBox x:Name="Trickle_penalty_input" Text ="5" Foreground="#FF938E8E" Margin="164,0,0,53" TextWrapping="Wrap" Height="18" KeyDown="Trickle_penalty_avail_changed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"/>
+            <Label x:Name="Trickle_penalty_avail_disp" Content="-5pts" Margin="204,0,0,50" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+            <TextBox x:Name="Time_input" Text ="60" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="407,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="52" Height="18" KeyDown="Time_avail_changed"/>
+            <Label x:Name="Time_avail_disp" Content="60sec" HorizontalAlignment="Left" Margin="472,0,0,23" VerticalAlignment="Bottom" />
+            <Button Content="Play/Pause" HorizontalAlignment="Left" Margin="877,403,0,0" VerticalAlignment="Top" Height="31" Width="65" Click="Play_Button"/>
+            <Button x:Name="Stop_button" Content="Stop" HorizontalAlignment="Left" Margin="947,403,0,0" VerticalAlignment="Top" Height="31" Width="44" Click="Stop_Button"/>
+            <Button x:Name="Show_scores" Content="Show scores" HorizontalAlignment="Left" Margin="877,449,0,0" VerticalAlignment="Top" Height="57" Width="114" Click="Show_scores_Click"/>
+            <Button Content="End game" HorizontalAlignment="Left" Margin="877,348,0,0" VerticalAlignment="Top" Height="39" Width="115" Click="Button_Click"/>
+            <CheckBox x:Name="IsImageCheck" Content="Is Image" HorizontalAlignment="Left" Margin="726,394,0,0" VerticalAlignment="Top" Checked="ImChecked" Unchecked="ImNotCehcked" />
             <CheckBox Content="Show categories" HorizontalAlignment="Left" Margin="703,420,0,0" VerticalAlignment="Top" Checked="Checked" Unchecked="NotCehcked"/>
         </Grid>
     </Viewbox>
