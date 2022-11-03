@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows;
 
 namespace NOTE
 {
@@ -21,13 +22,12 @@ namespace NOTE
         public bool playState;
         private void DirTree_SelectedItemChanged(object sender, MouseButtonEventArgs e)
         {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
+            if (File.Exists(dirTree.SelectedItem?.ToString()))
             {
                 if (ControlCenter.Instance.PlayerRunning)
                 {
                     playState = false;
                     ControlCenter.Instance.ClearTimer();
-                    ControlCenter.Instance._Timer.Reset();
                     TriviaPlayer.Instance.mediaPlayer.Source = new Uri(dirTree.SelectedItem.ToString());
                     if (ControlCenter.Instance.IsImageCheck.IsChecked == true)
                     {
@@ -37,6 +37,12 @@ namespace NOTE
                     TriviaPlayer.Instance.mediaPlayer.Stop();
                 }
             }
+        }
+
+        private void Load_Folder(object sender, System.Windows.RoutedEventArgs e)
+        {
+            FileBrowser fileBrowser = new FileBrowser();
+            fileBrowser.OpenFolder(dirTree);
         }
     }
 }

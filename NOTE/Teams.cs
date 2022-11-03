@@ -12,16 +12,6 @@ namespace NOTE
         public SolidColorBrush PrimaryColour { get; set; }
         public SolidColorBrush SecondaryColour { get; set; }
 
-        //public Teams(string name, int score, string imagePath, string soundPath, Color primaryColour , Color secondaryColour)
-        //{
-        //    Name = name;
-        //    Score = score;
-        //    LogoPath = imagePath;
-        //    SoundPath = soundPath;
-        //    PrimaryColour = new SolidColorBrush(primaryColour);
-        //    SecondaryColour = new SolidColorBrush(secondaryColour);
-        //}
-
         private class SortDescending : IComparer
         {
             int IComparer.Compare(object a, object b)

@@ -91,77 +91,6 @@ namespace NOTE
         public int penaltyPoints = 5;
         public int questionTime = 60;
 
-        #region Folder and file selection
-
-        private object interNode = null; //transfer tree node info between functions
-        private void Load_Folder(object sender, RoutedEventArgs e)
-        {
-            Files_Page scoresPage = new Files_Page();
-            Page_Frame.Content = scoresPage;
-            System.Windows.Forms.FolderBrowserDialog dirBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            if (dirBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                String pathName = dirBrowser.SelectedPath;
-
-                foreach (string dirPath in Directory.GetDirectories(pathName))
-                {
-                    TreeViewItem item = new TreeViewItem();
-                    item.Header = dirPath.Substring(dirPath.LastIndexOf("\\") + 1);
-                    item.Tag = dirPath;
-                    item.Items.Add(interNode);
-                    item.Expanded += new RoutedEventHandler(treeExpansion);
-                    Files_Page.Instance.dirTree.Items.Add(item);
-                }
-            }
-        }
-        void treeExpansion(object sender, RoutedEventArgs e)
-        {
-            TreeViewItem item = (TreeViewItem)sender;
-            if (item.Items.Count == 1 && item.Items[0] == interNode)
-            {
-                item.Items.Clear();
-                try
-                {
-                    foreach (string subDir in Directory.GetDirectories(item.Tag.ToString()))
-                    {
-                        TreeViewItem subDirItem = new TreeViewItem();
-                        //subitem.Header = subDir.Substring(subDir.LastIndexOf("\\") + 1);
-                        subDirItem.Header = subDir;
-                        subDirItem.Tag = subDir;
-                        subDirItem.Items.Add(interNode);
-                        subDirItem.Expanded += new RoutedEventHandler(treeExpansion);
-                        item.Items.Add(subDir.Substring(subDir.LastIndexOf("\\") + 1));
-                    }
-
-                    foreach (string fileName in Directory.GetFiles(item.Tag.ToString()))
-                    {
-                        TreeViewItem fileItem = new TreeViewItem();
-                        // fileItem.Header = fileName.Substring(fileName.LastIndexOf("\\") + 1)
-                        fileItem.Header = fileName;
-                        fileItem.Tag = fileName;
-                        item.Items.Add(fileName);
-                    }
-
-                }
-                catch (Exception)
-                {
-                }
-            }
-        }
-
-        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            e.Handled = true;
-        }
-        private string selectRandomFile(string dir)
-        {
-            var directoryInfo = new DirectoryInfo(dir).GetFiles("*.*");
-            Random random = new Random();
-            string randomFile = directoryInfo.ElementAt(random.Next(0, directoryInfo.Length)).FullName;
-            return randomFile;
-        }
-        #endregion
-
         #region Timing
         protected void TimerDisplay(TimeSpan timerValue)
         {
@@ -212,6 +141,22 @@ namespace NOTE
                     int timerInput = int.Parse(Custom_timer_input.Text);
                     SetTimer(timerInput);
                     _Timer.Start();
+                }
+                else
+                {
+                    MessageBox.Show("Enter only positive digits");
+                }
+            }
+        }
+
+        private void Time_avail_changed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (Time_input.Text.All(char.IsDigit))
+                {
+                    questionTime = int.Parse(Time_input.Text);
+                    Time_avail_disp.Content = $"{questionTime}sec";
                 }
                 else
                 {
@@ -425,7 +370,7 @@ namespace NOTE
                 WrongAnswer(Team4);
             }
 
-            playSound(selectRandomFile("Audio/Incorrect"));
+            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
         }
 
         private void Trickle_wrong_Button(object sender, RoutedEventArgs e)
@@ -448,7 +393,7 @@ namespace NOTE
                 DeductPoints(Team4, tricklePenalty);
             }
 
-            playSound(selectRandomFile("Audio/Incorrect"));
+            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
         }
 
         private void Points_avail_changed(object sender, KeyEventArgs e)
@@ -534,6 +479,30 @@ namespace NOTE
                 SystemSounds.Beep.Play();
             }
         }
+        private void Start_pause_Button(object sender, RoutedEventArgs e)
+        {
+            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
+            {
+                if (PlayerRunning)
+                {
+                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+
+                    if (Files_Page.Instance.playState)
+                    {
+                        //TriviaPlayer.Instance.mediaPlayer.Pause();
+                        Files_Page.Instance.playState = false;
+                        _Timer.Stop();
+                    }
+                    else
+                    {
+                        //TriviaPlayer.Instance.mediaPlayer.Play();
+                        Files_Page.Instance.playState = true;
+                        _Timer.Start();
+                    }
+                }
+            }
+        }
         private void Play_Button(object sender, RoutedEventArgs e)
         {
             if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
@@ -563,30 +532,7 @@ namespace NOTE
                 }
             }
         }
-        private void Start_pause_Button(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
-            {
-                if (PlayerRunning)
-                {
-                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
 
-                    if (Files_Page.Instance.playState)
-                    {
-                        TriviaPlayer.Instance.mediaPlayer.Pause();
-                        Files_Page.Instance.playState = false;
-                        _Timer.Stop();
-                    }
-                    else
-                    {
-                        TriviaPlayer.Instance.mediaPlayer.Play();
-                        Files_Page.Instance.playState = true;
-                        _Timer.Start();
-                    }
-                }
-            }
-        }
         private void Show_scores_Click(object sender, RoutedEventArgs e)
         {
             TriviaPlayer.Instance.ShowScores();
@@ -608,6 +554,10 @@ namespace NOTE
             Page_Frame.Content = new Scores_Page();
         }
 
+        private void Questions_Page_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Questions_Page();
+        }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             TriviaPlayer.Instance.FinalScores();
@@ -623,22 +573,6 @@ namespace NOTE
         }
 
         #endregion
-
-        private void Time_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Time_input.Text.All(char.IsDigit))
-                {
-                    questionTime = int.Parse(Time_input.Text);
-                    Time_avail_disp.Content = $"{questionTime}sec";
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
-        }
         private void Checked(object sender, RoutedEventArgs e)
         {
             TriviaPlayer.Instance.Options.Visibility = Visibility.Visible;
@@ -665,6 +599,7 @@ namespace NOTE
         {
 
         }
+
     }
 
 }
