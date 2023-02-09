@@ -10,6 +10,6 @@
 
     <Grid>
         <TreeView x:Name="dirTree" Width="Auto" BorderBrush="#FFFFFFFF" MouseLeftButtonUp="DirTree_SelectedItemChanged"/>
-        <Button x:Name="Load_folder" Content="Load Folder" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="34" Width="111" Click="Load_Folder" Margin="526,0,0,0"/>
+        <Button x:Name="Load_folder" Content="Load Folder" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="34" Width="111" Click="Load_Folder" Margin="519,0,0,0"/>
     </Grid>
 </Page>

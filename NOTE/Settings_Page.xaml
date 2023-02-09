@@ -11,19 +11,19 @@
         <TextBlock Text="Customise team names" FontSize="20"/>
         <StackPanel Orientation="Horizontal">
             <TextBox Height="18"  Name="Team1_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team1_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 1" Width="120"/>
+            <TextBlock Height="20" Text="Team 1 name" Width="120"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBox Name="Team2_moniker" Height="18" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team2_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 2" Width="120"/>
+            <TextBlock Height="20" Text="Team 2 name" Width="120"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBox Height="18"  Name="Team3_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team3_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 3" Width="120"/>
+            <TextBlock Height="20" Text="Team 3 name" Width="120"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
             <TextBox Height="18"  Name="Team4_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team4_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 4" Width="120"/>
+            <TextBlock Height="20" Text="Team 4 name" Width="120"/>
         </StackPanel>
         <TextBlock Text="Point settings" FontSize="20"/>
         <StackPanel Orientation="Horizontal">

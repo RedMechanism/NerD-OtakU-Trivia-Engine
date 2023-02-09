@@ -36,7 +36,6 @@ namespace NOTE
         {
             if (e.Key == Key.Enter)
             {
-                ControlCenter.Instance.Team1_radio_button.Content = Team1_moniker.Text;
                 ControlCenter.Instance.Team1.Name = Team1_moniker.Text;
             }
         }
@@ -45,7 +44,6 @@ namespace NOTE
         {
             if (e.Key == Key.Enter)
             {
-                ControlCenter.Instance.Team2_radio_button.Content = Team2_moniker.Text;
                 ControlCenter.Instance.Team2.Name = Team2_moniker.Text;
             }
         }
@@ -54,7 +52,6 @@ namespace NOTE
         {
             if (e.Key == Key.Enter)
             {
-                ControlCenter.Instance.Team3_radio_button.Content = Team3_moniker.Text;
                 ControlCenter.Instance.Team3.Name = Team3_moniker.Text;
             }
         }
@@ -63,7 +60,6 @@ namespace NOTE
         {
             if (e.Key == Key.Enter)
             {
-                ControlCenter.Instance.Team4_radio_button.Content = Team4_moniker.Text;
                 ControlCenter.Instance.Team4.Name = Team4_moniker.Text;
             }
         }

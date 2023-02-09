@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace NOTE
 {
@@ -20,9 +13,199 @@ namespace NOTE
     /// </summary>
     public partial class Questions_Page : Page
     {
+        public static Questions_Page Instance;
+
+        //public List<string> FirstNameOptions { get; set; } = new List<string> { "John", "Jane", "Jim" };
+
+        public ObservableCollection<string> Properties { get; set; }
         public Questions_Page()
         {
             InitializeComponent();
+
+            Properties = new ObservableCollection<string>
+            {
+                "Property 1",
+                "Property 2",
+                "Property 3"
+            };
+
+            Instance = this;
+            ObservableCollection<Category> mainCategories = new ObservableCollection<Category>();
+            CategoryGrid.ItemsSource = mainCategories;
+            CategoryGrid.IsReadOnly = true;
         }
+
+        private void AddCategory_Button(object sender, RoutedEventArgs e)
+        {
+            AddCategory_Dialog addRowDialog = new AddCategory_Dialog();
+            addRowDialog.ShowDialog();
+        }
+
+        private void ExpandNestedDatagrid()
+        {
+            var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
+            if (selectedRow != null)
+            {
+                selectedRow.DetailsVisibility = Visibility.Visible;
+            }
+        }
+        private void AddQuestion_Button(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = CategoryGrid.SelectedItem as Category;
+            if (selectedItem != null)
+            {
+                selectedItem.Questions.Add(new Question { CategoryName = "New Sub-Category" });
+                selectedItem.IsExpanded = Visibility.Visible;
+            }
+            // Immediately displays media files added
+            ExpandNestedDatagrid();
+        }
+
+        private void AddQuestionFile_Button(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = CategoryGrid.SelectedItem as Category;
+            if (selectedItem != null)
+            {
+                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+                openFileDialog.Multiselect = true;
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    int teamNumber = 1;
+                    int questionNumber = 1;
+                    foreach (string file in openFileDialog.FileNames)
+                    {
+                        selectedItem.Questions.Add(new Question
+                        {
+                            CategoryName = selectedItem.CategoryName,
+                            QuestionNumber = questionNumber,
+                            QuestionText = selectedItem.QuestionText,
+                            Team = ControlCenter.Instance.TeamsList[teamNumber - 1],
+                            Points = selectedItem.Points,
+                            BonusPoints = selectedItem.BonusPoints,
+                            Penalty =   selectedItem.Penalty,
+                            Time = selectedItem.Time,
+                            FilePath = new Uri(file)
+                        });
+
+                        teamNumber++;
+                        questionNumber++;
+                        if (teamNumber > 4)
+                        {
+                            teamNumber = 1;
+                        }
+
+                        selectedItem.IsExpanded = Visibility.Visible;
+                    }
+                }
+            }
+
+            // Immediately displays added media files
+            ExpandNestedDatagrid();
+        }
+
+        public DataGrid QuestionGrid;
+        private void RemoveQuestion_RClick(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = CategoryGrid.SelectedItem as Category;
+            if (selectedItem != null)
+            {
+                var selectedFiles = QuestionGrid.SelectedItems;
+                while (selectedFiles.Count > 0)
+                {
+                    selectedItem.Questions.Remove(selectedFiles[0] as Question);
+                }
+            }
+        }
+
+        private void RemoveCategory_RClick(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = CategoryGrid.SelectedItem as Category;
+            if (selectedItem != null)
+            {
+                var mainCategories = CategoryGrid.ItemsSource as ObservableCollection<Category>;
+                mainCategories.Remove(selectedItem);
+            }
+        }
+
+        private void CategoryGrid_LButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
+            if (selectedRow != null)
+            {
+                if (CategoryGrid.SelectedItem != null)
+                {
+                    if (selectedRow.DetailsVisibility == Visibility.Collapsed)
+                    {
+                        selectedRow.DetailsVisibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        selectedRow.DetailsVisibility = Visibility.Collapsed;
+                    }
+                }
+            }
+        }
+
+        private void QuestionGrid_LButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+
+            Question question = (Question)QuestionGrid.SelectedItem;
+
+            if (question != null)
+            {
+                if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
+                {
+                    TriviaPlayer._media.Path = question.FilePath;
+                    ControlCenter.Instance._Timer.Duration = question.Time;
+                    if (question.ClearClock)
+                    {
+                        ControlCenter.Instance.ClearTimer();
+                    }
+                }
+            }
+        }
+        private void MainGrid_RowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
+        {
+            QuestionGrid = e.DetailsElement as DataGrid;
+            if (QuestionGrid == null) return;
+        }
+        public void ColourRow(SolidColorBrush solidColorBrush)
+        {
+            DataGridRow dataGridRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
+            if (dataGridRow != null)
+                dataGridRow.Background = solidColorBrush;
+        }
+
+        private void CategoryGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            if (CategoryGrid.SelectedItem == null)
+            {
+                e.Handled = true;
+            }
+        }
+
+        //private void CategoryGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        //{
+        //    // Deselect the selected row
+        //    CategoryGrid.SelectedIndex = -1;
+        //}
+        //private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    Category category = (Category)CategoryGrid.SelectedItem;
+
+        //    if (ControlCenter.Instance.PlayerWindowCounter()>=1)
+        //    {
+        //        TriviaPlayer._media.Path = category.FilePath;
+        //        if (category.ClearClock)
+        //        {
+        //            ControlCenter.Instance.ClearTimer();
+        //        }
+        //        else
+        //        {
+        //            TriviaPlayer._media.Play();
+        //        }
+        //    }
+        //}
     }
 }

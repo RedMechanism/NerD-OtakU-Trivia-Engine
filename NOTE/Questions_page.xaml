@@ -9,16 +9,67 @@
       Title="Questions_page">
 
     <Grid>
-        <DataGrid>
+        <DataGrid x:Name="CategoryGrid" 
+                  AutoGenerateColumns="False"   
+                  Margin="0,0,0,40" 
+                  RowDetailsVisibilityChanged="MainGrid_RowDetailsVisibilityChanged"
+                  MouseLeftButtonUp="CategoryGrid_LButtonUp"
+                  ContextMenuOpening="CategoryGrid_ContextMenuOpening"
+                  ScrollViewer.CanContentScroll="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Position"/>
-                <DataGridTextColumn Header="Category"/>
-                <DataGridTextColumn Header="Question ID"/>
-                <DataGridTextColumn Header="Team Name"/>
-                <DataGridTextColumn Header="Points"/>
-                <DataGridTextColumn Header="Time"/>
-                <DataGridTextColumn Header="Text" Width="*"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
+                <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>
+                <DataGridTextColumn Header="BonusPoints" Binding="{Binding BonusPoints}"/>
+                <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
+                <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
             </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Delete Category" Click="RemoveCategory_RClick"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <DataGrid x:Name="QuestionGrid" AutoGenerateColumns="False" 
+                      ItemsSource="{Binding Questions}"
+                      IsReadOnly="True"
+                      MouseLeftButtonUp="QuestionGrid_LButtonUp"
+                      Visibility="{Binding IsExpanded}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#" Binding="{Binding QuestionNumber}"/>
+                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
+                            <DataGridTextColumn Header="Team" Binding="{Binding Team.Name}"/>
+                            <DataGridTemplateColumn Header="Property">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox x:Name="comboBox" 
+                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Properties}"
+                              SelectedValue="{Binding Property}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>
+                            <DataGridTextColumn Header="BonusPoints" Binding="{Binding BonusPoints}"/>
+                            <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
+                            <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
+                            <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
+                            <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}"/>
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Delete Question" Click="RemoveQuestion_RClick"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
         </DataGrid>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <Button x:Name="addCategoryButton" Content="Add Category" Click="AddCategory_Button" Width="80" Height="40"/>
+            <Button x:Name="addQuestionFileButton" Content="Add Files" Click="AddQuestionFile_Button" Width="80" Height="40"/>
+            <Button x:Name="addQuestionButton" Content="Add Question" Click="AddQuestion_Button" Width="80" Height="40"/>
+        </StackPanel>
+     
     </Grid>
 </Page>

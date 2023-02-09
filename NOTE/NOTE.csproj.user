@@ -7,6 +7,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AddCategory_Dialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Files_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,6 +27,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="AddCategory_Dialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ControlCenter.xaml">
       <SubType>Designer</SubType>
     </Page>

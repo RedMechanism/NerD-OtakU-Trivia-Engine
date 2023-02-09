@@ -33,14 +33,11 @@ namespace NOTE
 
         private void score_Changed(Teams TeamX, string score)
         {
-                if (Scores_team1_points.Text.All(char.IsDigit))
+            
+                if (int.TryParse(score, out int value))
                 {
                     TeamX.Score = int.Parse(score);
-                    using (StreamWriter writer = File.AppendText(ControlCenter.Instance.fileName))
-                    {
-                        writer.WriteLine($"{ControlCenter.GetTimestamp(DateTime.Now)} - {TeamX.Name} score manually changed to {TeamX.Score} points");
-                        ControlCenter.Instance.Status_disp.Content = $"Set {TeamX.Name} points -> {score}";
-                    }
+                    LogWriter.WriterScoreChanged(TeamX, score);
                 }
                 else
                 {

@@ -58,9 +58,6 @@
     <EmbeddedResource Include="Audio\Incorrect\Saht-exe.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Audio\Incorrect\Slap-SoundMaster13-SoundBible.com.wav">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Audio\Teams\Team1.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -92,9 +89,6 @@
     <Resource Include="Images\Pos2.png" />
     <Resource Include="Images\Pos3.png" />
     <Resource Include="Images\Pos4.png" />
-    <EmbeddedResource Include="Images\Team1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="Images\Team2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

@@ -2,8 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.IO;
-using System.Windows.Media.Imaging;
 using System.Windows;
+using System.Linq;
 
 namespace NOTE
 {
@@ -18,28 +18,21 @@ namespace NOTE
             InitializeComponent();
             Instance = this;
         }
-
-        public bool playState;
         private void DirTree_SelectedItemChanged(object sender, MouseButtonEventArgs e)
         {
+            var playerWindowCount = Application.Current.Windows.OfType<TriviaPlayer>().Count();
+
             if (File.Exists(dirTree.SelectedItem?.ToString()))
             {
-                if (ControlCenter.Instance.PlayerRunning)
+                if (playerWindowCount >= 1)
                 {
-                    playState = false;
                     ControlCenter.Instance.ClearTimer();
-                    TriviaPlayer.Instance.mediaPlayer.Source = new Uri(dirTree.SelectedItem.ToString());
-                    if (ControlCenter.Instance.IsImageCheck.IsChecked == true)
-                    {
-                        TriviaPlayer.Instance.ImagePlayer.Source = new BitmapImage(new Uri(dirTree.SelectedItem.ToString()));
-                    }
-                    ControlCenter.Instance.MediaPlaying = true;
-                    TriviaPlayer.Instance.mediaPlayer.Stop();
+                    TriviaPlayer._media.Path = new Uri(dirTree.SelectedItem.ToString());
                 }
             }
         }
 
-        private void Load_Folder(object sender, System.Windows.RoutedEventArgs e)
+        private void Load_Folder(object sender, RoutedEventArgs e)
         {
             FileBrowser fileBrowser = new FileBrowser();
             fileBrowser.OpenFolder(dirTree);

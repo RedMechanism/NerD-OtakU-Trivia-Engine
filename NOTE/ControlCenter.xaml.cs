@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.IO;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Media;
+using static NOTE.CountdownTimer;
+using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace NOTE
 {
     public partial class ControlCenter : Window
     {
+        public List<Teams> TeamsList = new List<Teams>();
+
         public Teams Team1 = new Teams
         {
-            Name = "Team 1",
+            Name = "Team1",
             Score = 0,
             LogoPath = "Images/Team1.png",
             SoundPath = "Audio/Teams/Team1.mp3",
@@ -24,7 +27,7 @@ namespace NOTE
 
         public Teams Team2 = new Teams
         {
-            Name = "Team 2",
+            Name = "Team2",
             Score = 0,
             LogoPath = "Images/Team2.png",
             SoundPath = "Audio/Teams/Team2.mp3",
@@ -34,7 +37,7 @@ namespace NOTE
 
         public Teams Team3 = new Teams
         {
-            Name = "Team 3",
+            Name = "Team3",
             Score = 0,
             LogoPath = "Images/Team3.png",
             SoundPath = "Audio/Teams/Team3.mp3",
@@ -44,7 +47,7 @@ namespace NOTE
 
         public Teams Team4 = new Teams
         {
-            Name = "Team 4",
+            Name = "Team4",
             Score = 0,
             LogoPath = "Images/Team4.png",
             SoundPath = "Audio/Teams/Team4.mp3",
@@ -52,42 +55,31 @@ namespace NOTE
             SecondaryColour = new SolidColorBrush(Colors.Crimson)
         };
 
-        public bool PlayerRunning = false;
-
-        public bool MediaPlaying = false;
-
         public static ControlCenter Instance;
 
-        public string fileName = @$"C:/{GetShortTimestamp(DateTime.Now)}_NOtrivia_logs.txt";
+        public CountdownTimer _Timer;
         public ControlCenter()
         {
             InitializeComponent();
+            LogWriter.LogWriterInitialize();
 
             Instance = this;
 
-            _Timer = new CountdownTimer(new TimeSpan(0, 0, 60));
-            _Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);
+            TeamsList.AddRange(new[] { Team1, Team2, Team3, Team4 });
 
-            if (!File.Exists(fileName))
+            _Timer = new CountdownTimer(new TimeSpan(0, 0, 60))
             {
-                using (StreamWriter writer = File.CreateText(fileName))
-                {
-                    writer.WriteLine($"Trivia stated at {GetTimestamp(DateTime.Now)}");
-                } 
-            }
-            else
-            {
-                using (StreamWriter writer = File.AppendText(fileName))
-                {
-                    writer.WriteLine($"Trivia stated at {GetTimestamp(DateTime.Now)}");
-                }
-            }
+                SoundPath_Tick = "Audio/Core/tick_sound.mp3",
+                SoundPath_TimeUp = "Audio/Core/time_up.wav"
+            };
+
+            _Timer.TickEvent += new TimerTickHandler(TimerDisplay);
+
+            GenerateContextMenu(TeamsList);
         }
 
         public int questionPoints = 10;
         public int bonusPoints = 5;
-        public int tricklePoints = 5;
-        public int tricklePenalty = 5;
         public int penaltyPoints = 5;
         public int questionTime = 60;
 
@@ -164,10 +156,10 @@ namespace NOTE
                 }
             }
         }
-
         private void SetTimer(int duration)
         {
-            if (PlayerRunning)
+            
+            if (PlayerWindowCounter() >= 1)
             {
                 TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
                 TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
@@ -181,7 +173,7 @@ namespace NOTE
         {
             _Timer.Reset();
 
-            if (PlayerRunning)
+            if (PlayerWindowCounter() >= 1)
             {
                 TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
                 TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
@@ -195,12 +187,17 @@ namespace NOTE
         private void AddPoints(Teams TeamX, int points)
         {
             Animations Animation = new Animations();
+            LogWriter logWriter = new LogWriter();
 
             TeamX.Score += points;
 
             // Update control info
             Status_disp.Content = $"{TeamX.Name} +{points}";
-            if (PlayerRunning)
+
+            //Write logs
+            logWriter.WriterCorrect(TeamX, points);
+
+            if (PlayerWindowCounter() >= 1)
             {
                 TriviaPlayer.Instance.Points_awarded_disp.Content = $"+{points}";
                 TriviaPlayer.Instance.Points_awarded_disp.Foreground = new SolidColorBrush(Colors.Green);
@@ -211,12 +208,6 @@ namespace NOTE
                 Animation.FadeInOut_Image(TriviaPlayer.Instance.Team_logo);
             }
             
-            //Write logs
-            using (StreamWriter writer = File.AppendText(fileName))
-            {
-                writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, +{points}, New total = {TeamX.Score} points");
-            }
-
             if (Page_Frame.Content.GetType() == new Scores_Page().GetType())
             {
                 Page_Frame.Content = new Scores_Page();
@@ -226,12 +217,17 @@ namespace NOTE
         private void DeductPoints(Teams TeamX, int points)
         {
             Animations Animation = new Animations();
+            LogWriter logWriter = new LogWriter();
 
             TeamX.Score -= points;
 
             // Update labels 
             Status_disp.Content = $"{TeamX.Name} -{points}";
-            if (PlayerRunning)
+
+            //Write logs
+            logWriter.WriterDeduct(TeamX, points);
+
+            if (PlayerWindowCounter() >= 1)
             {
                 TriviaPlayer.Instance.Points_awarded_disp.Content = $"-{points}";
                 TriviaPlayer.Instance.Points_awarded_disp.Foreground = new SolidColorBrush(Colors.Red);
@@ -242,29 +238,26 @@ namespace NOTE
                 Animation.FadeInOut_Image(TriviaPlayer.Instance.Team_logo);
             }
 
-            //Write logs
-            using (StreamWriter writer = File.AppendText(fileName))
-            {
-                writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, -{points}, New total = {TeamX.Score} points");
-            }
-
             if (Page_Frame.Content.GetType() == new Scores_Page().GetType())
             {
                 Page_Frame.Content = new Scores_Page();
             }
+
+            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
         }
 
         private void WrongAnswer(Teams TeamX)
         {
             Animations Animation = new Animations();
+            LogWriter logWriter = new LogWriter();
+
+            // Update labels 
+            Status_disp.Content = $"{TeamX.Name} incorrect answer";
 
             //Write logs
-            using (StreamWriter writer = File.AppendText(fileName))
-            {
-                writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name} incorrect answer");
-                Status_disp.Content = $"{TeamX.Name} incorrect answer";
-            }
-            if (PlayerRunning)
+            logWriter.WriterIncorrect(TeamX);
+
+            if (PlayerWindowCounter() >= 1)
             {
                 // Animations
                 TriviaPlayer.Instance.Team_logo.Source = new BitmapImage(new Uri(TeamX.LogoPath, UriKind.Relative));
@@ -276,126 +269,192 @@ namespace NOTE
             {
                 Page_Frame.Content = new Scores_Page();
             }
+            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
         }
+        # endregion
 
-        public static String GetTimestamp(DateTime value)
+        # region Button click events
+        private void LaunchPlayer_Button(object sender, RoutedEventArgs e)
         {
-            return value.ToString("HH:mm:ss-yyyy.MM.dd");
+            if (PlayerWindowCounter() < 1)
+            {
+                TriviaPlayer player = new TriviaPlayer();
+                player.Show();
+            }
+            else
+            {
+                Application.Current.Windows.OfType<TriviaPlayer>().First().Topmost = true;
+                SystemSounds.Beep.Play();
+            }
         }
-
-        public static String GetShortTimestamp(DateTime value)
+        private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
-            return value.ToString("yyyy.MM.dd");
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+
+                if (_Timer.Status == TimerState.Running)
+                {
+                    TriviaPlayer._media.Pause();
+                    _Timer.Stop();
+                }
+                else
+                {
+                    TriviaPlayer._media.Play();
+                    _Timer.Start();
+                }
+            }
         }
         private void Answer_correct_Button(object sender, RoutedEventArgs e)
         {
-            if (Team1_radio_button.IsChecked == true)
+            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            if(question != null)
             {
-                AddPoints(Team1, questionPoints);
-                playSound(Team1.SoundPath);
-            }
-            if (Team2_radio_button.IsChecked == true)
-            {
-                AddPoints(Team2, questionPoints);
-                playSound(Team2.SoundPath);
-            }
-            if (Team3_radio_button.IsChecked == true)
-            {
-                AddPoints(Team3, questionPoints);
-                playSound(Team3.SoundPath);
-            }
-            if (Team4_radio_button.IsChecked == true)
-            {
-                AddPoints(Team4, questionPoints);
-                playSound(Team4.SoundPath);
-            }
-        }
-
-        private void Trickle_correct_Button(object sender, RoutedEventArgs e)
-        {
-            if (Team1_radio_button.IsChecked == true)
-            {
-                AddPoints(Team1, tricklePoints);
-            }
-            if (Team2_radio_button.IsChecked == true)
-            {
-                AddPoints(Team2, tricklePoints);
-            }
-            if (Team3_radio_button.IsChecked == true)
-            {
-                AddPoints(Team3, tricklePoints);
-            }
-            if (Team4_radio_button.IsChecked == true)
-            {
-                AddPoints(Team4, tricklePoints);
-            }
+                AddPoints(question.Team, question.Points);
+                playSound(question.Team.SoundPath);
+                Questions_Page.Instance.ColourRow(Brushes.LightGreen);
+            } 
+            _Timer.Stop();
         }
 
         private void Bonus_correct_Button(object sender, RoutedEventArgs e)
         {
-            if (Team1_radio_button.IsChecked == true)
+            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            if (question != null)
             {
-                AddPoints(Team1, bonusPoints);
+                AddPoints(question.Team, question.BonusPoints);
+                playSound(question.Team.SoundPath);
+                Questions_Page.Instance.ColourRow(Brushes.LightGreen);
             }
-            if (Team2_radio_button.IsChecked == true)
-            {
-                AddPoints(Team2, bonusPoints);
-            }
-            if (Team3_radio_button.IsChecked == true)
-            {
-                AddPoints(Team3, bonusPoints);
-            }
-            if (Team4_radio_button.IsChecked == true)
-            {
-                AddPoints(Team4, bonusPoints);
-            }
+            _Timer.Stop();
         }
 
         private void Answer_wrong_Button(object sender, RoutedEventArgs e)
         {
-            if (Team1_radio_button.IsChecked == true)
+            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            if (question != null)
             {
-                WrongAnswer(Team1);
+                WrongAnswer(question.Team);
+                Questions_Page.Instance.ColourRow(Brushes.Tomato);
             }
-            if (Team2_radio_button.IsChecked == true)
-            {
-                WrongAnswer(Team2);
-            }
-            if (Team3_radio_button.IsChecked == true)
-            {
-                WrongAnswer(Team3);
-            }
-            if (Team4_radio_button.IsChecked == true)
-            {
-                WrongAnswer(Team4);
-            }
-
-            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
+            _Timer.Stop();
         }
 
-        private void Trickle_wrong_Button(object sender, RoutedEventArgs e)
+        private void Answer_wrong_penalty_Button(object sender, RoutedEventArgs e)
         {
-
-            if (Team1_radio_button.IsChecked == true)
+            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            if (question != null)
             {
-                DeductPoints(Team1, tricklePenalty);
+                DeductPoints(question.Team, question.BonusPoints);
+                Questions_Page.Instance.ColourRow(Brushes.Tomato);
             }
-            if (Team2_radio_button.IsChecked == true)
-            {
-                DeductPoints(Team2, tricklePenalty);
-            }
-            if (Team3_radio_button.IsChecked == true)
-            {
-                DeductPoints(Team3, tricklePenalty);
-            }
-            if (Team4_radio_button.IsChecked == true)
-            {
-                DeductPoints(Team4, tricklePenalty);
-            }
-
-            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
+            _Timer.Stop();
         }
 
+        private void Play_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer._media.Play();
+            }
+        }
+
+        private void Pause_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer._media.Pause();
+            }
+        }
+        private void Stop_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer._media.Stop();
+            }
+        }
+
+        private void Show_scores_Click(object sender, RoutedEventArgs e)
+        {
+            TriviaPlayer.Instance.ShowScores();
+        }
+
+        private void Settings_Page_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Settings_Page();
+        }
+
+        private void File_viewer_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Files_Page();
+        }
+
+        private void Scores_page_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Scores_Page();
+        }
+
+        private void Questions_Page_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Questions_Page();
+        }
+        private void End_game(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter()>=1)
+                TriviaPlayer.Instance.FinalScores();
+        }
+
+        private void Bonus_RClick_Team1(object sender, RoutedEventArgs e)
+        {
+            AddPoints(Team1, bonusPoints);
+            playSound(Team1.SoundPath);
+        }
+
+        private void Bonus_RClick_Team2(object sender, RoutedEventArgs e)
+        {
+            AddPoints(Team2, bonusPoints);
+            playSound(Team2.SoundPath);
+        }
+
+        private void Bonus_RClick_Team3(object sender, RoutedEventArgs e)
+        {
+            AddPoints(Team3, bonusPoints);
+            playSound(Team3.SoundPath);
+        }
+
+        private void Bonus_RClick_Team4(object sender, RoutedEventArgs e)
+        {
+            AddPoints(Team4, bonusPoints);
+            playSound(Team4.SoundPath);
+        }
+
+        private void Answer_wrong_penalty_RClick_Team1(object sender, RoutedEventArgs e)
+        {
+            DeductPoints(Team1, penaltyPoints);
+            _Timer.Stop();
+        }
+
+        private void Answer_wrong_penalty_RClick_Team2(object sender, RoutedEventArgs e)
+        {
+            DeductPoints(Team2, penaltyPoints);
+            _Timer.Stop();
+        }
+
+        private void Answer_wrong_penalty_RClick_Team3(object sender, RoutedEventArgs e)
+        {
+            DeductPoints(Team3, penaltyPoints);
+            _Timer.Stop();
+        }
+
+        private void Answer_wrong_penalty_RClick_Team4(object sender, RoutedEventArgs e)
+        {
+            DeductPoints(Team4, penaltyPoints);
+            _Timer.Stop();
+        }
+        #endregion
+
+        #region Keystroke Events
         private void Points_avail_changed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -404,22 +463,6 @@ namespace NOTE
                 {
                     questionPoints = int.Parse(Points_input.Text);
                     Points_avail_disp.Content = $"{questionPoints}pts";
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
-        }
-
-        private void Trickle_points_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Trickle_points_input.Text.All(char.IsDigit))
-                {
-                    tricklePoints = int.Parse(Trickle_points_input.Text);
-                    Trickle_points_avail_disp.Content = $"{tricklePoints}pts";
                 }
                 else
                 {
@@ -450,8 +493,8 @@ namespace NOTE
             {
                 if (Trickle_penalty_input.Text.All(char.IsDigit))
                 {
-                    tricklePenalty = int.Parse(Trickle_penalty_input.Text);
-                    Trickle_penalty_avail_disp.Content = $"-{tricklePenalty}pts";
+                    penaltyPoints = int.Parse(Trickle_penalty_input.Text);
+                    Trickle_penalty_avail_disp.Content = $"-{penaltyPoints}pts";
                 }
                 else
                 {
@@ -462,109 +505,6 @@ namespace NOTE
 
         # endregion
 
-        # region Button click events
-        private void LaunchPlayer_Button(object sender, RoutedEventArgs e)
-        {
-            var playerWindowCount = Application.Current.Windows.OfType<TriviaPlayer>().Count();
-
-            if (playerWindowCount < 1)
-            {
-                TriviaPlayer player = new TriviaPlayer();
-                player.Show();
-                PlayerRunning = true;
-            }
-            else
-            {
-                Application.Current.Windows.OfType<TriviaPlayer>().First().Topmost = true;
-                SystemSounds.Beep.Play();
-            }
-        }
-        private void Start_pause_Button(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
-            {
-                if (PlayerRunning)
-                {
-                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
-
-                    if (Files_Page.Instance.playState)
-                    {
-                        //TriviaPlayer.Instance.mediaPlayer.Pause();
-                        Files_Page.Instance.playState = false;
-                        _Timer.Stop();
-                    }
-                    else
-                    {
-                        //TriviaPlayer.Instance.mediaPlayer.Play();
-                        Files_Page.Instance.playState = true;
-                        _Timer.Start();
-                    }
-                }
-            }
-        }
-        private void Play_Button(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
-            {
-                if (PlayerRunning)
-                {
-                    if (Files_Page.Instance.playState)
-                    {
-                        TriviaPlayer.Instance.mediaPlayer.Pause();
-                        Files_Page.Instance.playState = false;
-                    }
-                    else
-                    {
-                        TriviaPlayer.Instance.mediaPlayer.Play();
-                        Files_Page.Instance.playState = true;
-                    }
-                }
-            }
-        }
-        private void Stop_Button(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists(Files_Page.Instance.dirTree.SelectedItem?.ToString()))
-            {
-                if (PlayerRunning)
-                {
-                    TriviaPlayer.Instance.mediaPlayer.Stop();
-                }
-            }
-        }
-
-        private void Show_scores_Click(object sender, RoutedEventArgs e)
-        {
-            TriviaPlayer.Instance.ShowScores();
-        }
-
-        private void Settings_Page_Button(object sender, RoutedEventArgs e)
-        {
-            Settings_Page settingsPage = new Settings_Page();
-            Page_Frame.Content = settingsPage;
-        }
-
-        private void File_viewer_Button(object sender, RoutedEventArgs e)
-        {
-            Page_Frame.Content = Files_Page.Instance;
-        }
-
-        private void Scores_page_Button(object sender, RoutedEventArgs e)
-        {
-            Page_Frame.Content = new Scores_Page();
-        }
-
-        private void Questions_Page_Button(object sender, RoutedEventArgs e)
-        {
-            Page_Frame.Content = new Questions_Page();
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            TriviaPlayer.Instance.FinalScores();
-        }
-
-        #endregion
-
         #region Sounds
         private void playSound(string path)
         {
@@ -573,33 +513,55 @@ namespace NOTE
         }
 
         #endregion
-        private void Checked(object sender, RoutedEventArgs e)
+
+        public int PlayerWindowCounter()
         {
-            TriviaPlayer.Instance.Options.Visibility = Visibility.Visible;
+            return Application.Current.Windows.OfType<TriviaPlayer>().Count();
         }
 
-        private void NotCehcked(object sender, RoutedEventArgs e)
+        private void GenerateContextMenu(List<Teams> TeamList)
         {
-            TriviaPlayer.Instance.Options.Visibility = Visibility.Hidden;
+            ContextMenu contextMenu_penalty = new ContextMenu();
+            ContextMenu contextMenu_bonus = new ContextMenu();
+
+            List<Teams> menuItems = TeamList;
+
+            foreach (Teams menuItem in menuItems)
+            {
+                MenuItem menuItem_penalty = new MenuItem();
+                menuItem_penalty.Header = menuItem.Name;
+
+                MenuItem menuItem_bonus = new MenuItem();
+                menuItem_bonus.Header = menuItem.Name;
+
+                if (menuItem.Name == Team1.Name)
+                {
+                    menuItem_penalty.Click += Answer_wrong_penalty_RClick_Team1;
+                    menuItem_bonus.Click += Bonus_RClick_Team1;
+                }
+                else if (menuItem.Name == Team2.Name)
+                {
+                    menuItem_penalty.Click += Answer_wrong_penalty_RClick_Team2;
+                    menuItem_bonus.Click += Bonus_RClick_Team2;
+                }
+                else if (menuItem.Name == Team3.Name)
+                {
+                    menuItem_penalty.Click += Answer_wrong_penalty_RClick_Team3;
+                    menuItem_bonus.Click += Bonus_RClick_Team3;
+                }
+                else if (menuItem.Name == Team4.Name)
+                {
+                    menuItem_penalty.Click += Answer_wrong_penalty_RClick_Team4;
+                    menuItem_bonus.Click += Bonus_RClick_Team4;
+                }
+
+                contextMenu_penalty.Items.Add(menuItem_penalty);
+                contextMenu_bonus.Items.Add(menuItem_bonus);
+            }
+
+            Penalty_button.ContextMenu = contextMenu_penalty;
+            Bonus_button.ContextMenu = contextMenu_bonus;
         }
-
-        private void ImChecked(object sender, RoutedEventArgs e)
-        {
-            TriviaPlayer.Instance.myMedia.Visibility = Visibility.Hidden;
-            TriviaPlayer.Instance.ImagePlayer.Visibility = Visibility.Visible;
-        }
-
-        private void ImNotCehcked(object sender, RoutedEventArgs e)
-        {
-            TriviaPlayer.Instance.myMedia.Visibility = Visibility.Visible;
-            TriviaPlayer.Instance.ImagePlayer.Visibility = Visibility.Hidden;
-        }
-
-        private void Page_Frame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
-        {
-
-        }
-
     }
 
 }

@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NOTE
 {
     public class CountdownTimer
     {
+        public string SoundPath_Tick { get; set; }
+        public string SoundPath_TimeUp { get; set; }
+
         #region Constructor
         readonly DispatcherTimer timer = new DispatcherTimer();
         public CountdownTimer(TimeSpan duration)
         {
+            SoundPath_Tick = "";
+            SoundPath_TimeUp = "";
+
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (sender, e) => TimerTick();
 
@@ -26,6 +33,10 @@ namespace NOTE
             CurrentTime = CurrentTime - TimeSpan.FromSeconds(1);
 
             OnTick();
+
+            
+            //playSound();
+
             if (Complete)
             {
                 Stop();
@@ -123,7 +134,23 @@ namespace NOTE
             OnReset();
         }
 
-        #region State Uodate Methods
+        //private void playSound()
+        //{
+        //    MediaPlayer tickSounds = new MediaPlayer();
+
+        //    if (CurrentTime != TimeSpan.Zero)
+        //    {
+        //        tickSounds.Open(new Uri(SoundPath_Tick, UriKind.Relative));
+        //        tickSounds.Play();
+        //    }
+        //    else
+        //    {
+        //        tickSounds.Open(new Uri(SoundPath_TimeUp, UriKind.Relative));
+        //        tickSounds.Play();
+        //    }
+        //}
+
+        #region State Update Methods
         private void OnTick()
         {
             Status = TimerState.Running;
