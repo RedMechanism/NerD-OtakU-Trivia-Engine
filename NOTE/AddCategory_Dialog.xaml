@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NOTE"
         mc:Ignorable="d"
-        Title="AddCategory_Dialog" Height="270" Width="350">
+        Title="AddCategory_Dialog" Height="340" Width="350">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -31,9 +33,16 @@
         <Label Grid.Column="0" Grid.Row="4" Content="Time in seconds"/>
         <TextBox x:Name="TimeTextBox" Text="60" Grid.Column="1" Grid.Row="4" Margin="5,5,200,5" Foreground="#FF938E8E"/>
         <Label Grid.Column="0" Grid.Row="5" Content="Question Text"/>
-        <TextBox x:Name="QuestionTextTextBox" Grid.Column="1" Grid.Row="5" Margin="5" Height="40" TextWrapping="Wrap"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
-            <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click"/>
+        <TextBox x:Name="QuestionTextBox" Grid.Column="1" Grid.Row="5" Margin="5" Height="40" TextWrapping="Wrap"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Curated by"/>
+        <TextBox x:Name="CuratorTextBox" Grid.Column="1" Grid.Row="6" Margin="5"/>
+        <Label Grid.Column="0" Grid.Row="7" Content="Category Logo"/>
+        <Button Grid.Column="1" Grid.Row="7" Content="Select file" Width="60" HorizontalAlignment="Left" Margin="5,0,0,0" Click="FileSelect_Click"/>
+        <TextBlock x:Name="CategoryLogoPath" Grid.Column="1" Grid.Row="7" Margin="70,5,5,5" Text=""/>
+        <Label Grid.Column="0" Grid.Row="8" Content="Is Special"/>
+        <CheckBox x:Name="IsSpecialCheckBox" Grid.Column="1" Grid.Row="8" Margin="5" />
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
+            <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
         </StackPanel>
     </Grid>

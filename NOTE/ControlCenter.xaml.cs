@@ -313,7 +313,19 @@ namespace NOTE
             {
                 AddPoints(question.Team, question.Points);
                 playSound(question.Team.SoundPath);
-                Questions_Page.Instance.ColourRow(Brushes.LightGreen);
+
+                // Colour selected row to green
+                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    
+                    DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
+                    if (row != null)
+                    {
+                        row.Background = Brushes.LightGreen;
+                    }
+                }
             } 
             _Timer.Stop();
         }
@@ -325,7 +337,6 @@ namespace NOTE
             {
                 AddPoints(question.Team, question.BonusPoints);
                 playSound(question.Team.SoundPath);
-                Questions_Page.Instance.ColourRow(Brushes.LightGreen);
             }
             _Timer.Stop();
         }
@@ -335,8 +346,27 @@ namespace NOTE
             Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
             if (question != null)
             {
-                WrongAnswer(question.Team);
-                Questions_Page.Instance.ColourRow(Brushes.Tomato);
+                if (question.Penalty == 0)
+                {
+                    WrongAnswer(question.Team);
+                }
+                else
+                {
+                    DeductPoints(question.Team, question.Penalty);
+                }
+
+                // Colour selected row to red
+                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+
+                if (selectedItem != null)
+                {
+
+                    DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
+                    if (row != null)
+                    {
+                        row.Background = Brushes.Tomato;
+                    }
+                }
             }
             _Timer.Stop();
         }
@@ -346,8 +376,7 @@ namespace NOTE
             Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
             if (question != null)
             {
-                DeductPoints(question.Team, question.BonusPoints);
-                Questions_Page.Instance.ColourRow(Brushes.Tomato);
+                DeductPoints(question.Team, question.Penalty);
             }
             _Timer.Stop();
         }
@@ -382,22 +411,30 @@ namespace NOTE
 
         private void Settings_Page_Button(object sender, RoutedEventArgs e)
         {
-            Page_Frame.Content = new Settings_Page();
+            if (Settings_Page.Instance == null)
+                Page_Frame.Content = new Settings_Page();
+            Page_Frame.Content = Settings_Page.Instance;
         }
 
         private void File_viewer_Button(object sender, RoutedEventArgs e)
         {
-            Page_Frame.Content = new Files_Page();
+            if (Files_Page.Instance == null)
+                Page_Frame.Content = new Files_Page();
+            Page_Frame.Content = Files_Page.Instance;
         }
 
         private void Scores_page_Button(object sender, RoutedEventArgs e)
         {
-            Page_Frame.Content = new Scores_Page();
+            if (Scores_Page.Instance == null)
+                Page_Frame.Content = new Scores_Page();
+            Page_Frame.Content = Scores_Page.Instance;
         }
 
         private void Questions_Page_Button(object sender, RoutedEventArgs e)
         {
-            Page_Frame.Content = new Questions_Page();
+            if (Questions_Page.Instance == null)
+                Page_Frame.Content = new Questions_Page();
+            Page_Frame.Content = Questions_Page.Instance;
         }
         private void End_game(object sender, RoutedEventArgs e)
         {

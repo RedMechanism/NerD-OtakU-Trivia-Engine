@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows;
 
 namespace NOTE
@@ -14,6 +15,9 @@ namespace NOTE
         public int Penalty { get; set; }
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
+        public string Curator { get; set; }
+        public string IconPath { get; set; }
+        public bool IsSpecial { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private Visibility isExpanded;
@@ -35,6 +39,7 @@ namespace NOTE
         public Category()
         {
             isExpanded = Visibility.Collapsed;
+            IsSpecial = false;
         }
 
         private void NotifyPropertyChanged(string propertyName)

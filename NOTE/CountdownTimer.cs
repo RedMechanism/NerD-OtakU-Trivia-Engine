@@ -41,6 +41,7 @@ namespace NOTE
             {
                 Stop();
                 CurrentTime = TimeSpan.Zero;
+                colourQuestionRow();
                 OnCompleted();
             }
         }
@@ -132,6 +133,22 @@ namespace NOTE
             Stop();
             CurrentTime = Duration;
             OnReset();
+        }
+
+        private void colourQuestionRow()
+        {
+            // Colour selected row to 
+            var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+
+            if (selectedItem != null)
+            {
+
+                DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
+                if (row != null)
+                {
+                    row.Background = Brushes.Yellow;
+                }
+            }
         }
 
         //private void playSound()

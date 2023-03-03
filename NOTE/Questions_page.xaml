@@ -7,7 +7,6 @@
       mc:Ignorable="d" 
       d:DesignHeight="476" d:DesignWidth="724"
       Title="Questions_page">
-
     <Grid>
         <DataGrid x:Name="CategoryGrid" 
                   AutoGenerateColumns="False"   
@@ -23,9 +22,11 @@
                 <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                 <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
                 <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
+                <DataGridTextColumn Header="Special" Binding="{Binding IsSpecial}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
+                    <MenuItem Header="Display Category" Click="DisplayCategory_RClick"/>
                     <MenuItem Header="Delete Category" Click="RemoveCategory_RClick"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
@@ -39,13 +40,11 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="#" Binding="{Binding QuestionNumber}"/>
                             <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
-                            <DataGridTextColumn Header="Team" Binding="{Binding Team.Name}"/>
-                            <DataGridTemplateColumn Header="Property">
+                            <DataGridTemplateColumn Header="Team">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox x:Name="comboBox" 
-                              ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=Properties}"
-                              SelectedValue="{Binding Property}" />
+                                        <ComboBox ItemsSource="{Binding DataContext.TeamNames, RelativeSource={RelativeSource AncestorType=Page}}"
+                                                  SelectedItem="{Binding Team.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

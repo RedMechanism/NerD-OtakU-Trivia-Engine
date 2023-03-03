@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,25 +13,24 @@ namespace NOTE
     public partial class Questions_Page : Page
     {
         public static Questions_Page Instance;
+        public ObservableCollection<string> TeamNames { get; set; }
 
-        //public List<string> FirstNameOptions { get; set; } = new List<string> { "John", "Jane", "Jim" };
-
-        public ObservableCollection<string> Properties { get; set; }
         public Questions_Page()
         {
+
             InitializeComponent();
 
-            Properties = new ObservableCollection<string>
+            TeamNames = new ObservableCollection<string>();
+            foreach (Teams team in ControlCenter.Instance.TeamsList)
             {
-                "Property 1",
-                "Property 2",
-                "Property 3"
-            };
+                TeamNames.Add(team.Name);
+            }
 
             Instance = this;
             ObservableCollection<Category> mainCategories = new ObservableCollection<Category>();
             CategoryGrid.ItemsSource = mainCategories;
             CategoryGrid.IsReadOnly = true;
+            DataContext = this;
         }
 
         private void AddCategory_Button(object sender, RoutedEventArgs e)
@@ -54,10 +52,18 @@ namespace NOTE
             var selectedItem = CategoryGrid.SelectedItem as Category;
             if (selectedItem != null)
             {
-                selectedItem.Questions.Add(new Question { CategoryName = "New Sub-Category" });
-                selectedItem.IsExpanded = Visibility.Visible;
+                if (!selectedItem.IsSpecial) {
+                    selectedItem.Questions.Add(new Question { CategoryName = "New Sub-Category" });
+                    selectedItem.IsExpanded = Visibility.Visible;
+                }
+                else
+                {
+                    MessageBox.Show("Special!");
+                }
+                    
             }
-            // Immediately displays media files added
+
+            // Immediately expands Datagrid
             ExpandNestedDatagrid();
         }
 
@@ -127,6 +133,17 @@ namespace NOTE
             }
         }
 
+        private void DisplayCategory_RClick(object sender, RoutedEventArgs e)
+        {
+            Category category = (Category)CategoryGrid.SelectedItem;
+
+            if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer._media.Path = new Uri(category.IconPath);
+                TriviaPlayer._media.Play();
+            }
+        }
+
         private void CategoryGrid_LButtonUp(object sender, MouseButtonEventArgs e)
         {
             var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
@@ -185,27 +202,5 @@ namespace NOTE
             }
         }
 
-        //private void CategoryGrid_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        //{
-        //    // Deselect the selected row
-        //    CategoryGrid.SelectedIndex = -1;
-        //}
-        //private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    Category category = (Category)CategoryGrid.SelectedItem;
-
-        //    if (ControlCenter.Instance.PlayerWindowCounter()>=1)
-        //    {
-        //        TriviaPlayer._media.Path = category.FilePath;
-        //        if (category.ClearClock)
-        //        {
-        //            ControlCenter.Instance.ClearTimer();
-        //        }
-        //        else
-        //        {
-        //            TriviaPlayer._media.Play();
-        //        }
-        //    }
-        //}
     }
 }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using static NOTE.Questions_Page;
 
@@ -10,6 +12,7 @@ namespace NOTE
     /// </summary>
     public partial class AddCategory_Dialog : Window
     {
+        private string categoryLogoPath;
         public AddCategory_Dialog()
         {
             InitializeComponent();
@@ -28,7 +31,10 @@ namespace NOTE
                         BonusPoints = int.Parse(BonusPointsTextBox.Text),
                         Penalty = int.Parse(PenaltyPointsTextBox.Text),
                         Time = TimeSpan.FromSeconds(int.Parse(TimeTextBox.Text)),
-                        QuestionText = QuestionTextTextBox.Text,
+                        QuestionText = QuestionTextBox.Text,
+                        IconPath = categoryLogoPath,
+                        Curator = CuratorTextBox.Text,
+                        IsSpecial = (bool)IsSpecialCheckBox.IsChecked,
                         Questions = new ObservableCollection<Question>() });
                 }
             }
@@ -39,6 +45,20 @@ namespace NOTE
         {
             DialogResult = false;
             Close();
+        }
+
+        private void FileSelect_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                categoryLogoPath = openFileDialog.FileName;
+                string fileName = Path.GetFileName(categoryLogoPath);
+                string parentFolder = Path.GetDirectoryName(categoryLogoPath);
+                string parentFolderName = new DirectoryInfo(parentFolder).Name;
+                CategoryLogoPath.Text = parentFolderName + "\\" + fileName;
+            }
         }
     }
 }

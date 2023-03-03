@@ -27,7 +27,9 @@
     <None Remove="cross.png" />
     <None Remove="DDays.png" />
     <None Remove="Electabuzz.png" />
+    <None Remove="Images\CategoryBackground.jpg" />
     <None Remove="Images\clock_face.png" />
+    <None Remove="Images\OpeningScreen.jpg" />
     <None Remove="Images\Team1.png" />
     <None Remove="Images\Team2.png" />
     <None Remove="Images\Team3.png" />
@@ -79,10 +81,14 @@
     <EmbeddedResource Include="Audio\Core\tick_sound.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="Images\CategoryBackground.jpg" />
     <Resource Include="Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\clock_face.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\OpeningScreen.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Pos1.png" />

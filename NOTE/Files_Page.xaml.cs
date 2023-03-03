@@ -20,6 +20,8 @@ namespace NOTE
         }
         private void DirTree_SelectedItemChanged(object sender, MouseButtonEventArgs e)
         {
+            Questions_Page.Instance.QuestionGrid.SelectedItem = null;
+
             var playerWindowCount = Application.Current.Windows.OfType<TriviaPlayer>().Count();
 
             if (File.Exists(dirTree.SelectedItem?.ToString()))

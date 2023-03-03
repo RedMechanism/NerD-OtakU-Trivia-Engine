@@ -40,21 +40,48 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, +{points}, New total = {TeamX.Score} points");
+                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber}, +{points} pts, Total = {TeamX.Score} pts");
+                }
+                else
+                {
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, +{points} pts, Total = {TeamX.Score} pts");
+                }
             }
         }
         public void WriterIncorrect(Teams TeamX)
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name} incorrect answer");
+                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber} incorrect answer");
+                }
+                else
+                {
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name} incorrect answer");
+                }
             }
         }
         public void WriterDeduct(Teams TeamX, int points)
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, -{points}, New total = {TeamX.Score} points");
+                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+
+                if (selectedItem != null)
+                {
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber}, -{points} pts, Total = {TeamX.Score} pts");
+                }
+                else
+                {
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, -{points} pts, Total = {TeamX.Score} pts");
+                }
             }
         }
         public static void WriterScoreChanged(Teams TeamX, string score)
@@ -65,22 +92,14 @@ namespace NOTE
                 ControlCenter.Instance.Status_disp.Content = $"Set {TeamX.Name} points -> {score}";
             }
         }
-        static String GetTimestamp(DateTime value)
+        static string GetTimestamp(DateTime value)
         {
-            return value.ToString("HH:mm:ss-yyyy.MM.dd");
+            return value.ToString("yy.MM.dd-HH:mm:ss");
         }
 
-        static String GetShortTimestamp(DateTime value)
+        static string GetShortTimestamp(DateTime value)
         {
-            return value.ToString("yyyy.MM.dd");
-        }
-
-        private void CreateLogFolder(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
+            return value.ToString("yy.MM.dd");
         }
     }
 }
