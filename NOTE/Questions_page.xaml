@@ -14,7 +14,8 @@
                   RowDetailsVisibilityChanged="MainGrid_RowDetailsVisibilityChanged"
                   MouseLeftButtonUp="CategoryGrid_LButtonUp"
                   ContextMenuOpening="CategoryGrid_ContextMenuOpening"
-                  ScrollViewer.CanContentScroll="False">
+                  ScrollViewer.CanContentScroll="False"
+                  PreviewMouseDown="CategoryGrid_PreviewMouseDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
                 <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>

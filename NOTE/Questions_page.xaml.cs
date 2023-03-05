@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -200,6 +201,22 @@ namespace NOTE
             {
                 e.Handled = true;
             }
+        }
+        private void CategoryGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Check if the clicked item is not a row
+            var visual = e.OriginalSource as Visual;
+            while (visual != null && visual != CategoryGrid)
+            {
+                if (visual is DataGridRow)
+                {
+                    return; // Clicked on a row, do nothing
+                }
+                visual = VisualTreeHelper.GetParent(visual) as Visual;
+            }
+
+            // Clicked outside of a row, clear selection
+            CategoryGrid.SelectedItem = null;
         }
 
     }

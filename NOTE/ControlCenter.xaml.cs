@@ -551,6 +551,7 @@ namespace NOTE
 
         #endregion
 
+        #region Methods
         public int PlayerWindowCounter()
         {
             return Application.Current.Windows.OfType<TriviaPlayer>().Count();
@@ -599,6 +600,8 @@ namespace NOTE
             Penalty_button.ContextMenu = contextMenu_penalty;
             Bonus_button.ContextMenu = contextMenu_bonus;
         }
+
+        #endregion
     }
 
 }
