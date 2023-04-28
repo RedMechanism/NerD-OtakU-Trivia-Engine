@@ -10,7 +10,19 @@
     <Compile Update="AddCategory_Dialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="AddQuestion_Dialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Files_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MediaPlayer_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PlayerPageInput.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Players_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Questions_Page.xaml.cs">
@@ -22,6 +34,12 @@
     <Compile Update="Settings_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="TeamShuffler_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Teams_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="TriviaPlayer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -30,10 +48,22 @@
     <Page Update="AddCategory_Dialog.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="AddQuestion_Dialog.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ControlCenter.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Files_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MediaPlayer_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PlayerPageInput.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Players_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Questions_Page.xaml">
@@ -43,6 +73,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Settings_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="TeamShuffler_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Teams_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TriviaPlayer.xaml">

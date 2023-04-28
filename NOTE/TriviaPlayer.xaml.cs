@@ -17,8 +17,6 @@ namespace NOTE
         
         public static TriviaPlayer Instance;
 
-        public static MediaController _media;
-
         public TextBox displayTimer;
         public Image clock_face;
         public TriviaPlayer()
@@ -29,7 +27,6 @@ namespace NOTE
             displayTimer = Timer_display;
             clock_face = Clock_face_image;
             ControlCenter.Instance._Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);
-            _media = new MediaController(Media_player, Image_player);
         }
         protected void TimerDisplay(TimeSpan timerValue)
         {
@@ -132,7 +129,7 @@ namespace NOTE
         private void Timer_text_changed(object sender, TextChangedEventArgs e)
         {
             MediaPlayer tickSounds = new MediaPlayer();
-            if (_media.Status != MediaController.MediaState.Playing)
+            if (MediaPlayer_Page._media.Status != MediaController.MediaState.Playing)
             {
                 if (ControlCenter.Instance._Timer.CurrentTime != TimeSpan.Zero)
                 {
@@ -163,8 +160,8 @@ namespace NOTE
                 animations.ScoresAppear(Scores_view_container);
             }
 
-            _media.Path = new Uri("Videos/VictoryBackground_EjraVFX.mp4", UriKind.Relative);
-            _media.Play();
+            MediaPlayer_Page._media.Path = new Uri("Videos/VictoryBackground_EjraVFX.mp4", UriKind.Relative);
+            MediaPlayer_Page._media.Play();
 
             animations.FadeIn_Grid(Position_numbers);
             animations.BounceDownStory(Pos4_box, 4);

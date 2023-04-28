@@ -1,0 +1,20 @@
+﻿<Window x:Class="NOTE.PlayerPageInput"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NOTE"
+        mc:Ignorable="d"
+        Title="Enter Player Name" Height="150" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Content="Player Name:" Margin="5"/>
+        <TextBox x:Name="playerNameTextBox" Grid.Row="0" Margin="5" Width="200" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <CheckBox x:Name="isCuratorCheckBox" Grid.Row="1" Content="Is Curator?" Margin="5"/>
+        <Button x:Name="okButton" Width="60" Grid.Row="2" Content="OK" Click="OkButton_Click" IsDefault="True"/>
+    </Grid>
+</Window>

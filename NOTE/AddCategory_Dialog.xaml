@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NOTE"
         mc:Ignorable="d"
-        Title="AddCategory_Dialog" Height="340" Width="350">
-    <Grid>
+        Title="Add Category" Height="340" Width="350">
+    <Grid KeyDown="Enter_KeyDown">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>

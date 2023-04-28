@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NOTE"
         mc:Ignorable="d"
         Title="N|O Trivia"  Height="720"  Width="1280" MinWidth="640"  MinHeight="360" 
-        Background="Black" WindowStyle="None" MouseLeftButtonDown="Window_left_click">
+        WindowStyle="None" MouseLeftButtonDown="Window_left_click">
     <Window.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Show/hide scores" Click="Context_menu_scores"/>
@@ -16,10 +16,8 @@
         </ContextMenu>
     </Window.ContextMenu>
     <Viewbox>
-        <Grid Height="720" Width="1280" >
-            <Image x:Name="Image_player" Source="Images/OpeningScreen.jpg"/>
-            <MediaElement Name = "Media_player"
-                  LoadedBehavior = "Manual" Margin="-3,1,4,0" Stretch="Uniform" Grid.ColumnSpan="2"/>
+        <Grid Height="720" Width="1280" x:Name="TriviaPlayerGrid">
+            <Frame x:Name="TriviaPlayer_Frame" Source="MediaPlayer_Page.xaml" NavigationUIVisibility="Hidden"/>
             <Canvas HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,160,0">
                 <Image x:Name="Clock_face_image" Source="Images/clock_face.png" Visibility="Hidden" Height="150" Width="150"/>
                 <TextBox x:Name="Timer_display" Text="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" BorderThickness="0"
@@ -28,6 +26,8 @@
             <Canvas HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image x:Name="Wrong_answer_image" Source="Images/cross.png" Opacity="0" Height="280" Width="280" Canvas.Left="-306" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Image x:Name="Team_logo" Opacity="0" Height="280" Width="280" Canvas.Left="4" Canvas.Top="-147"/>
+                <Label x:Name="BotD" Opacity="0" Content ="It is a blank canvas" FontSize="100" FontFamily="Luckiest Guy"
+                    Foreground="#FF7E009C" Canvas.Left="-455" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" Width="980" />
                 <Label x:Name="Points_awarded_disp" Opacity="0" Content ="+5" FontSize="200" FontFamily="Luckiest Guy"
                     Foreground="#FF5BEF0B" Canvas.Left="-296" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </Canvas>

@@ -26,24 +26,29 @@
     <None Remove="clock_face.png" />
     <None Remove="cross.png" />
     <None Remove="DDays.png" />
+    <None Remove="DiscordBotListening.png" />
     <None Remove="Electabuzz.png" />
     <None Remove="Images\CategoryBackground.jpg" />
     <None Remove="Images\clock_face.png" />
     <None Remove="Images\OpeningScreen.jpg" />
+    <None Remove="Images\Registration.jpg" />
     <None Remove="Images\Team1.png" />
     <None Remove="Images\Team2.png" />
     <None Remove="Images\Team3.png" />
     <None Remove="Images\Team4.png" />
+    <None Remove="Images\TeamPage.png" />
     <None Remove="nudist_beach.png" />
     <None Remove="Pos1.png" />
     <None Remove="Pos2.png" />
     <None Remove="Pos3.png" />
     <None Remove="Pos4.png" />
     <None Remove="ramona.png" />
+    <None Remove="Registration.jpg" />
     <None Remove="Team1.png" />
     <None Remove="Team2.png" />
     <None Remove="Team3.png" />
     <None Remove="Team4.png" />
+    <None Remove="TeamPage.png" />
     <None Remove="Videos\VictoryBackground_EjraVFX.mp4" />
   </ItemGroup>
 
@@ -72,6 +77,9 @@
     <EmbeddedResource Include="Audio\Teams\Team4.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="Images\Registration.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <EmbeddedResource Include="Videos\VictoryBackground_EjraVFX.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -81,6 +89,7 @@
     <EmbeddedResource Include="Audio\Core\tick_sound.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="DiscordBotListening.png" />
     <Resource Include="Images\CategoryBackground.jpg" />
     <Resource Include="Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -98,6 +107,7 @@
     <EmbeddedResource Include="Images\Team2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <PackageReference Include="DSharpPlus" Version="4.4.0" />
     <Resource Include="Images\Team1.png" />
     <Resource Include="Images\Team2.png" />
     <Resource Include="Images\Team3.png">
@@ -106,6 +116,15 @@
     <Resource Include="Images\Team4.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\TeamPage.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Images\DiscordBotListening.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

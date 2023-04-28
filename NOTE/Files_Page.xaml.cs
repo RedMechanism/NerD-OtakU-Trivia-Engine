@@ -29,7 +29,7 @@ namespace NOTE
                 if (playerWindowCount >= 1)
                 {
                     ControlCenter.Instance.ClearTimer();
-                    TriviaPlayer._media.Path = new Uri(dirTree.SelectedItem.ToString());
+                    MediaPlayer_Page._media.Path = new Uri(dirTree.SelectedItem.ToString());
                 }
             }
         }

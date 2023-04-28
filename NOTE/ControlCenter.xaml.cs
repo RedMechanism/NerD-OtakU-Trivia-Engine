@@ -8,6 +8,8 @@ using System.Media;
 using static NOTE.CountdownTimer;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using static NOTE.Teams;
+using System.Windows.Media.Effects;
 
 namespace NOTE
 {
@@ -17,7 +19,7 @@ namespace NOTE
 
         public Teams Team1 = new Teams
         {
-            Name = "Team1",
+            Name = "Nudist Beach",
             Score = 0,
             LogoPath = "Images/Team1.png",
             SoundPath = "Audio/Teams/Team1.mp3",
@@ -62,6 +64,9 @@ namespace NOTE
         {
             InitializeComponent();
             LogWriter.LogWriterInitialize();
+
+            //Uncomment the line below to use the Discord bot
+            //DiscordBot discordBot = new DiscordBot(ControlGrid);
 
             Instance = this;
 
@@ -122,23 +127,6 @@ namespace NOTE
         {
             SetTimer(15);
             _Timer.Start();
-        }
-
-        private void Timer_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Points_input.Text.All(char.IsDigit))
-                {
-                    int timerInput = int.Parse(Custom_timer_input.Text);
-                    SetTimer(timerInput);
-                    _Timer.Start();
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
         }
 
         private void Time_avail_changed(object sender, KeyEventArgs e)
@@ -291,17 +279,20 @@ namespace NOTE
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+                if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
+                {
+                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+                }
 
                 if (_Timer.Status == TimerState.Running)
                 {
-                    TriviaPlayer._media.Pause();
+                    MediaPlayer_Page._media.Pause();
                     _Timer.Stop();
                 }
                 else
                 {
-                    TriviaPlayer._media.Play();
+                    MediaPlayer_Page._media.Play();
                     _Timer.Start();
                 }
             }
@@ -385,7 +376,7 @@ namespace NOTE
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Play();
+                MediaPlayer_Page._media.Play();
             }
         }
 
@@ -393,14 +384,14 @@ namespace NOTE
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Pause();
+                MediaPlayer_Page._media.Pause();
             }
         }
         private void Stop_Button(object sender, RoutedEventArgs e)
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Stop();
+                MediaPlayer_Page._media.Stop();
             }
         }
 
@@ -428,6 +419,11 @@ namespace NOTE
             if (Scores_Page.Instance == null)
                 Page_Frame.Content = new Scores_Page();
             Page_Frame.Content = Scores_Page.Instance;
+        }
+
+        private void Players_page_Button(object sender, RoutedEventArgs e)
+        {
+            Page_Frame.Content = new Players_Page();
         }
 
         private void Questions_Page_Button(object sender, RoutedEventArgs e)
@@ -489,9 +485,42 @@ namespace NOTE
             DeductPoints(Team4, penaltyPoints);
             _Timer.Stop();
         }
+
+        private async void TeamShufflerButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (PlayerWindowCounter() >= 1)
+            {
+                if (TriviaPlayer.Instance.TriviaPlayer_Frame.Content is TeamShuffler_Page)
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = new MediaPlayer_Page();
+                }
+                else if (TriviaPlayer.Instance.TriviaPlayer_Frame.Content is MediaPlayer_Page)
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = new TeamShuffler_Page();
+                }
+            }
+        }
         #endregion
 
         #region Keystroke Events
+        private void Timer_avail_changed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (Custom_timer_input.Text.All(char.IsDigit))
+                {
+                    int timerInput = int.Parse(Custom_timer_input.Text);
+                    SetTimer(timerInput);
+                    _Timer.Start();
+                }
+                else
+                {
+                    MessageBox.Show("Enter only positive digits");
+                }
+            }
+        }
+        
         private void Points_avail_changed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -557,6 +586,20 @@ namespace NOTE
             return Application.Current.Windows.OfType<TriviaPlayer>().Count();
         }
 
+        private void ControlCenter_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Get all open windows
+            foreach (Window window in Application.Current.Windows)
+            {
+                // Don't close the main window again
+                if (window != this)
+                {
+                    // Close the window
+                    window.Close();
+                }
+            }
+        }
+
         private void GenerateContextMenu(List<Teams> TeamList)
         {
             ContextMenu contextMenu_penalty = new ContextMenu();
@@ -601,7 +644,35 @@ namespace NOTE
             Bonus_button.ContextMenu = contextMenu_bonus;
         }
 
+        public static void AddTeamMembersToListBox(Teams team, ListBox listBox)
+        {
+            foreach (Member member in team.Members)
+            {
+                TextBlock textBlock = new TextBlock { Text = member.Name };
+                if (member.IsCurator)
+                {
+                    textBlock.FontWeight = FontWeights.Bold;
+                    textBlock.Effect = CreateDropShadowEffect();
+                    textBlock.Foreground = new SolidColorBrush(Colors.White);
+                }
+                listBox.Items.Add(textBlock);
+            }
+        }
+
+        public static DropShadowEffect CreateDropShadowEffect()
+        {
+            return new DropShadowEffect
+            {
+                Color = Colors.Black,
+                Direction = 315,
+                ShadowDepth = 2,
+                Opacity = 0.8,
+                BlurRadius = 4
+            };
+        }
+
         #endregion
+
     }
 
 }

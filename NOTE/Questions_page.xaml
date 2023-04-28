@@ -15,7 +15,8 @@
                   MouseLeftButtonUp="CategoryGrid_LButtonUp"
                   ContextMenuOpening="CategoryGrid_ContextMenuOpening"
                   ScrollViewer.CanContentScroll="False"
-                  PreviewMouseDown="CategoryGrid_PreviewMouseDown">
+                  PreviewMouseDown="CategoryGrid_PreviewMouseDown"
+                  PreviewKeyDown="CategoryGrid_PreviewKeyDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
                 <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>
@@ -41,14 +42,7 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="#" Binding="{Binding QuestionNumber}"/>
                             <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
-                            <DataGridTemplateColumn Header="Team">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding DataContext.TeamNames, RelativeSource={RelativeSource AncestorType=Page}}"
-                                                  SelectedItem="{Binding Team.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Team" Binding="{Binding Team.Name}"/>
                             <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>
                             <DataGridTextColumn Header="BonusPoints" Binding="{Binding BonusPoints}"/>
                             <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
@@ -59,6 +53,7 @@
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Delete Question" Click="RemoveQuestion_RClick"/>
+                                <MenuItem Header="Change team" Loaded="ChangeTeamMenuItem_Loaded"/>
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>

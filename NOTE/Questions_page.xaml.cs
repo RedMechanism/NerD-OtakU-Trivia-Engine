@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,18 +15,10 @@ namespace NOTE
     public partial class Questions_Page : Page
     {
         public static Questions_Page Instance;
-        public ObservableCollection<string> TeamNames { get; set; }
-
         public Questions_Page()
         {
 
             InitializeComponent();
-
-            TeamNames = new ObservableCollection<string>();
-            foreach (Teams team in ControlCenter.Instance.TeamsList)
-            {
-                TeamNames.Add(team.Name);
-            }
 
             Instance = this;
             ObservableCollection<Category> mainCategories = new ObservableCollection<Category>();
@@ -34,37 +27,67 @@ namespace NOTE
             DataContext = this;
         }
 
+        //Load team change context menu
+        private void ChangeTeamMenuItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            MenuItem changeTeamMenuItem = sender as MenuItem;
+            if (changeTeamMenuItem != null)
+            {
+                changeTeamMenuItem.Items.Clear(); // Clear existing subitems before adding them again
+
+                foreach (var teamContext in ControlCenter.Instance.TeamsList)
+                {
+                    MenuItem subItem = new MenuItem { Header = teamContext.Name };
+                    subItem.Click += SubItem_Click; // Add the click event handler to the subitem
+                    changeTeamMenuItem.Items.Add(subItem);
+                }
+            }
+        }
+
+        private void SubItem_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem clickedSubItem = sender as MenuItem;
+            if (clickedSubItem != null && QuestionGrid.SelectedItem != null)
+            {
+                Question selectedQuestion = QuestionGrid.SelectedItem as Question;
+                if (selectedQuestion != null)
+                {
+                    // Create a new Team object with the new name and assign it to the selected question
+                    Teams updatedTeam = new Teams();
+                    CopyProperties(selectedQuestion.Team, updatedTeam);
+                    updatedTeam.Name = clickedSubItem.Header.ToString();
+
+                    selectedQuestion.Team = updatedTeam;
+
+                    QuestionGrid.Items.Refresh(); // Refresh the DataGrid to reflect the changes
+                }
+            }
+        }
+
         private void AddCategory_Button(object sender, RoutedEventArgs e)
         {
-            AddCategory_Dialog addRowDialog = new AddCategory_Dialog();
-            addRowDialog.ShowDialog();
+            AddCategory_Dialog addCategoryDialog = new AddCategory_Dialog();
+            addCategoryDialog.ShowDialog();
         }
 
-        private void ExpandNestedDatagrid()
-        {
-            var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
-            if (selectedRow != null)
-            {
-                selectedRow.DetailsVisibility = Visibility.Visible;
-            }
-        }
         private void AddQuestion_Button(object sender, RoutedEventArgs e)
         {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            if (selectedItem != null)
+            // Show the dialog box to add a new resident
+            var dialog = new AddQuestion_Dialog();
+            if (dialog.ShowDialog() == true)
             {
-                if (!selectedItem.IsSpecial) {
-                    selectedItem.Questions.Add(new Question { CategoryName = "New Sub-Category" });
-                    selectedItem.IsExpanded = Visibility.Visible;
-                }
-                else
+                // Add the new resident to the selected city
+                var mainCategories = Instance.CategoryGrid.SelectedItem as Category;
+                if (mainCategories != null)
                 {
-                    MessageBox.Show("Special!");
+                    mainCategories.Questions.Add(new Question
+                    {
+                        QuestionText = mainCategories.QuestionText
+                    });
+                    mainCategories.IsExpanded = Visibility.Visible;
                 }
-                    
             }
 
-            // Immediately expands Datagrid
             ExpandNestedDatagrid();
         }
 
@@ -113,14 +136,16 @@ namespace NOTE
         public DataGrid QuestionGrid;
         private void RemoveQuestion_RClick(object sender, RoutedEventArgs e)
         {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            if (selectedItem != null)
+            Delete_category();
+        }
+        
+
+        private void CategoryGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
             {
-                var selectedFiles = QuestionGrid.SelectedItems;
-                while (selectedFiles.Count > 0)
-                {
-                    selectedItem.Questions.Remove(selectedFiles[0] as Question);
-                }
+                Delete_category();
+                e.Handled = true;
             }
         }
 
@@ -140,8 +165,8 @@ namespace NOTE
 
             if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Path = new Uri(category.IconPath);
-                TriviaPlayer._media.Play();
+                MediaPlayer_Page._media.Path = new Uri(category.IconPath);
+                MediaPlayer_Page._media.Play();
             }
         }
 
@@ -174,7 +199,7 @@ namespace NOTE
             {
                 if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
                 {
-                    TriviaPlayer._media.Path = question.FilePath;
+                    MediaPlayer_Page._media.Path = question.FilePath;
                     ControlCenter.Instance._Timer.Duration = question.Time;
                     if (question.ClearClock)
                     {
@@ -217,6 +242,43 @@ namespace NOTE
 
             // Clicked outside of a row, clear selection
             CategoryGrid.SelectedItem = null;
+        }
+
+        private void Delete_category()
+        {
+            var selectedItem = CategoryGrid.SelectedItem as Category;
+            if (selectedItem != null)
+            {
+                var mainCategories = CategoryGrid.ItemsSource as ObservableCollection<Category>;
+                mainCategories.Remove(selectedItem);
+            }
+        }
+        private void ExpandNestedDatagrid()
+        {
+            var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
+            if (selectedRow != null)
+            {
+                selectedRow.DetailsVisibility = Visibility.Visible;
+            }
+        }
+
+        // CopyProperties method for copying properties from one object to another
+        // The CopyProperties method is used in the SubItem_Click event handler to copy all the properties from the existing Team object to the new one
+        public static void CopyProperties<T>(T source, T target)
+        {
+            if (source == null || target == null)
+                throw new ArgumentNullException("Source and/or target objects cannot be null.");
+
+            Type type = typeof(T);
+            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+            foreach (PropertyInfo property in properties)
+            {
+                if (property.CanWrite)
+                {
+                    object value = property.GetValue(source, null);
+                    property.SetValue(target, value, null);
+                }
+            }
         }
 
     }

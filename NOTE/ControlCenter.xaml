@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NOTE"
         mc:Ignorable="d"
-        Title="NOTE Control Center" Height="576" Width="1024" MinWidth="200" MinHeight="200">
+        Title="NOTE Control Center"  Closing="ControlCenter_Closing"
+        Height="576" Width="1024" MinWidth="200" MinHeight="200">
     <Viewbox>
-        <Grid>
+        <Grid x:Name="ControlGrid">
             <!-- Left panel -->
-            <Button Content="Files" HorizontalAlignment="Left" Margin="20,149,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="File_viewer_Button"/>
-            <Button Content="Questions" HorizontalAlignment="Left" Margin="20,97,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Questions_Page_Button"/>
-            <Button Content="Settings" HorizontalAlignment="Left" Margin="20,201,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Settings_Page_Button"/>
-            <Button Content="Scores" HorizontalAlignment="Left" Margin="20,253,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Scores_page_Button"/>
+            <Button Content="Files" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="File_viewer_Button"/>
+            <Button Content="Questions" HorizontalAlignment="Left" Margin="20,78,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Questions_Page_Button"/>
+            <Button Content="Settings" HorizontalAlignment="Left" Margin="20,182,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Settings_Page_Button"/>
+            <Button Content="Scores" HorizontalAlignment="Left" Margin="20,233,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Scores_page_Button"/>
+            <Button Content="Players" HorizontalAlignment="Left" Margin="20,285,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Players_page_Button"/>
             <Button x:Name="Launch_Player" Content="Launch player!" HorizontalAlignment="Left" Margin="20,0,0,11" VerticalAlignment="Bottom" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
 
             <!-- Right panel -->
@@ -28,6 +30,8 @@
                 <Button x:Name="Stop_clock" Content="Reset" Height="40" Width="40" Click="TimerReset_Button"/>
                 <Button Content="Clear" Height="40" Width="40"  Click="TimerClear_Button"/>
             </StackPanel>
+
+            <Button Content="Sort Players" Height="40" Width="115" HorizontalAlignment="Right" Margin="0,0,20,0" Click="TeamShufflerButton_Click"/>
 
             <Image x:Name="Clock_face_image" Source="Images/clock_face.png" Height="100" Width="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,28,0"/>
             <Label x:Name="Timer_display" Content="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"

@@ -151,22 +151,6 @@ namespace NOTE
             }
         }
 
-        //private void playSound()
-        //{
-        //    MediaPlayer tickSounds = new MediaPlayer();
-
-        //    if (CurrentTime != TimeSpan.Zero)
-        //    {
-        //        tickSounds.Open(new Uri(SoundPath_Tick, UriKind.Relative));
-        //        tickSounds.Play();
-        //    }
-        //    else
-        //    {
-        //        tickSounds.Open(new Uri(SoundPath_TimeUp, UriKind.Relative));
-        //        tickSounds.Play();
-        //    }
-        //}
-
         #region State Update Methods
         private void OnTick()
         {
