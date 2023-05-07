@@ -10,27 +10,31 @@
     <StackPanel Grid.Column="1">
         <TextBlock Text="Customise team names" FontSize="20"/>
         <StackPanel Orientation="Horizontal">
-            <TextBox Height="18"  Name="Team1_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team1_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 1 name" Width="120"/>
+            <TextBox Name="Team1_moniker" Height="18" Width="250" Margin="10,5" Foreground="#FF938E8E" KeyDown="Team1_moniker_KeyDown"/>
+            <TextBlock Text="Team 1 name" Height="20" Width="120"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBox Name="Team2_moniker" Height="18" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team2_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 2 name" Width="120"/>
+            <TextBox Name="Team2_moniker" Height="18" Width="250" Margin="10,5" Foreground="#FF938E8E" KeyDown="Team2_moniker_KeyDown"/>
+            <TextBlock Text="Team 2 name" Height="20" Width="120"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBox Height="18"  Name="Team3_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team3_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 3 name" Width="120"/>
+            <TextBox Name="Team3_moniker" Height="18" Width="250" Margin="10,5" Foreground="#FF938E8E" KeyDown="Team3_moniker_KeyDown"/>
+            <TextBlock Text="Team 3 name" Height="20" Width="120"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <TextBox Height="18"  Name="Team4_moniker" Foreground="#FF938E8E" Width="250" Margin="10,5" KeyDown="Team4_moniker_KeyDown"/>
-            <TextBlock Height="20" Text="Team 4 name" Width="120"/>
+            <TextBox Name="Team4_moniker" Height="18" Width="250" Margin="10,5" Foreground="#FF938E8E" KeyDown="Team4_moniker_KeyDown"/>
+            <TextBlock Text="Team 4 name" Height="20" Width="120"/>
         </StackPanel>
         <TextBlock Text="Point settings" FontSize="20"/>
         <StackPanel Orientation="Horizontal">
-            <TextBlock Height="20" Text="Default points" Width="120"/>
-            <TextBlock x:Name="Settings_points_value" Height="20" Text="10" Width="120"/>
-            <TextBlock Height="20" Text="Specify default value: " Width="120"/>
-            <TextBox x:Name="Change_default_points" Height="18" Foreground="#FF938E8E" Width="41" Margin="10,5" KeyDown="Default_points_KeyDown"/>
+            <TextBlock Text="Default points" Height="20" Width="120"/>
+            <TextBlock x:Name="Settings_points_value" Text="10" Height="20" Width="120"/>
+            <TextBlock Text="Specify default value: " Height="20" Width="120"/>
+            <TextBox x:Name="Change_default_points" Height="18" Width="41" Margin="10,5" Foreground="#FF938E8E" KeyDown="Default_points_KeyDown"/>
+        </StackPanel>
+        <TextBlock Text="Discord Integration" FontSize="20"/>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox x:Name="Enable_discord_checkbox" Margin="10,5" Content="Enable Discord bot" Checked="Enable_discord_checkbox_Checked" Unchecked="Enable_discord_checkbox_Unchecked"/>
         </StackPanel>
     </StackPanel>
 </Page>

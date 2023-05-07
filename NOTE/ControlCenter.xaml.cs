@@ -19,7 +19,7 @@ namespace NOTE
 
         public Teams Team1 = new Teams
         {
-            Name = "Nudist Beach",
+            Name = "Team1",
             Score = 0,
             LogoPath = "Images/Team1.png",
             SoundPath = "Audio/Teams/Team1.mp3",
@@ -60,13 +60,11 @@ namespace NOTE
         public static ControlCenter Instance;
 
         public CountdownTimer _Timer;
+        public DiscordBot discordBot;
         public ControlCenter()
         {
             InitializeComponent();
             LogWriter.LogWriterInitialize();
-
-            //Uncomment the line below to use the Discord bot
-            //DiscordBot discordBot = new DiscordBot(ControlGrid);
 
             Instance = this;
 
@@ -81,6 +79,21 @@ namespace NOTE
             _Timer.TickEvent += new TimerTickHandler(TimerDisplay);
 
             GenerateContextMenu(TeamsList);
+
+            // Add MouseRightButtonDown event handlers for the Penalty_button and Bonus_button controls
+            Penalty_button.MouseRightButtonDown += (s, e) =>
+            {
+                GenerateContextMenu(TeamsList);
+                Penalty_button.ContextMenu.IsOpen = true;
+                e.Handled = true;
+            };
+
+            Bonus_button.MouseRightButtonDown += (s, e) =>
+            {
+                GenerateContextMenu(TeamsList);
+                Bonus_button.ContextMenu.IsOpen = true;
+                e.Handled = true;
+            };
         }
 
         public int questionPoints = 10;
@@ -299,8 +312,8 @@ namespace NOTE
         }
         private void Answer_correct_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
-            if(question != null)
+            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+            if (question != null)
             {
                 AddPoints(question.Team, question.Points);
                 playSound(question.Team.SoundPath);
@@ -323,7 +336,7 @@ namespace NOTE
 
         private void Bonus_correct_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
             if (question != null)
             {
                 AddPoints(question.Team, question.BonusPoints);
@@ -334,7 +347,7 @@ namespace NOTE
 
         private void Answer_wrong_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
             if (question != null)
             {
                 if (question.Penalty == 0)
@@ -364,7 +377,7 @@ namespace NOTE
 
         private void Answer_wrong_penalty_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
+            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
             if (question != null)
             {
                 DeductPoints(question.Team, question.Penalty);
@@ -397,7 +410,10 @@ namespace NOTE
 
         private void Show_scores_Click(object sender, RoutedEventArgs e)
         {
-            TriviaPlayer.Instance.ShowScores();
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer.Instance.ShowScores();
+            }
         }
 
         private void Settings_Page_Button(object sender, RoutedEventArgs e)
@@ -598,6 +614,11 @@ namespace NOTE
                     window.Close();
                 }
             }
+        }
+
+        public void InitializeDiscordBot()
+        {
+            discordBot = new DiscordBot(ControlGrid);
         }
 
         private void GenerateContextMenu(List<Teams> TeamList)

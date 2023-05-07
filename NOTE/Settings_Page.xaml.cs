@@ -80,5 +80,17 @@ namespace NOTE
                 }
             }
         }
+
+        private void Enable_discord_checkbox_Checked(object sender, RoutedEventArgs e)
+        {
+            ControlCenter.Instance.InitializeDiscordBot();
+        }
+
+        private void Enable_discord_checkbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ControlCenter.Instance.discordBot.StopBot();
+            ControlCenter.Instance.discordBot.StartBotButton.Visibility = Visibility.Collapsed;
+            ControlCenter.Instance.discordBot.EnableCommandsButton.Visibility = Visibility.Collapsed;
+        }
     }
 }

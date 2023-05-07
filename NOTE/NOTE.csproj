@@ -9,47 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="4day.png" />
-    <None Remove="Audio\Core\final_scores.mp3" />
-    <None Remove="Audio\Core\tick_sound.mp3" />
-    <None Remove="Audio\Core\time_up.wav" />
-    <None Remove="Audio\Incorrect\No Dear-Mike_Koenig-SoundBible.com.wav" />
-    <None Remove="Audio\Incorrect\Saht-exe.mp3" />
-    <None Remove="Audio\Incorrect\Slap-SoundMaster13-SoundBible.com.wav" />
-    <None Remove="Audio\Teams\Team1.mp3" />
-    <None Remove="Audio\Teams\Team2.mp3" />
-    <None Remove="Audio\Teams\Team3.mp3" />
-    <None Remove="Audio\Teams\Team4.mp3" />
-    <None Remove="Audio\tick_sound.mp3" />
-    <None Remove="Audio\timer_over.flac" />
-    <None Remove="clock_face.eps" />
-    <None Remove="clock_face.png" />
-    <None Remove="cross.png" />
-    <None Remove="DDays.png" />
-    <None Remove="DiscordBotListening.png" />
-    <None Remove="Electabuzz.png" />
-    <None Remove="Images\CategoryBackground.jpg" />
-    <None Remove="Images\clock_face.png" />
-    <None Remove="Images\OpeningScreen.jpg" />
-    <None Remove="Images\Registration.jpg" />
-    <None Remove="Images\Team1.png" />
-    <None Remove="Images\Team2.png" />
-    <None Remove="Images\Team3.png" />
-    <None Remove="Images\Team4.png" />
-    <None Remove="Images\TeamPage.png" />
-    <None Remove="nudist_beach.png" />
-    <None Remove="Pos1.png" />
-    <None Remove="Pos2.png" />
-    <None Remove="Pos3.png" />
-    <None Remove="Pos4.png" />
-    <None Remove="ramona.png" />
-    <None Remove="Registration.jpg" />
-    <None Remove="Team1.png" />
-    <None Remove="Team2.png" />
-    <None Remove="Team3.png" />
-    <None Remove="Team4.png" />
-    <None Remove="TeamPage.png" />
-    <None Remove="Videos\VictoryBackground_EjraVFX.mp4" />
+    <None Remove="Images\DinChat.png" />
+    <None Remove="Images\DiscordBotListening.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,17 +27,26 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Audio\Teams\Team1.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Audio\Teams\Team2.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Audio\Teams\Team3.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Audio\Teams\Team4.mp3">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Resource Include="Images\DinChat.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\DiscordBotListening.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Registration.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -89,42 +59,46 @@
     <EmbeddedResource Include="Audio\Core\tick_sound.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Resource Include="DiscordBotListening.png" />
-    <Resource Include="Images\CategoryBackground.jpg" />
+    <Resource Include="Images\CategoryBackground.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\cross.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\clock_face.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\OpeningScreen.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Pos1.png" />
-    <Resource Include="Images\Pos2.png" />
-    <Resource Include="Images\Pos3.png" />
-    <Resource Include="Images\Pos4.png" />
-    <EmbeddedResource Include="Images\Team2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Resource Include="Images\Pos1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Pos2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Pos3.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Pos4.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <PackageReference Include="DSharpPlus" Version="4.4.0" />
-    <Resource Include="Images\Team1.png" />
-    <Resource Include="Images\Team2.png" />
+    <Resource Include="Images\Team1.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Team2.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Team3.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Team4.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\TeamPage.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Images\DiscordBotListening.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

@@ -40,7 +40,7 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                var selectedItem = Questions_Page.Instance?.QuestionGrid?.SelectedItem;
 
                 if (selectedItem != null)
                 {
@@ -56,7 +56,7 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                var selectedItem = Questions_Page.Instance?.QuestionGrid?.SelectedItem;
 
                 if (selectedItem != null)
                 {
@@ -72,7 +72,7 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                var selectedItem = Questions_Page.Instance?.QuestionGrid?.SelectedItem;
 
                 if (selectedItem != null)
                 {

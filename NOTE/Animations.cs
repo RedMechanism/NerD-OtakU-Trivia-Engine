@@ -121,40 +121,40 @@ namespace NOTE
             element.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleY);
         }
 
-        public void FadeInOut_Label(Label label)
+        public void FadeInOut_Label(Label label, double secondSpanIn = 0.5, double secondSpanOut = 2)
         {
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.5)
+                Duration = TimeSpan.FromSeconds(secondSpanIn)
             };
 
             DoubleAnimation fadeOut = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(2)
+                Duration = TimeSpan.FromSeconds(secondSpanOut)
             };
 
             label.BeginAnimation(Label.OpacityProperty, fadeIn);
             label.BeginAnimation(Label.OpacityProperty, fadeOut);
         }
 
-        public void FadeInOut_Image(Image image)
+        public void FadeInOut_Image(Image image, double secondSpanIn = 0.5, double secondSpanOut = 2)
         {
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.5)
+                Duration = TimeSpan.FromSeconds(secondSpanIn)
             };
 
             DoubleAnimation fadeOut = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(2)
+                Duration = TimeSpan.FromSeconds(secondSpanOut)
             };
 
             image.BeginAnimation(Image.OpacityProperty, fadeIn);

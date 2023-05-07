@@ -71,6 +71,7 @@ namespace NOTE
         {
             Close();
             ControlCenter.Instance.ClearTimer();
+            ControlCenter.Instance.discordBot.StopBot();
         }
 
         private bool scoresDisplayed = false;

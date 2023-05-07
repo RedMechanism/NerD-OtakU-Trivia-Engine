@@ -26,8 +26,13 @@
             <Canvas HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image x:Name="Wrong_answer_image" Source="Images/cross.png" Opacity="0" Height="280" Width="280" Canvas.Left="-306" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Image x:Name="Team_logo" Opacity="0" Height="280" Width="280" Canvas.Left="4" Canvas.Top="-147"/>
-                <Label x:Name="BotD" Opacity="0" Content ="It is a blank canvas" FontSize="100" FontFamily="Luckiest Guy"
-                    Foreground="#FF7E009C" Canvas.Left="-455" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" Width="980" />
+                <Image x:Name="BotD_icon" Opacity="0" Height="280" Width="280" Canvas.Left="-300" Canvas.Top="-147" Source="Images/DinChat.png"/>
+                <Label x:Name="BotD_name" Opacity="0" Content ="It is a blank canvas" FontSize="100" FontFamily="Luckiest Guy"
+                    Foreground="PaleGoldenrod" Canvas.Left="-455" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" Width="745" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" >
+                    <Label.Effect>
+                        <DropShadowEffect />
+                    </Label.Effect>
+                </Label>
                 <Label x:Name="Points_awarded_disp" Opacity="0" Content ="+5" FontSize="200" FontFamily="Luckiest Guy"
                     Foreground="#FF5BEF0B" Canvas.Left="-296" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </Canvas>
