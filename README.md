@@ -12,6 +12,6 @@ This is the window that opens when the executable is launched. The Control Cente
 The function of the player is just to display trivia content for the audience, without any distracting buttons and knobs on screen.
 
 ## Discord Functionality
-The trivia program contains the Discord bot which can be used for tasks such as registering players or audience feedback. To use the bot
+The trivia program contains the Discord bot which can be used for tasks such as registering players or audience feedback. To use the bot:
 1. Define the connection token for your Discord bot in the `config.json` file.
 2. Run the trivia app and check "Enable Discord bot" in settings under the "Discord Integration" section.
