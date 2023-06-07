@@ -94,6 +94,7 @@ namespace NOTE
         private void AddQuestionFile_Button(object sender, RoutedEventArgs e)
         {
             var selectedItem = CategoryGrid.SelectedItem as Category;
+            int questionNumber;
             if (selectedItem != null)
             {
                 Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
@@ -101,7 +102,7 @@ namespace NOTE
                 if (openFileDialog.ShowDialog() == true)
                 {
                     int teamNumber = 1;
-                    int questionNumber = 1;
+                    questionNumber = selectedItem.QuestionCount + 1;
                     foreach (string file in openFileDialog.FileNames)
                     {
                         selectedItem.Questions.Add(new Question
@@ -126,6 +127,7 @@ namespace NOTE
 
                         selectedItem.IsExpanded = Visibility.Visible;
                     }
+                    selectedItem.QuestionCount = questionNumber;
                 }
             }
 

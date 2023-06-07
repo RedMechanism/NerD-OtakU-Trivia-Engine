@@ -70,6 +70,7 @@ namespace NOTE
                         QuestionText = QuestionTextBox.Text,
                         IconPath = categoryLogoPath,
                         Curator = CuratorTextBox.Text,
+                        QuestionCount = 0,
                         IsSpecial = (bool)IsSpecialCheckBox.IsChecked,
                         Questions = new ObservableCollection<Question>()
                     });

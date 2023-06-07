@@ -18,6 +18,7 @@ namespace NOTE
         public string Curator { get; set; }
         public string IconPath { get; set; }
         public bool IsSpecial { get; set; }
+        public int QuestionCount { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private Visibility isExpanded;
