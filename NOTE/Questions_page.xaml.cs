@@ -95,14 +95,24 @@ namespace NOTE
         {
             var selectedItem = CategoryGrid.SelectedItem as Category;
             int questionNumber;
+            int teamNumber;
             if (selectedItem != null)
             {
                 Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
                 openFileDialog.Multiselect = true;
                 if (openFileDialog.ShowDialog() == true)
                 {
-                    int teamNumber = 1;
-                    questionNumber = selectedItem.QuestionCount + 1;
+                    if (selectedItem.QuestionCount == 0)
+                    {
+                        questionNumber = 1;
+                        teamNumber = 1;
+                    }
+                    else
+                    {
+                        questionNumber = selectedItem.QuestionCount;
+                        teamNumber = questionNumber % 4;
+                    }
+                    
                     foreach (string file in openFileDialog.FileNames)
                     {
                         selectedItem.Questions.Add(new Question
