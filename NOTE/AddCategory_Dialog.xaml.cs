@@ -62,6 +62,7 @@ namespace NOTE
                 {
                     mainCategories.Add(new Category
                     {
+                        CategoryType = CategoryComboBox.Text,
                         CategoryName = CategoryTextBox.Text,
                         Points = int.Parse(PointsTextBox.Text),
                         BonusPoints = int.Parse(BonusPointsTextBox.Text),
@@ -71,12 +72,16 @@ namespace NOTE
                         IconPath = categoryLogoPath,
                         Curator = CuratorTextBox.Text,
                         QuestionCount = 0,
-                        IsSpecial = (bool)IsSpecialCheckBox.IsChecked,
                         Questions = new ObservableCollection<Question>()
                     });
                 }
             }
             Close();
+        }
+
+        private void CuratorTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
         }
     }
 }

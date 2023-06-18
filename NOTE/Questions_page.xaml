@@ -24,7 +24,7 @@
                 <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                 <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
                 <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
-                <DataGridTextColumn Header="Special" Binding="{Binding IsSpecial}"/>
+                <DataGridTextColumn Header="Type" Binding="{Binding CategoryType}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

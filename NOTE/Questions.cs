@@ -8,6 +8,7 @@ namespace NOTE
 {
     public class Category: INotifyPropertyChanged
     {
+        public string CategoryType { get; set; }
         public string CategoryName { get; set; }
         public Teams Team { get; set; }
         public int Points { get; set; }
@@ -50,6 +51,7 @@ namespace NOTE
     }
     public class Question
     {
+        public string CategoryType { get; set; }
         public string CategoryName { get; set; }
         public int QuestionNumber { get; set; }
         public Teams Team { get; set; }
