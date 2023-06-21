@@ -123,6 +123,8 @@ namespace NOTE
 
         public void FadeInOut_Label(Label label, double secondSpanIn = 0.5, double secondSpanOut = 2)
         {
+            label.Visibility = Visibility.Visible;
+
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,
@@ -135,6 +137,11 @@ namespace NOTE
                 From = 1,
                 To = 0,
                 Duration = TimeSpan.FromSeconds(secondSpanOut)
+            };
+
+            fadeOut.Completed += (s, e) =>
+            {
+                label.Visibility = Visibility.Collapsed;
             };
 
             label.BeginAnimation(Label.OpacityProperty, fadeIn);
@@ -143,6 +150,8 @@ namespace NOTE
 
         public void FadeInOut_Image(Image image, double secondSpanIn = 0.5, double secondSpanOut = 2)
         {
+            image.Visibility = Visibility.Visible;
+
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,
@@ -157,12 +166,20 @@ namespace NOTE
                 Duration = TimeSpan.FromSeconds(secondSpanOut)
             };
 
+            fadeOut.Completed += (s, e) =>
+            {
+                image.Visibility = Visibility.Collapsed;
+            };
+
             image.BeginAnimation(Image.OpacityProperty, fadeIn);
             image.BeginAnimation(Image.OpacityProperty, fadeOut);
+            
         }
 
         public void FadeIn_Grid(Grid grid)
         {
+            grid.Visibility = Visibility.Visible;
+
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,

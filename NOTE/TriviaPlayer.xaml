@@ -24,16 +24,16 @@
                   FontSize="90" FontWeight="Bold" FontFamily="DS-Digital" Height="131" Width="168" Canvas.Left="-11" Canvas.Top="10" HorizontalAlignment="Left" VerticalAlignment="Center" IsReadOnly="True" Background="#00A42929" TextChanged="Timer_text_changed"/>
             </Canvas>
             <Canvas HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Image x:Name="Wrong_answer_image" Source="Images/cross.png" Opacity="0" Height="280" Width="280" Canvas.Left="-306" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Image x:Name="Team_logo" Opacity="0" Height="280" Width="280" Canvas.Left="4" Canvas.Top="-147"/>
-                <Image x:Name="BotD_icon" Opacity="0" Height="280" Width="280" Canvas.Left="-300" Canvas.Top="-147" Source="Images/DinChat.png"/>
-                <Label x:Name="BotD_name" Opacity="0" Content ="It is a blank canvas" FontSize="100" FontFamily="Luckiest Guy"
+                <Image x:Name="Wrong_answer_image" Visibility="Collapsed" Source="Images/cross.png" Opacity="0" Height="280" Width="280" Canvas.Left="-306" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <Image x:Name="Team_logo" Visibility="Collapsed" Opacity="0" Height="280" Width="280" Canvas.Left="4" Canvas.Top="-147"/>
+                <Image x:Name="BotD_icon" Visibility="Collapsed" Opacity="0" Height="280" Width="280" Canvas.Left="-300" Canvas.Top="-147" Source="Images/DinChat.png"/>
+                <Label x:Name="BotD_name" Visibility="Collapsed" Opacity="0" Content ="It is a blank canvas" FontSize="100" FontFamily="Luckiest Guy"
                     Foreground="PaleGoldenrod" Canvas.Left="-455" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" Width="745" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" >
                     <Label.Effect>
                         <DropShadowEffect />
                     </Label.Effect>
                 </Label>
-                <Label x:Name="Points_awarded_disp" Opacity="0" Content ="+5" FontSize="200" FontFamily="Luckiest Guy"
+                <Label x:Name="Points_awarded_disp" Visibility="Collapsed" Opacity="0" Content ="+5" FontSize="200" FontFamily="Luckiest Guy"
                     Foreground="#FF5BEF0B" Canvas.Left="-296" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </Canvas>
 
@@ -85,7 +85,7 @@
                     </Style>
                 </StackPanel.Resources>
             </StackPanel>
-            <Grid x:Name="Position_numbers" Opacity="0">
+            <Grid x:Name="Position_numbers" Visibility="Collapsed"  Opacity="0">
                 <Image Source="Images/Pos1.png" Height="150" Width="150" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="60,46,0,0"/>
                 <Image Source="Images/Pos2.png" Height="120" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,207,0,0"/>
                 <Image Source="Images/Pos3.png" Height="120" Width="120" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="75,0,0,261"/>
