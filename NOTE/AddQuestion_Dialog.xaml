@@ -22,10 +22,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Content="Question type"/>
-        <ComboBox Grid.Column="1" Grid.Row="0" Height="20" Width="200" HorizontalAlignment="Left" Margin="5"/>
-        <Label Grid.Column="0" Grid.Row="1" Content="Question Text"/>
-        <TextBox x:Name="QuestionTextBox" Text ="This is a sickness!"  Grid.Column="1" Grid.Row="1" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
+        <Label Grid.Column="0" Grid.Row="0" Content="Question Text"/>
+        <TextBox x:Name="QuestionTextBox" Text ="This is a sickness!"  Grid.Column="1" Grid.Row="0" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
+        <Label Grid.Column="0" Grid.Row="2" Content="Points"/>
+        <TextBox x:Name="PointsTextBox" Grid.Column="1" Grid.Row="2" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Bonus Points"/>
+        <TextBox x:Name="BonusPointsTextBox" Text="5" Grid.Column="1" Grid.Row="3" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Penalty Points"/>
+        <TextBox x:Name="PenaltyTextBox" Text="0" Grid.Column="1" Grid.Row="4" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Time in seconds"/>
+        <TextBox x:Name="TimeTextBox" Text="60" Grid.Column="1" Grid.Row="5" Margin="5,5,200,5" Foreground="#FF938E8E"/>
         <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>

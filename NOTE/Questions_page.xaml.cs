@@ -72,19 +72,50 @@ namespace NOTE
 
         private void AddQuestion_Button(object sender, RoutedEventArgs e)
         {
+            int questionNumber;
+            int teamIndex;
             // Show the dialog box to add a new resident
             var dialog = new AddQuestion_Dialog();
+
+            var selectedCategory = Instance.CategoryGrid.SelectedItem as Category;
+
+            dialog.PointsTextBox.Text = selectedCategory.Points.ToString();
+            dialog.BonusPointsTextBox.Text = selectedCategory.BonusPoints.ToString();
+            dialog.PenaltyTextBox.Text = selectedCategory.Penalty.ToString();
+            dialog.TimeTextBox.Text = selectedCategory.Time.TotalSeconds.ToString();
+
             if (dialog.ShowDialog() == true)
             {
                 // Add the new resident to the selected city
-                var mainCategories = Instance.CategoryGrid.SelectedItem as Category;
-                if (mainCategories != null)
+                
+                if (selectedCategory != null)
                 {
-                    mainCategories.Questions.Add(new Question
+                    if (selectedCategory.QuestionCount == 0)
                     {
-                        QuestionText = mainCategories.QuestionText
+                        questionNumber = 1;
+                        teamIndex = 0;
+                    }
+                    else
+                    {
+                        questionNumber = selectedCategory.QuestionCount;
+                        teamIndex = (questionNumber - 1) % 4;
+                    }
+
+                    selectedCategory.Questions.Add(new Question
+                    {
+                        QuestionText = dialog.QuestionTextBox.Text,
+                        CategoryType = selectedCategory.CategoryType,
+                        CategoryName = selectedCategory.CategoryName,
+                        Points = int.Parse(dialog.PointsTextBox.Text),
+                        BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
+                        Penalty = int.Parse(dialog.PenaltyTextBox.Text),
+                        Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
+                        QuestionNumber = questionNumber,
+                        Team = ControlCenter.Instance.TeamsList[teamIndex]
                     });
-                    mainCategories.IsExpanded = Visibility.Visible;
+                    questionNumber++;
+                    selectedCategory.QuestionCount = questionNumber;
+                    selectedCategory.IsExpanded = Visibility.Visible;
                 }
             }
 
