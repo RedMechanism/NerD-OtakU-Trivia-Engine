@@ -3,7 +3,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using static NOTE.Questions_Page;
 
 namespace NOTE
@@ -17,6 +20,12 @@ namespace NOTE
         public AddCategory_Dialog()
         {
             InitializeComponent();
+            InitializeTextBox(CategoryTextBox, "");
+            InitializeTextBox(PointsTextBox,"10");
+            InitializeTextBox(BonusPointsTextBox, "5");
+            InitializeTextBox(PenaltyPointsTextBox, "0");
+            InitializeTextBox(TimeTextBox, "60");
+            InitializeTextBox(QuestionTextBox, "This is a sickness");
         }
 
         private void okButton_Click(object sender, RoutedEventArgs e)
@@ -52,6 +61,20 @@ namespace NOTE
             }
         }
 
+        public void InitializeTextBox(TextBox textbox, string text)
+        {
+            textbox.Text = text;
+            textbox.Foreground = Brushes.Gray;
+            textbox.TextChanged += TextBox_TextChanged;
+        }
+
+        public void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            textbox.Foreground = Brushes.Black;
+            textbox.FontWeight = FontWeights.Bold;
+        }
+
         private void Save_category()
         {
             var mainWindow = Application.Current.MainWindow as ControlCenter;
@@ -79,9 +102,9 @@ namespace NOTE
             Close();
         }
 
-        private void CuratorTextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        private void Other_Selected(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("Other Selected");
         }
     }
 }

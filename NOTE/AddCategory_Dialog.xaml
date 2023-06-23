@@ -25,30 +25,30 @@
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Category type"/>
         <ComboBox x:Name="CategoryComboBox" Grid.Column="1" Grid.Row="0" Height="20" Width="200" HorizontalAlignment="Left" Margin="5">
-            <ComboBoxItem IsSelected="True" Content="Media"/>
-            <ComboBoxItem Content="Text"/>
+            <ComboBoxItem IsSelected="True" Content="Q&amp;A"/>
+            <ComboBoxItem Content="Media"/>
             <ComboBoxItem Content="Other"/>
         </ComboBox>
         <Label Grid.Column="0" Grid.Row="1" Content="Category Name"/>
         <TextBox x:Name="CategoryTextBox" Grid.Column="1" Grid.Row="1" Margin="5"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Points"/>
-        <TextBox x:Name="PointsTextBox" Text="10" Grid.Column="1" Grid.Row="2" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <TextBox x:Name="PointsTextBox" Grid.Column="1" Grid.Row="2" Margin="5,5,200,5"/>
         <Label Grid.Column="0" Grid.Row="3" Content="Bonus Points"/>
-        <TextBox x:Name="BonusPointsTextBox" Text="5" Grid.Column="1" Grid.Row="3" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <TextBox x:Name="BonusPointsTextBox" Grid.Column="1" Grid.Row="3" Margin="5,5,200,5"/>
         <Label Grid.Column="0" Grid.Row="4" Content="Penalty Points"/>
-        <TextBox x:Name="PenaltyPointsTextBox" Text="0" Grid.Column="1" Grid.Row="4" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <TextBox x:Name="PenaltyPointsTextBox" Grid.Column="1" Grid.Row="4" Margin="5,5,200,5"/>
         <Label Grid.Column="0" Grid.Row="5" Content="Time in seconds"/>
-        <TextBox x:Name="TimeTextBox" Text="60" Grid.Column="1" Grid.Row="5" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <TextBox x:Name="TimeTextBox" Grid.Column="1" Grid.Row="5" Margin="5,5,200,5"/>
         <Label Grid.Column="0" Grid.Row="6" Content="Question Text"/>
-        <TextBox x:Name="QuestionTextBox" Grid.Column="1" Grid.Row="6" Margin="5" Height="40" TextWrapping="Wrap"/>
+        <TextBox x:Name="QuestionTextBox" ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="6" Margin="5" Height="40" TextWrapping="Wrap"/>
         <Label Grid.Column="0" Grid.Row="7" Content="Curated by"/>
-        <TextBox x:Name="CuratorTextBox" Grid.Column="1" Grid.Row="7" Margin="5" TextChanged="CuratorTextBox_TextChanged"/>
+        <TextBox x:Name="CuratorTextBox" Grid.Column="1" Grid.Row="7" Margin="5"/>
         <Label Grid.Column="0" Grid.Row="8" Content="Category Logo"/>
         <Button Grid.Column="1" Grid.Row="8" Content="Select file" Width="60" HorizontalAlignment="Left" Margin="5,0,0,0" Click="FileSelect_Click"/>
         <TextBlock x:Name="CategoryLogoPath" Grid.Column="1" Grid.Row="8" Margin="70,5,5,5" Text=""/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
-            <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
+            <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0" IsDefault="True"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
         </StackPanel>
     </Grid>

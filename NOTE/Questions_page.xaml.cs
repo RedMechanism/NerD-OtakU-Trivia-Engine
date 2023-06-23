@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
@@ -74,105 +75,113 @@ namespace NOTE
         {
             int questionNumber;
             int teamIndex;
-            // Show the dialog box to add a new resident
             var dialog = new AddQuestion_Dialog();
-
             var selectedCategory = Instance.CategoryGrid.SelectedItem as Category;
+            List<string> itemList = new List<string>();
 
-            dialog.PointsTextBox.Text = selectedCategory.Points.ToString();
-            dialog.BonusPointsTextBox.Text = selectedCategory.BonusPoints.ToString();
-            dialog.PenaltyTextBox.Text = selectedCategory.Penalty.ToString();
-            dialog.TimeTextBox.Text = selectedCategory.Time.TotalSeconds.ToString();
 
-            if (dialog.ShowDialog() == true)
+            if (selectedCategory != null)
             {
-                // Add the new resident to the selected city
-                
-                if (selectedCategory != null)
+                InitializeTextBox(dialog.QuestionTextBox, selectedCategory.QuestionText);
+                InitializeTextBox(dialog.PointsTextBox, selectedCategory.Points.ToString());
+                InitializeTextBox(dialog.BonusPointsTextBox, selectedCategory.BonusPoints.ToString());
+                InitializeTextBox(dialog.PenaltyTextBox, selectedCategory.Penalty.ToString());
+                InitializeTextBox(dialog.TimeTextBox, selectedCategory.Time.TotalSeconds.ToString());
+                List<string> mediaPaths = new List<string>();
+                if (selectedCategory.CategoryType == "Media")
                 {
-                    if (selectedCategory.QuestionCount == 0)
-                    {
-                        questionNumber = 1;
-                        teamIndex = 0;
-                    }
-                    else
-                    {
-                        questionNumber = selectedCategory.QuestionCount;
-                        teamIndex = (questionNumber - 1) % 4;
-                    }
+                    dialog.LoadMedia_Text.Visibility = Visibility.Visible;
+                    dialog.LoadMedia_Button.Visibility = Visibility.Visible;
+                    dialog.LoadMediaBatch_CheckBox.Visibility = Visibility.Visible;
 
-                    selectedCategory.Questions.Add(new Question
-                    {
-                        QuestionText = dialog.QuestionTextBox.Text,
-                        CategoryType = selectedCategory.CategoryType,
-                        CategoryName = selectedCategory.CategoryName,
-                        Points = int.Parse(dialog.PointsTextBox.Text),
-                        BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
-                        Penalty = int.Parse(dialog.PenaltyTextBox.Text),
-                        Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
-                        QuestionNumber = questionNumber,
-                        Team = ControlCenter.Instance.TeamsList[teamIndex]
-                    });
-                    questionNumber++;
-                    selectedCategory.QuestionCount = questionNumber;
-                    selectedCategory.IsExpanded = Visibility.Visible;
-                }
-            }
-
-            ExpandNestedDatagrid();
-        }
-
-        private void AddQuestionFile_Button(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            int questionNumber;
-            int teamNumber;
-            if (selectedItem != null)
-            {
-                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
-                openFileDialog.Multiselect = true;
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    if (selectedItem.QuestionCount == 0)
-                    {
-                        questionNumber = 1;
-                        teamNumber = 1;
-                    }
-                    else
-                    {
-                        questionNumber = selectedItem.QuestionCount;
-                        teamNumber = questionNumber % 4;
-                    }
+                    // Assume dialog.MediaFiles is the array of string paths to media files selected by "LoadMedia"
+                    //mediaPaths = dialog.MediaFiles;
+                    itemList = new List<string> { "Audio/Teams/Team1.mp3", "Audio/Teams/Team2.mp3", "Audio/Teams/Team3.mp3", "Audio/Teams/Team4.mp3" };
                     
-                    foreach (string file in openFileDialog.FileNames)
-                    {
-                        selectedItem.Questions.Add(new Question
-                        {
-                            CategoryName = selectedItem.CategoryName,
-                            QuestionNumber = questionNumber,
-                            QuestionText = selectedItem.QuestionText,
-                            Team = ControlCenter.Instance.TeamsList[teamNumber - 1],
-                            Points = selectedItem.Points,
-                            BonusPoints = selectedItem.BonusPoints,
-                            Penalty =   selectedItem.Penalty,
-                            Time = selectedItem.Time,
-                            FilePath = new Uri(file)
-                        });
+                }
 
-                        teamNumber++;
-                        questionNumber++;
-                        if (teamNumber > 4)
+                if (dialog.ShowDialog() == true)
+                {
+                    if (selectedCategory.CategoryType == "Media")
+                    {
+                        if (selectedCategory.QuestionCount == 0)
                         {
-                            teamNumber = 1;
+                            questionNumber = 1;
+                            teamIndex = 1;
+                        }
+                        else
+                        {
+                            questionNumber = selectedCategory.QuestionCount;
+                            teamIndex = questionNumber % 4;
+                        }
+                        itemList = dialog.filePaths;
+                        foreach (string mediaPath in itemList)
+                        {
+                            selectedCategory.Questions.Add(new Question
+                            {
+                                QuestionText = dialog.QuestionTextBox.Text,
+                                CategoryType = selectedCategory.CategoryType,
+                                CategoryName = selectedCategory.CategoryName,
+                                Points = int.Parse(dialog.PointsTextBox.Text),
+                                BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
+                                Penalty = int.Parse(dialog.PenaltyTextBox.Text),
+                                Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
+                                QuestionNumber = questionNumber,
+                                MediaPath = new Uri(mediaPath, UriKind.Relative),
+                                Team = ControlCenter.Instance.TeamsList[teamIndex - 1]
+                            });
+                            teamIndex++;
+                            questionNumber++;
+                            if (teamIndex > 4)
+                            {
+                                teamIndex = 1;
+                            }
+
+                            selectedCategory.IsExpanded = Visibility.Visible;
                         }
 
-                        selectedItem.IsExpanded = Visibility.Visible;
+                        selectedCategory.QuestionCount = questionNumber - 1;
+                        selectedCategory.IsExpanded = Visibility.Visible;
                     }
-                    selectedItem.QuestionCount = questionNumber;
+                    else
+                    {
+                        if (selectedCategory != null)
+                        {
+                            if (selectedCategory.QuestionCount == 0)
+                            {
+                                questionNumber = 1;
+                                teamIndex = 0;
+                            }
+                            else
+                            {
+                                questionNumber = selectedCategory.QuestionCount;
+                                teamIndex = (questionNumber - 1) % 4;
+                            }
+
+                            selectedCategory.Questions.Add(new Question
+                            {
+                                QuestionText = dialog.QuestionTextBox.Text,
+                                CategoryType = selectedCategory.CategoryType,
+                                CategoryName = selectedCategory.CategoryName,
+                                Points = int.Parse(dialog.PointsTextBox.Text),
+                                BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
+                                Penalty = int.Parse(dialog.PenaltyTextBox.Text),
+                                Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
+                                QuestionNumber = questionNumber,
+                                Team = ControlCenter.Instance.TeamsList[teamIndex]
+                            });
+                            questionNumber++;
+                            selectedCategory.QuestionCount = questionNumber;
+                            selectedCategory.IsExpanded = Visibility.Visible;
+                        }
+                    }
+                    
                 }
             }
-
-            // Immediately displays added media files
+            else
+            {
+                MessageBox.Show("Add or select a category first");
+            }
             ExpandNestedDatagrid();
         }
 
@@ -242,7 +251,7 @@ namespace NOTE
             {
                 if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
                 {
-                    MediaPlayer_Page._media.Path = question.FilePath;
+                    MediaPlayer_Page._media.Path = question.MediaPath;
                     ControlCenter.Instance._Timer.Duration = question.Time;
                     if (question.ClearClock)
                     {
@@ -303,6 +312,20 @@ namespace NOTE
             {
                 selectedRow.DetailsVisibility = Visibility.Visible;
             }
+        }
+
+        public void InitializeTextBox(TextBox textbox, string text)
+        {
+            textbox.Text = text;
+            textbox.Foreground = Brushes.Gray;
+            textbox.TextChanged += TextBox_TextChanged;
+        }
+
+        public void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textbox = (TextBox)sender;
+            textbox.Foreground = Brushes.Black;
+            textbox.FontWeight = FontWeights.Bold;
         }
 
         // CopyProperties method for copying properties from one object to another

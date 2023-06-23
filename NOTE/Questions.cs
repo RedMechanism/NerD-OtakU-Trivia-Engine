@@ -60,7 +60,8 @@ namespace NOTE
         public int Penalty { get; set; }
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
-        public Uri FilePath { get; set; }
+        public string Answer { get; set; }
+        public Uri MediaPath { get; set; }
         public bool ClearClock { get; set; }
 
         public Question()

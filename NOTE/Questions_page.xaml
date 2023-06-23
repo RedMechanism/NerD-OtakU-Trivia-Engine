@@ -23,7 +23,7 @@
                 <DataGridTextColumn Header="BonusPoints" Binding="{Binding BonusPoints}"/>
                 <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                 <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
-                <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
+                <DataGridTextColumn Header="Generic Question" Binding="{Binding QuestionText}"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding CategoryType}"/>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
@@ -48,7 +48,7 @@
                             <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                             <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
                             <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
-                            <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}"/>
+                            <DataGridTextColumn Header="Media Path" Binding="{Binding MediaPath}"/>
                         </DataGrid.Columns>
                         <DataGrid.ContextMenu>
                             <ContextMenu>
@@ -62,7 +62,6 @@
         </DataGrid>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button x:Name="addCategoryButton" Content="Add Category" Click="AddCategory_Button" Width="80" Height="40"/>
-            <Button x:Name="addQuestionFileButton" Content="Add Files" Click="AddQuestionFile_Button" Width="80" Height="40"/>
             <Button x:Name="addQuestionButton" Content="Add Question" Click="AddQuestion_Button" Width="80" Height="40"/>
         </StackPanel>
      

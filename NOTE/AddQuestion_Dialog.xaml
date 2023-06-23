@@ -22,8 +22,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Content="Question Text"/>
+        <Label Grid.Column="0" Grid.Row="0" Content="Question"/>
         <TextBox x:Name="QuestionTextBox" Text ="This is a sickness!"  Grid.Column="1" Grid.Row="0" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
+        <Label Grid.Column="0" Grid.Row="1" Content="Answer"/>
+        <TextBox x:Name="AnswerTextBox" Text ="This is the cure"  Grid.Column="2" Grid.Row="1" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Points"/>
         <TextBox x:Name="PointsTextBox" Grid.Column="1" Grid.Row="2" Margin="5,5,200,5" Foreground="#FF938E8E"/>
         <Label Grid.Column="0" Grid.Row="3" Content="Bonus Points"/>
@@ -32,6 +34,9 @@
         <TextBox x:Name="PenaltyTextBox" Text="0" Grid.Column="1" Grid.Row="4" Margin="5,5,200,5" Foreground="#FF938E8E"/>
         <Label Grid.Column="0" Grid.Row="5" Content="Time in seconds"/>
         <TextBox x:Name="TimeTextBox" Text="60" Grid.Column="1" Grid.Row="5" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="7" Visibility="Hidden" Content="Load media"/>
+        <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="7" Width="100" Content="Select file(s)" Visibility="Hidden" HorizontalAlignment="Left" Height="26" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_CLick"/>
+        <CheckBox x:Name="LoadMediaBatch_CheckBox" Grid.Column="1" Content="Batch selection" HorizontalAlignment="Left" Margin="108,0,0,0" Grid.Row="7" Visibility="Hidden"  VerticalAlignment="Center"/>
         <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
