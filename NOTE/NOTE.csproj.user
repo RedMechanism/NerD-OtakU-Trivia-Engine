@@ -19,6 +19,9 @@
     <Compile Update="MediaPlayer_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="PickYourPoison_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="PlayerPageInput.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +61,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MediaPlayer_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PickYourPoison_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="PlayerPageInput.xaml">

@@ -19,6 +19,8 @@ namespace NOTE
 
         public TextBox displayTimer;
         public Image clock_face;
+        public PickYourPoison_Page _pickPoison_page;
+        public MediaPlayer_Page _mediaPlayer_page;
         public TriviaPlayer()
         {
             InitializeComponent();
@@ -26,6 +28,10 @@ namespace NOTE
             Instance = this;
             displayTimer = Timer_display;
             clock_face = Clock_face_image;
+            _mediaPlayer_page = new MediaPlayer_Page();
+            _pickPoison_page = new PickYourPoison_Page();
+            TriviaPlayer_Frame.Content = _mediaPlayer_page;
+
             ControlCenter.Instance._Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);
         }
         protected void TimerDisplay(TimeSpan timerValue)

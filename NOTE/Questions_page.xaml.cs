@@ -87,16 +87,12 @@ namespace NOTE
                 InitializeTextBox(dialog.BonusPointsTextBox, selectedCategory.BonusPoints.ToString());
                 InitializeTextBox(dialog.PenaltyTextBox, selectedCategory.Penalty.ToString());
                 InitializeTextBox(dialog.TimeTextBox, selectedCategory.Time.TotalSeconds.ToString());
-                List<string> mediaPaths = new List<string>();
+
                 if (selectedCategory.CategoryType == "Media")
                 {
                     dialog.LoadMedia_Text.Visibility = Visibility.Visible;
                     dialog.LoadMedia_Button.Visibility = Visibility.Visible;
                     dialog.LoadMediaBatch_CheckBox.Visibility = Visibility.Visible;
-
-                    // Assume dialog.MediaFiles is the array of string paths to media files selected by "LoadMedia"
-                    //mediaPaths = dialog.MediaFiles;
-                    itemList = new List<string> { "Audio/Teams/Team1.mp3", "Audio/Teams/Team2.mp3", "Audio/Teams/Team3.mp3", "Audio/Teams/Team4.mp3" };
                     
                 }
 
@@ -127,7 +123,7 @@ namespace NOTE
                                 Penalty = int.Parse(dialog.PenaltyTextBox.Text),
                                 Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
                                 QuestionNumber = questionNumber,
-                                MediaPath = new Uri(mediaPath, UriKind.Relative),
+                                MediaPath = new Uri(mediaPath),
                                 Team = ControlCenter.Instance.TeamsList[teamIndex - 1]
                             });
                             teamIndex++;
@@ -168,8 +164,9 @@ namespace NOTE
                                 Penalty = int.Parse(dialog.PenaltyTextBox.Text),
                                 Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
                                 QuestionNumber = questionNumber,
+                                MediaPath = null,
                                 Team = ControlCenter.Instance.TeamsList[teamIndex]
-                            });
+                            }); ;
                             questionNumber++;
                             selectedCategory.QuestionCount = questionNumber;
                             selectedCategory.IsExpanded = Visibility.Visible;

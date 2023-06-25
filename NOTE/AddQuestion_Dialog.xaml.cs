@@ -18,6 +18,7 @@ namespace NOTE
         {
             InitializeComponent();
             filePaths = new List<string>();
+            cmbPosition.SelectedIndex = 4;
         }
 
         private void LoadMedia_CLick(object sender, RoutedEventArgs e)
@@ -44,6 +45,11 @@ namespace NOTE
         {
             DialogResult = false;
             Close();
+        }
+
+        private void cmbPosition_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

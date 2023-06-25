@@ -63,6 +63,7 @@ namespace NOTE
         public string Answer { get; set; }
         public Uri MediaPath { get; set; }
         public bool ClearClock { get; set; }
+        public string SubCategoryName { get; set; }
 
         public Question()
         {

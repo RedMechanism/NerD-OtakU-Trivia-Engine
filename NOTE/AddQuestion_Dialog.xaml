@@ -29,7 +29,7 @@
         <Label Grid.Column="0" Grid.Row="1" Content="Answer"/>
         <TextBox x:Name="AnswerTextBox" Text ="This is the cure"  Grid.Column="1" Grid.Row="1" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
         <Label Grid.Column="0" Grid.Row="2" Content="Position"/>
-        <ComboBox x:Name="cmbPosition" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Width="120" SelectionChanged="cmbPosition_SelectionChanged">
+        <ComboBox x:Name="cmbPosition" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Margin="5" Width="120" SelectionChanged="cmbPosition_SelectionChanged">
             <ComboBoxItem>Top Left</ComboBoxItem>
             <ComboBoxItem>Top Middle</ComboBoxItem>
             <ComboBoxItem>Top Right</ComboBoxItem>

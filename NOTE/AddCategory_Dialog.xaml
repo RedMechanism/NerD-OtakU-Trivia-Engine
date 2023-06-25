@@ -27,6 +27,7 @@
         <ComboBox x:Name="CategoryComboBox" Grid.Column="1" Grid.Row="0" Height="20" Width="200" HorizontalAlignment="Left" Margin="5">
             <ComboBoxItem IsSelected="True" Content="Q&amp;A"/>
             <ComboBoxItem Content="Media"/>
+            <ComboBoxItem Content="Pick your poison"/>
             <ComboBoxItem Content="Other"/>
         </ComboBox>
         <Label Grid.Column="0" Grid.Row="1" Content="Category Name"/>

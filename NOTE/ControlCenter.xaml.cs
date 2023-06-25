@@ -288,26 +288,39 @@ namespace NOTE
                 SystemSounds.Beep.Play();
             }
         }
+
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
             if (PlayerWindowCounter() >= 1)
             {
-                if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
-                {
-                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
-                }
+                Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
 
-                if (_Timer.Status == TimerState.Running)
+                if (question.CategoryType == "Media")
                 {
-                    MediaPlayer_Page._media.Pause();
-                    _Timer.Stop();
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+
+                    if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
+                    {
+                        TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                        TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+                    }
+
+                    if (_Timer.Status == TimerState.Running)
+                    {
+                        MediaPlayer_Page._media.Pause();
+                        _Timer.Stop();
+                    }
+                    else
+                    {
+                        MediaPlayer_Page._media.Play();
+                        _Timer.Start();
+                    }
                 }
-                else
+                else if (question.CategoryType == "Pick your poison")
                 {
-                    MediaPlayer_Page._media.Play();
-                    _Timer.Start();
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._pickPoison_page;
                 }
+                
             }
         }
         private void Answer_correct_Button(object sender, RoutedEventArgs e)
@@ -348,6 +361,7 @@ namespace NOTE
         private void Answer_wrong_Button(object sender, RoutedEventArgs e)
         {
             Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+            
             if (question != null)
             {
                 if (question.Penalty == 0)
