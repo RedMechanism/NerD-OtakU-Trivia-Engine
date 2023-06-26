@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace NOTE
 {
@@ -16,6 +17,8 @@ namespace NOTE
     public partial class Questions_Page : Page
     {
         public static Questions_Page Instance;
+
+        private TextBlock displayedTextBlock;
         public Questions_Page()
         {
 
@@ -183,12 +186,93 @@ namespace NOTE
         }
 
         public DataGrid QuestionGrid;
+
         private void RemoveQuestion_RClick(object sender, RoutedEventArgs e)
         {
             Delete_category();
         }
         
+        public void RevealQuestionText(Question question)
+        {
+            // Remove the previously displayed TextBlock (if any)
+            if (displayedTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedTextBlock);
+                displayedTextBlock = null;
+            }
 
+            // Create a new TextBlock
+            displayedTextBlock = new TextBlock();
+            displayedTextBlock.Text = question.QuestionText;
+            displayedTextBlock.FontSize = 80;
+            displayedTextBlock.Foreground = Brushes.White;
+            displayedTextBlock.FontWeight = FontWeights.Bold;
+
+            if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
+            {
+                displayedTextBlock.Effect = new DropShadowEffect
+                {
+                    BlurRadius = 5,
+                    ShadowDepth = 2,
+                    Opacity = 0.5,
+                    Color = Colors.Black
+                };
+            }
+
+            // Set the position of the TextBlock based on the selected  question attribute
+            
+            if (question.QuestionTextPos == "Top Left")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else if (question.QuestionTextPos == "Top Middle")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else if (question.QuestionTextPos == "Top Right")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else if (question.QuestionTextPos == "Middle Left")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
+            }
+            else if (question.QuestionTextPos == "Center")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
+            }
+            else if (question.QuestionTextPos == "Middle Right")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
+            }
+            else if (question.QuestionTextPos == "Bottom Left")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+            else if (question.QuestionTextPos == "Bottom Middle")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+            else if (question.QuestionTextPos == "Bottom Right")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+
+            Grid.SetColumnSpan(displayedTextBlock, 2);
+            Grid.SetRow(displayedTextBlock, 0);
+            Grid.SetColumn(displayedTextBlock, 0);
+
+            TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedTextBlock);
+        }
         private void CategoryGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)

@@ -61,12 +61,14 @@ namespace NOTE
 
         public CountdownTimer _Timer;
         public DiscordBot discordBot;
+        public Settings_Page _settings_Page;
         public ControlCenter()
         {
             InitializeComponent();
             LogWriter.LogWriterInitialize();
 
             Instance = this;
+            _settings_Page = new Settings_Page();
 
             TeamsList.AddRange(new[] { Team1, Team2, Team3, Team4 });
 
@@ -295,8 +297,14 @@ namespace NOTE
             {
                 Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
 
-                if (question.CategoryType == "Media")
+                if (question.CategoryType == "Q&A")
                 {
+                    Questions_Page.Instance.RevealQuestionText(question);
+                }
+                else if (question.CategoryType == "Media")
+                {
+                    Questions_Page.Instance.RevealQuestionText(question);
+
                     TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
 
                     if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
@@ -432,9 +440,7 @@ namespace NOTE
 
         private void Settings_Page_Button(object sender, RoutedEventArgs e)
         {
-            if (Settings_Page.Instance == null)
-                Page_Frame.Content = new Settings_Page();
-            Page_Frame.Content = Settings_Page.Instance;
+            Page_Frame.Content = _settings_Page;
         }
 
         private void File_viewer_Button(object sender, RoutedEventArgs e)

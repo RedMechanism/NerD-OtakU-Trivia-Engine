@@ -57,5 +57,6 @@
             <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
         </StackPanel>
+        <CheckBox x:Name="DropShadow_Checkbox" Grid.Column="1" Content="Drop shadow" HorizontalAlignment="Left" Margin="151,0,0,0" Grid.Row="2" VerticalAlignment="Center"/>
     </Grid>
 </Window>

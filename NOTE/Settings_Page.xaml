@@ -36,5 +36,9 @@
         <StackPanel Orientation="Horizontal">
             <CheckBox x:Name="Enable_discord_checkbox" Margin="10,5" Content="Enable Discord bot" Checked="Enable_discord_checkbox_Checked" Unchecked="Enable_discord_checkbox_Unchecked"/>
         </StackPanel>
+        <TextBlock Text="Question text" FontSize="20"/>
+        <StackPanel Orientation="Horizontal">
+            <CheckBox x:Name="DropShadow_checkbox" Margin="10,5" Content="Drop shadow" IsChecked="True"/>
+        </StackPanel>
     </StackPanel>
 </Page>

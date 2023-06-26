@@ -22,6 +22,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Category type"/>
         <ComboBox x:Name="CategoryComboBox" Grid.Column="1" Grid.Row="0" Height="20" Width="200" HorizontalAlignment="Left" Margin="5">
@@ -47,7 +48,10 @@
         <Label Grid.Column="0" Grid.Row="8" Content="Category Logo"/>
         <Button Grid.Column="1" Grid.Row="8" Content="Select file" Width="60" HorizontalAlignment="Left" Margin="5,0,0,0" Click="FileSelect_Click"/>
         <TextBlock x:Name="CategoryLogoPath" Grid.Column="1" Grid.Row="8" Margin="70,5,5,5" Text=""/>
-
+        <Label Grid.Column="0" Grid.Row="9" Content="Background"/>
+        <Button Grid.Column="1" Grid.Row="9" Content="Select image" Height="20"  Width="80" HorizontalAlignment="Left" Margin="5,0,0,0" Click="FileSelect_Click"/>
+        <TextBlock Grid.Column="1" Grid.Row="9" Margin="70,5,5,5" Text=""/>
+        
         <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0" IsDefault="True"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
