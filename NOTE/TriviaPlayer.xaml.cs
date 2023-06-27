@@ -75,9 +75,11 @@ namespace NOTE
 
         private void Context_menu_exit(object sender, RoutedEventArgs e)
         {
+
             Close();
             ControlCenter.Instance.ClearTimer();
-            ControlCenter.Instance.discordBot.StopBot();
+            if (ControlCenter.Instance.discordBot != null)
+                ControlCenter.Instance.discordBot.StopBot();
         }
 
         private bool scoresDisplayed = false;

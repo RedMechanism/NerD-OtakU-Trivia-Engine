@@ -22,6 +22,7 @@ namespace NOTE
     {
         public static MediaPlayer_Page Instance;
         public static MediaController _media;
+        public Uri _currentMediaPath = null;
         public MediaPlayer_Page()
         {
             InitializeComponent();

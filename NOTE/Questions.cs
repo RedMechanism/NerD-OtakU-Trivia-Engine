@@ -17,6 +17,7 @@ namespace NOTE
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
         public string Curator { get; set; }
+        public string BackgroundImagePath { get; set; }
         public string IconPath { get; set; }
         public bool IsSpecial { get; set; }
         public int QuestionCount { get; set; }
@@ -64,6 +65,7 @@ namespace NOTE
         public Uri MediaPath { get; set; }
         public bool ClearClock { get; set; }
         public string QuestionTextPos { get; set; }
+        public string BackgroundImagePath { get; set; }
         public string SubCategoryName { get; set; }
 
         public Question()

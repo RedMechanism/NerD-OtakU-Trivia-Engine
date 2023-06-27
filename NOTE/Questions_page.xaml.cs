@@ -119,6 +119,7 @@ namespace NOTE
                             selectedCategory.Questions.Add(new Question
                             {
                                 QuestionText = dialog.QuestionTextBox.Text,
+                                QuestionTextPos = dialog.QuestionTextPosition,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
@@ -160,8 +161,10 @@ namespace NOTE
                             selectedCategory.Questions.Add(new Question
                             {
                                 QuestionText = dialog.QuestionTextBox.Text,
+                                QuestionTextPos = dialog.QuestionTextPosition,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
+                                BackgroundImagePath = selectedCategory.BackgroundImagePath,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
                                 BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
                                 Penalty = int.Parse(dialog.PenaltyTextBox.Text),
@@ -273,6 +276,7 @@ namespace NOTE
 
             TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedTextBlock);
         }
+
         private void CategoryGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
@@ -324,22 +328,8 @@ namespace NOTE
 
         private void QuestionGrid_LButtonUp(object sender, MouseButtonEventArgs e)
         {
+            // Keep the categroy grid from immediately collapsing
             e.Handled = true;
-
-            Question question = (Question)QuestionGrid.SelectedItem;
-
-            if (question != null)
-            {
-                if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
-                {
-                    MediaPlayer_Page._media.Path = question.MediaPath;
-                    ControlCenter.Instance._Timer.Duration = question.Time;
-                    if (question.ClearClock)
-                    {
-                        ControlCenter.Instance.ClearTimer();
-                    }
-                }
-            }
         }
         private void MainGrid_RowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
         {

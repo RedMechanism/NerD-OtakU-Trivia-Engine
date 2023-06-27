@@ -293,13 +293,21 @@ namespace NOTE
 
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
-            if (PlayerWindowCounter() >= 1)
-            {
-                Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
 
+            if (PlayerWindowCounter() >= 1 && question != null )
+            {
                 if (question.CategoryType == "Q&A")
                 {
+                    _Timer.Duration = question.Time;
+                    if (question.ClearClock)
+                    {
+                        ClearTimer();
+                    }
                     Questions_Page.Instance.RevealQuestionText(question);
+                    MediaPlayer_Page._media.Path = new Uri(question.BackgroundImagePath);
+                    MediaPlayer_Page._media.Play();
+                    _Timer.Start();
                 }
                 else if (question.CategoryType == "Media")
                 {
@@ -315,13 +323,48 @@ namespace NOTE
 
                     if (_Timer.Status == TimerState.Running)
                     {
-                        MediaPlayer_Page._media.Pause();
-                        _Timer.Stop();
+                        // If the file path is the same, pause the media
+                        if (MediaPlayer_Page.Instance._currentMediaPath == question.MediaPath)
+                        {
+                            MediaPlayer_Page._media.Pause();
+                            _Timer.Stop();
+                        }
+                        // If the file path is different, load the new file and play
+                        else
+                        {
+                            _Timer.Duration = question.Time;
+                            if (question.ClearClock)
+                            {
+                                ClearTimer();
+                            }
+                            MediaPlayer_Page.Instance._currentMediaPath = question.MediaPath;
+                            MediaPlayer_Page._media.Path = question.MediaPath;
+                            MediaPlayer_Page._media.Play();
+                            _Timer.Start();
+                        }
                     }
                     else
                     {
-                        MediaPlayer_Page._media.Play();
-                        _Timer.Start();
+                        // If the Timer is not running, check if the filePath has been changed
+                        if (MediaPlayer_Page.Instance._currentMediaPath == question.MediaPath)
+                        {
+                            // If the filePath hasn't been changed, resume playing
+                            MediaPlayer_Page._media.Play();
+                            _Timer.Start();
+                        }
+                        else
+                        {
+                            // If the filePath has been changed, load the new file and play
+                            _Timer.Duration = question.Time;
+                            if (question.ClearClock)
+                            {
+                                ClearTimer();
+                            }
+                            MediaPlayer_Page.Instance._currentMediaPath = question.MediaPath;
+                            MediaPlayer_Page._media.Path = question.MediaPath;
+                            MediaPlayer_Page._media.Play();
+                            _Timer.Start();
+                        }
                     }
                 }
                 else if (question.CategoryType == "Pick your poison")
