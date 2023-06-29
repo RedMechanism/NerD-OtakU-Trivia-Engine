@@ -61,10 +61,11 @@ namespace NOTE
         public int Penalty { get; set; }
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
+        public string QuestionTextPos { get; set; }
+        public int QuestionTextFontSize { get; set; }
         public string Answer { get; set; }
         public Uri MediaPath { get; set; }
         public bool ClearClock { get; set; }
-        public string QuestionTextPos { get; set; }
         public string BackgroundImagePath { get; set; }
         public string SubCategoryName { get; set; }
 

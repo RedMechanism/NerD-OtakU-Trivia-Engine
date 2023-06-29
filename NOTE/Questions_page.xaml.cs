@@ -120,6 +120,7 @@ namespace NOTE
                             {
                                 QuestionText = dialog.QuestionTextBox.Text,
                                 QuestionTextPos = dialog.QuestionTextPosition,
+                                QuestionTextFontSize = dialog.QuestionTextFontSize,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
@@ -162,6 +163,7 @@ namespace NOTE
                             {
                                 QuestionText = dialog.QuestionTextBox.Text,
                                 QuestionTextPos = dialog.QuestionTextPosition,
+                                QuestionTextFontSize = dialog.QuestionTextFontSize,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 BackgroundImagePath = selectedCategory.BackgroundImagePath,
@@ -207,9 +209,10 @@ namespace NOTE
             // Create a new TextBlock
             displayedTextBlock = new TextBlock();
             displayedTextBlock.Text = question.QuestionText;
-            displayedTextBlock.FontSize = 80;
+            displayedTextBlock.FontSize = question.QuestionTextFontSize;
             displayedTextBlock.Foreground = Brushes.White;
             displayedTextBlock.FontWeight = FontWeights.Bold;
+            displayedTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
 
             if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
             {

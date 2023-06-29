@@ -23,7 +23,7 @@ namespace NOTE
         {
             InitializeComponent();
 
-            ***REMOVED***
+            backgroundPath = "pack://application:,,,/Images/TeamPage.png";
             InitializeTextBox(CategoryTextBox, "");
             InitializeTextBox(PointsTextBox,"10");
             InitializeTextBox(BonusPointsTextBox, "5");
