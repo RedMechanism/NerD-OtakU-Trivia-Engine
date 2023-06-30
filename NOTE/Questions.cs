@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NOTE
 {
@@ -63,6 +64,7 @@ namespace NOTE
         public string QuestionText { get; set; }
         public string QuestionTextPos { get; set; }
         public int QuestionTextFontSize { get; set; }
+        public SolidColorBrush QuestionTextColor { get; set; }
         public string Answer { get; set; }
         public Uri MediaPath { get; set; }
         public bool ClearClock { get; set; }

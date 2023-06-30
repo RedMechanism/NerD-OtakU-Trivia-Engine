@@ -121,6 +121,7 @@ namespace NOTE
                                 QuestionText = dialog.QuestionTextBox.Text,
                                 QuestionTextPos = dialog.QuestionTextPosition,
                                 QuestionTextFontSize = dialog.QuestionTextFontSize,
+                                QuestionTextColor = dialog.QuestionTextColor,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
@@ -164,6 +165,7 @@ namespace NOTE
                                 QuestionText = dialog.QuestionTextBox.Text,
                                 QuestionTextPos = dialog.QuestionTextPosition,
                                 QuestionTextFontSize = dialog.QuestionTextFontSize,
+                                QuestionTextColor = dialog.QuestionTextColor,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 BackgroundImagePath = selectedCategory.BackgroundImagePath,
@@ -210,7 +212,7 @@ namespace NOTE
             displayedTextBlock = new TextBlock();
             displayedTextBlock.Text = question.QuestionText;
             displayedTextBlock.FontSize = question.QuestionTextFontSize;
-            displayedTextBlock.Foreground = Brushes.White;
+            displayedTextBlock.Foreground = question.QuestionTextColor;
             displayedTextBlock.FontWeight = FontWeights.Bold;
             displayedTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
 

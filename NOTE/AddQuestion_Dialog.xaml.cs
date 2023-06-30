@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using static NOTE.Questions_Page;
 using static NOTE.Teams;
 
@@ -19,12 +20,14 @@ namespace NOTE
         public string Question;
         public string QuestionTextPosition;
         public int QuestionTextFontSize;
+        public SolidColorBrush QuestionTextColor;
         public AddQuestion_Dialog()
         {
             InitializeComponent();
             filePaths = new List<string>();
             QPos_Combobox.SelectedIndex = 4;
             QuestionTextFontSize = 60;
+            QuestionTextColor = new SolidColorBrush(Colors.White);
         }
 
         private void LoadMedia_Click(object sender, RoutedEventArgs e)
@@ -70,6 +73,13 @@ namespace NOTE
 
             // Display the dialog and get the selected color
             System.Windows.Forms.DialogResult result = colorDialog.ShowDialog();
+
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Drawing.Color color = colorDialog.Color;
+                QuestionTextColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+                ColorPreview.Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+            }
         }
 
         private void Font_size_changed(object sender, System.Windows.Input.KeyEventArgs e)
