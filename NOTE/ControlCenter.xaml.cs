@@ -183,6 +183,15 @@ namespace NOTE
             }
             Timer_display.Content = "";
         }
+
+        public void ClearText()
+        {
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
+                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
+            }
+        }
         # endregion
 
         #region Scoring
@@ -294,6 +303,7 @@ namespace NOTE
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
             Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+            TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Collapsed;
 
             if (PlayerWindowCounter() >= 1 && question != null )
             {

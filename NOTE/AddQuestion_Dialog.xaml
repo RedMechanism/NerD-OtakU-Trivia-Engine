@@ -19,67 +19,87 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <!-- Added for new row -->
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Question"/>
         <TextBox x:Name="QuestionTextBox" Text ="This is a sickness!"  Grid.Column="1" Grid.Row="0" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
-        <Label Grid.Column="0" Grid.Row="1" Content="Answer"/>
-        <TextBox x:Name="AnswerTextBox" Text ="This is the cure"  Grid.Column="1" Grid.Row="1" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
-        <Label Grid.Column="0" Grid.Row="2" Content="Ques. Position"/>
-        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-            <ComboBox x:Name="QPos_Combobox" HorizontalAlignment="Left" Margin="5" Width="120">
-                <ComboBoxItem>Top Left</ComboBoxItem>
-                <ComboBoxItem>Top Middle</ComboBoxItem>
-                <ComboBoxItem>Top Right</ComboBoxItem>
-                <ComboBoxItem>Middle Left</ComboBoxItem>
-                <ComboBoxItem>Center</ComboBoxItem>
-                <ComboBoxItem>Middle Right</ComboBoxItem>
-                <ComboBoxItem>Bottom Left</ComboBoxItem>
-                <ComboBoxItem>Bottom Middle</ComboBoxItem>
-                <ComboBoxItem>Bottom Right</ComboBoxItem>
-            </ComboBox>
-            <CheckBox x:Name="DropShadow_Checkbox"  Margin="5" Content="Drop shadow" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        </StackPanel>
-        <Label Grid.Column="0" Grid.Row="3" Content="Font Size"/>
-        <StackPanel Grid.Column="1" Grid.Row="3" Margin="5" Orientation="Horizontal">
-            <TextBox x:Name="FontSize_input" Text ="60" Foreground="#FF938E8E" TextWrapping="Wrap" Width="30" Height="20" KeyDown="Font_size_changed"/>
-            <Label x:Name="FontSize_current_disp" Content="60px" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-        </StackPanel>
-        <Label Grid.Column="0" Grid.Row="4" Content="Font Colour"/>
-        <StackPanel Margin="5" Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-            <Rectangle x:Name="ColorPreview" Fill="White" Height="20" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#FF020202" />
-            <Button x:Name="ColorPicker_Botton" Content="Select" Width ="60" HorizontalAlignment="Left" Click="ColorPicker_Botton_Click" Margin="5,0,0,0" />
-        </StackPanel>
-        <Label Grid.Column="0" Grid.Row="5" Content="TextAlignment"/>
-        <ComboBox x:Name="TextAlignmentComboBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Margin="5" Width="120">
-            <ComboBoxItem>Left</ComboBoxItem>
-            <ComboBoxItem>Center</ComboBoxItem>
-            <ComboBoxItem>Right</ComboBoxItem>
-            <ComboBoxItem>Justify</ComboBoxItem>
-        </ComboBox>
-        <Label Grid.Column="0" Grid.Row="6" Content="Points"/>
-        <TextBox x:Name="PointsTextBox" Grid.Column="1" Grid.Row="6" Margin="5,5,200,5" Foreground="#FF938E8E"/>
-
-        <Label Grid.Column="0" Grid.Row="7" Content="Bonus Points"/>
-        <TextBox x:Name="BonusPointsTextBox" Text="5" Grid.Column="1" Grid.Row="7" Margin="5,5,200,5" Foreground="#FF938E8E"/>
-
-        <Label Grid.Column="0" Grid.Row="8" Content="Penalty Points"/>
-        <TextBox x:Name="PenaltyTextBox" Text="0" Grid.Column="1" Grid.Row="8" Margin="5,5,200,5" Foreground="#FF938E8E"/>
-
-        <Label Grid.Column="0" Grid.Row="9" Content="Time in seconds"/>
-        <TextBox x:Name="TimeTextBox" Height ="20" Text="60" Grid.Column="1" Grid.Row="9" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Expander Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Header="Question Text Options" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Content="Ques. Position"/>
+                <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                    <ComboBox x:Name="QPos_Combobox" HorizontalAlignment="Left" Margin="5" Width="120">
+                        <ComboBoxItem>Top Left</ComboBoxItem>
+                        <ComboBoxItem>Top Middle</ComboBoxItem>
+                        <ComboBoxItem>Top Right</ComboBoxItem>
+                        <ComboBoxItem>Middle Left</ComboBoxItem>
+                        <ComboBoxItem>Center</ComboBoxItem>
+                        <ComboBoxItem>Middle Right</ComboBoxItem>
+                        <ComboBoxItem>Bottom Left</ComboBoxItem>
+                        <ComboBoxItem>Bottom Middle</ComboBoxItem>
+                        <ComboBoxItem>Bottom Right</ComboBoxItem>
+                    </ComboBox>
+                    <CheckBox x:Name="DropShadow_Checkbox"  Margin="5" Content="Drop shadow" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="1" Content="Position Offset"/>
+                <StackPanel Grid.Column="1" Grid.Row="1" Margin="5" Orientation="Horizontal">
+                    <Label Content="x-axis:"/>
+                    <TextBox x:Name="xOffset" Text="0" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="5" Width="30" KeyDown="Question_xOffset_changed" />
+                    <Label Content="y-axis:"/>
+                    <TextBox x:Name="yOffset" Text="0" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="5" Width="30" KeyDown="Question_yOffset_changed"/>
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="2" Content="Font Size"/>
+                <StackPanel Grid.Column="1" Grid.Row="2" Margin="5" Orientation="Horizontal">
+                    <TextBox x:Name="FontSize_input" Text ="60" Foreground="#FF938E8E" TextWrapping="Wrap" Width="30" Height="20" KeyDown="Font_size_changed"/>
+                    <Label x:Name="FontSize_current_disp" Content="60px" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="3" Content="Font Colour"/>
+                <StackPanel Margin="5" Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                    <Rectangle x:Name="ColorPreview" Fill="White" Height="20" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#FF020202" />
+                    <Button x:Name="ColorPicker_Botton" Content="Select" Width ="60" HorizontalAlignment="Left" Click="ColorPicker_Botton_Click" Margin="5,0,0,0" />
+                </StackPanel>
+                <Label Grid.Column="0" Grid.Row="4" Content="TextAlignment"/>
+                <ComboBox x:Name="TextAlignmentComboBox" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Left" Margin="5" Width="120">
+                    <ComboBoxItem>Left</ComboBoxItem>
+                    <ComboBoxItem>Center</ComboBoxItem>
+                    <ComboBoxItem>Right</ComboBoxItem>
+                    <ComboBoxItem>Justify</ComboBoxItem>
+                </ComboBox>
+                
+                <Label Grid.Column="0" Grid.Row="5" Content="Width"/>
+                <TextBox x:Name="WidthTextBox" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" Margin="5" Width="120"/>
+            </Grid>
+        </Expander>
+        <Label Grid.Column="0" Grid.Row="2" Content="Answer"/>
+        <TextBox x:Name="AnswerTextBox" Text ="This is the cure"  Grid.Column="1" Grid.Row="2" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
+        <Label Grid.Column="0" Grid.Row="3" Content="Points"/>
+        <TextBox x:Name="PointsTextBox" Grid.Column="1" Grid.Row="3" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label Grid.Column="0" Grid.Row="4" Content="Bonus Points"/>
+        <TextBox x:Name="BonusPointsTextBox" Text="5" Grid.Column="1" Grid.Row="4" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label Grid.Column="0" Grid.Row="5" Content="Penalty Points"/>
+        <TextBox x:Name="PenaltyTextBox" Text="0" Grid.Column="1" Grid.Row="5" Margin="5,5,200,5" Foreground="#FF938E8E"/>
+        <Label Grid.Column="0" Grid.Row="6" Content="Time in seconds"/>
+        <TextBox x:Name="TimeTextBox" Height ="20" Text="60" Grid.Column="1" Grid.Row="6" Margin="5,5,200,5" Foreground="#FF938E8E"/>
 
         <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="10" Visibility="Collapsed" Content="Load media"/>
         <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="10" Width="100" Content="Select file(s)" Visibility="Collapsed" HorizontalAlignment="Left" Height="26" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_Click"/>
 
         <CheckBox x:Name="LoadMediaBatch_CheckBox" Grid.Column="1" Grid.Row="10" Content="Batch selection" HorizontalAlignment="Left" Margin="108,0,0,0" Visibility="Collapsed" VerticalAlignment="Center"/>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="11" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
         </StackPanel>
     </Grid>
+
 </Window>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Globalization;
 using System.Reflection;
 using System.Windows;
@@ -10,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 
 namespace NOTE
 {
@@ -19,6 +21,7 @@ namespace NOTE
     public partial class Questions_Page : Page
     {
         public static Questions_Page Instance;
+        private string categoryBackgroundPath;
 
         private TextBlock displayedTextBlock;
         public Questions_Page()
@@ -31,6 +34,7 @@ namespace NOTE
             CategoryGrid.ItemsSource = mainCategories;
             CategoryGrid.IsReadOnly = true;
             DataContext = this;
+            categoryBackgroundPath = "pack://application:,,,/Images/CategoryBackground.jpg";
         }
 
         //Load team change context menu
@@ -284,6 +288,15 @@ namespace NOTE
             TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedTextBlock);
         }
 
+        public void ClearQuestionText()
+        {
+            if (displayedTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedTextBlock);
+                displayedTextBlock = null;
+            }
+        }
+
         private void CategoryGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Delete)
@@ -303,15 +316,95 @@ namespace NOTE
             }
         }
 
+        //private void DisplayCategoryLogo(string filePath)
+        //{
+        //    // Check if the filePath is null or empty
+        //    if (string.IsNullOrEmpty(filePath))
+        //    {
+        //        ClearCategoryLogo();
+        //        return;
+        //    }
+
+        //    // Check if the file exists
+        //    if (!File.Exists(filePath))
+        //    {
+        //        ClearCategoryLogo();
+        //        return;
+        //    }
+
+        //    // Create a new Image control
+        //    var image = new Image();
+
+        //    // Create a BitmapImage and set its source to the image file
+        //    var bitmap = new BitmapImage();
+        //    bitmap.BeginInit();
+        //    bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
+        //    bitmap.EndInit();
+
+        //    // Set the Image control's source to the BitmapImage
+        //    image.Source = bitmap;
+
+        //    // Ensure the image keeps its aspect ratio
+        //    image.Stretch = Stretch.Uniform;
+
+        //    // Create a Viewbox to scale the image
+        //    var viewBox = new Viewbox();
+        //    viewBox.Width = 600;
+        //    viewBox.Height = 600;
+        //    viewBox.HorizontalAlignment = HorizontalAlignment.Center;
+        //    viewBox.VerticalAlignment = VerticalAlignment.Center;
+
+        //    // Add the image to the Viewbox
+        //    viewBox.Child = image;
+
+        //    var overlayGrid = TriviaPlayer.Instance.TriviaPlayerGrid.FindName("categoryLogo_Image") as Grid;
+        //    if (overlayGrid == null)
+        //    {
+        //        overlayGrid = new Grid() { Name = "categoryLogo_Image" };
+        //        TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(overlayGrid);
+        //    }
+
+        //    // Clear the overlayGrid and add the Viewbox to it
+        //    overlayGrid.Children.Clear();
+        //    overlayGrid.Children.Add(viewBox);
+        //}
+
+        private BitmapImage Logt(string filePath)
+        {
+            // Create a BitmapImage and set its source to the image file
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
+            bitmap.EndInit();
+
+            return bitmap;
+        }
+
+        private void ClearCategoryLogo()
+        {
+            var overlayGrid = TriviaPlayer.Instance.TriviaPlayerGrid.FindName("categoryLogo_Image") as Grid;
+            if (overlayGrid != null && overlayGrid.Children.Count > 0)
+            {
+                overlayGrid.Children.Clear();
+            }
+        }
+
         private void DisplayCategory_RClick(object sender, RoutedEventArgs e)
         {
-            Category category = (Category)CategoryGrid.SelectedItem;
-
-            ControlCenter.Instance.ClearTimer();
+            TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Collapsed;
 
             if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
             {
-                MediaPlayer_Page._media.Path = new Uri(category.IconPath);
+                Category category = (Category)CategoryGrid.SelectedItem;
+
+                ControlCenter.Instance.ClearTimer();
+                ClearQuestionText();
+                //ClearCategoryLogo();
+                TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Visible;
+                TriviaPlayer.Instance.Category_logo.Source = Logt(category.IconPath);
+                //DisplayCategoryLogo(category.IconPath);
+
+                MediaPlayer_Page._media.Path = new Uri(categoryBackgroundPath);
                 MediaPlayer_Page._media.Play();
             }
         }

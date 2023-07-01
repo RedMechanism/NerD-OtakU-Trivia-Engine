@@ -21,6 +21,7 @@ namespace NOTE
         public string QuestionTextPosition;
         public int QuestionTextFontSize;
         public SolidColorBrush QuestionTextColor;
+        public int xOffsetQuestPos;
         public AddQuestion_Dialog()
         {
             InitializeComponent();
@@ -96,7 +97,53 @@ namespace NOTE
                     }
                     else
                     {
-                        MessageBox.Show("Font size restricted to between 1 and 999pt");
+                        MessageBox.Show("Restricted to between 1 and 999pt");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Enter only positive digits");
+                }
+            }
+        }
+
+        private void Question_xOffset_changed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (FontSize_input.Text.All(char.IsDigit))
+                {
+                    int xOffsetVal = int.Parse(xOffset.Text);
+                    if (xOffsetVal >= 1 && xOffsetVal < 1000)
+                    {
+                        xOffsetQuestPos = xOffsetVal;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Restricted to between 1 and 999pt");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Enter only positive digits");
+                }
+            }
+        }
+
+        private void Question_yOffset_changed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (FontSize_input.Text.All(char.IsDigit))
+                {
+                    int yOffsetVal = int.Parse(xOffset.Text);
+                    if (yOffsetVal >= 1 && yOffsetVal < 1000)
+                    {
+                        xOffsetQuestPos = yOffsetVal;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Restricted to between 1 and 999pt");
                     }
                 }
                 else
