@@ -304,6 +304,13 @@ namespace NOTE
                     {
                         ClearTimer();
                     }
+
+                    if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
+                    {
+                        TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                        TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+                    }
+
                     Questions_Page.Instance.RevealQuestionText(question);
                     MediaPlayer_Page._media.Path = new Uri(question.BackgroundImagePath);
                     MediaPlayer_Page._media.Play();

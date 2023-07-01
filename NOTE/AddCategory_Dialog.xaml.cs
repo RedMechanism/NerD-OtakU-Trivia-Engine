@@ -1,11 +1,9 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using static NOTE.Questions_Page;
@@ -45,26 +43,28 @@ namespace NOTE
 
         private void CategoryLogoSelect_Click(object sender, RoutedEventArgs e)
         {
-            ImageSelect(CategoryLogoPath, categoryLogoPath);
+            categoryLogoPath = ImageSelect(CategoryLogoPath, categoryLogoPath);
         }
 
         private void BackgroundSelect_Click(object sender, RoutedEventArgs e)
         {
-            ImageSelect(BackgroundPath, backgroundPath);
+            backgroundPath = ImageSelect(BackgroundPath, backgroundPath);
         }
 
-        private void ImageSelect(TextBlock textBlock, string logopath)
+        private string ImageSelect(TextBlock textBlock, string path)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
             if (openFileDialog.ShowDialog() == true)
             {
-                logopath = openFileDialog.FileName;
-                string fileName = Path.GetFileName(logopath);
-                string parentFolder = Path.GetDirectoryName(logopath);
+                path = openFileDialog.FileName;
+                string fileName = Path.GetFileName(path);
+                string parentFolder = Path.GetDirectoryName(path);
                 string parentFolderName = new DirectoryInfo(parentFolder).Name;
                 textBlock.Text = parentFolderName + "\\" + fileName;
             }
+
+            return path;
         }
 
         private void Enter_KeyDown(object sender, KeyEventArgs e)

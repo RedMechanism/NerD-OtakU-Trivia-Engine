@@ -77,12 +77,12 @@ namespace NOTE
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 System.Drawing.Color color = colorDialog.Color;
-                QuestionTextColor = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
-                ColorPreview.Fill = new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+                QuestionTextColor = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
+                ColorPreview.Fill = new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
             }
         }
 
-        private void Font_size_changed(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Font_size_changed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {

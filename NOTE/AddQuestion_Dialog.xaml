@@ -50,7 +50,7 @@
         </StackPanel>
         <Label Grid.Column="0" Grid.Row="4" Content="Font Colour"/>
         <StackPanel Margin="5" Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-            <Rectangle Fill="Red" Height="20" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#FF020202" />
+            <Rectangle x:Name="ColorPreview" Fill="White" Height="20" Width="20" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="#FF020202" />
             <Button x:Name="ColorPicker_Botton" Content="Select" Width ="60" HorizontalAlignment="Left" Click="ColorPicker_Botton_Click" Margin="5,0,0,0" />
         </StackPanel>
         <Label Grid.Column="0" Grid.Row="5" Content="TextAlignment"/>

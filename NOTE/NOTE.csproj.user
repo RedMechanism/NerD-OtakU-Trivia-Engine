@@ -57,6 +57,9 @@
     <Page Update="ControlCenter.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="DataGridStyles.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Files_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
