@@ -29,7 +29,6 @@ namespace NOTE
             displayTimer = Timer_display;
             clock_face = Clock_face_image;
             _mediaPlayer_page = new MediaPlayer_Page();
-            _pickPoison_page = new PickYourPoison_Page();
             TriviaPlayer_Frame.Content = _mediaPlayer_page;
 
             ControlCenter.Instance._Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);

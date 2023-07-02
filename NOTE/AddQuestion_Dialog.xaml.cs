@@ -18,10 +18,10 @@ namespace NOTE
     {
         public List<string> filePaths;
         public string Question;
-        public string QuestionTextPosition;
         public int QuestionTextFontSize;
         public SolidColorBrush QuestionTextColor;
-        public int xOffsetQuestPos;
+        public Tuple<string, int, int> QuestionTextPosition;
+        public string SubCategoryText;
         public AddQuestion_Dialog()
         {
             InitializeComponent();
@@ -29,6 +29,7 @@ namespace NOTE
             QPos_Combobox.SelectedIndex = 4;
             QuestionTextFontSize = 60;
             QuestionTextColor = new SolidColorBrush(Colors.White);
+            SubCategoryText = "Null";
         }
 
         private void LoadMedia_Click(object sender, RoutedEventArgs e)
@@ -51,12 +52,13 @@ namespace NOTE
 
             if (selectedItem != null)
             {
-                QuestionTextPosition = selectedItem.Content.ToString();
+                QuestionTextPosition = new Tuple<string, int, int>(selectedItem.Content.ToString(), int.Parse(xOffset.Text), int.Parse(yOffset.Text));
             }
         }
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
             Question = QuestionTextBox.Text;
+            SubCategoryText = SubCategoryTextBox.Text;
             DialogResult = true;
             SavePosition();
         }
@@ -83,74 +85,38 @@ namespace NOTE
             }
         }
 
-        private void Font_size_changed(object sender, KeyEventArgs e)
+        private void HandleTextChange(object sender, KeyEventArgs e, TextBox input, Action<int> callback)
         {
             if (e.Key == Key.Enter)
             {
-                if (FontSize_input.Text.All(char.IsDigit))
-                {
-                    int fontSizeVal = int.Parse(FontSize_input.Text);
-                    if (fontSizeVal >= 1 && fontSizeVal < 1000)
-                    {
-                        QuestionTextFontSize = fontSizeVal;
-                        FontSize_current_disp.Content = $"{QuestionTextFontSize}px";
-                    }
-                    else
-                    {
-                        MessageBox.Show("Restricted to between 1 and 999pt");
-                    }
-                }
-                else
+                if (!input.Text.All(char.IsDigit))
                 {
                     MessageBox.Show("Enter only positive digits");
+                    return;
                 }
+
+                int val = int.Parse(input.Text);
+                if (val >= 1 && val < 1000) callback(val);
+                else MessageBox.Show("Restricted to between 1 and 999pt");
             }
+        }
+
+        private void Font_size_changed(object sender, KeyEventArgs e)
+        {
+            HandleTextChange(sender, e, FontSize_input, val => {
+                QuestionTextFontSize = val;
+                FontSize_current_disp.Content = $"{QuestionTextFontSize}px";
+            });
         }
 
         private void Question_xOffset_changed(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                if (FontSize_input.Text.All(char.IsDigit))
-                {
-                    int xOffsetVal = int.Parse(xOffset.Text);
-                    if (xOffsetVal >= 1 && xOffsetVal < 1000)
-                    {
-                        xOffsetQuestPos = xOffsetVal;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Restricted to between 1 and 999pt");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
+            HandleTextChange(sender, e, xOffset, _ => { });
         }
 
         private void Question_yOffset_changed(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                if (FontSize_input.Text.All(char.IsDigit))
-                {
-                    int yOffsetVal = int.Parse(xOffset.Text);
-                    if (yOffsetVal >= 1 && yOffsetVal < 1000)
-                    {
-                        xOffsetQuestPos = yOffsetVal;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Restricted to between 1 and 999pt");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
+            HandleTextChange(sender, e, yOffset, _ => { });
         }
     }
 }

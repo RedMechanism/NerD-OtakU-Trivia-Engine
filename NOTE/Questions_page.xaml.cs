@@ -92,6 +92,7 @@ namespace NOTE
             if (selectedCategory != null)
             {
                 InitializeTextBox(dialog.QuestionTextBox, selectedCategory.QuestionText);
+                InitializeTextBox(dialog.SubCategoryTextBox, "N/A");
                 InitializeTextBox(dialog.PointsTextBox, selectedCategory.Points.ToString());
                 InitializeTextBox(dialog.BonusPointsTextBox, selectedCategory.BonusPoints.ToString());
                 InitializeTextBox(dialog.PenaltyTextBox, selectedCategory.Penalty.ToString());
@@ -103,6 +104,12 @@ namespace NOTE
                     dialog.LoadMedia_Button.Visibility = Visibility.Visible;
                     dialog.LoadMediaBatch_CheckBox.Visibility = Visibility.Visible;
                     
+                }
+                else if (selectedCategory.CategoryType == "Pick your poison")
+                {
+                    dialog.SubCategoryLabel.Visibility = Visibility.Visible;
+                    dialog.SubCategoryTextBox.Visibility = Visibility.Visible;
+                    dialog.TextOptions_Expander.Visibility = Visibility.Collapsed;
                 }
 
                 if (dialog.ShowDialog() == true)
@@ -174,6 +181,7 @@ namespace NOTE
                                 QuestionTextColor = dialog.QuestionTextColor,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
+                                SubCategoryName = dialog.SubCategoryText,
                                 BackgroundImagePath = selectedCategory.BackgroundImagePath,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
                                 BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
@@ -188,7 +196,6 @@ namespace NOTE
                             selectedCategory.IsExpanded = Visibility.Visible;
                         }
                     }
-                    
                 }
             }
             else
@@ -235,51 +242,56 @@ namespace NOTE
 
             // Set the position of the TextBlock based on the selected  question attribute
             
-            if (question.QuestionTextPos == "Top Left")
+            if (question.QuestionTextPos.Item1 == "Top Left")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
             }
-            else if (question.QuestionTextPos == "Top Middle")
+            else if (question.QuestionTextPos.Item1 == "Top Middle")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
             }
-            else if (question.QuestionTextPos == "Top Right")
+            else if (question.QuestionTextPos.Item1 == "Top Right")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
             }
-            else if (question.QuestionTextPos == "Middle Left")
+            else if (question.QuestionTextPos.Item1 == "Middle Left")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
             }
-            else if (question.QuestionTextPos == "Center")
+            else if (question.QuestionTextPos.Item1 == "Center")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
             }
-            else if (question.QuestionTextPos == "Middle Right")
+            else if (question.QuestionTextPos.Item1 == "Middle Right")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
             }
-            else if (question.QuestionTextPos == "Bottom Left")
+            else if (question.QuestionTextPos.Item1 == "Bottom Left")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
             }
-            else if (question.QuestionTextPos == "Bottom Middle")
+            else if (question.QuestionTextPos.Item1 == "Bottom Middle")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
             }
-            else if (question.QuestionTextPos == "Bottom Right")
+            else if (question.QuestionTextPos.Item1 == "Bottom Right")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
             }
+
+            int xPos = question.QuestionTextPos.Item2;
+            int yPos = question.QuestionTextPos.Item3;
+
+            displayedTextBlock.Margin = new Thickness(xPos, yPos, 0, 0);
 
             Grid.SetColumnSpan(displayedTextBlock, 2);
             Grid.SetRow(displayedTextBlock, 0);
@@ -316,77 +328,14 @@ namespace NOTE
             }
         }
 
-        //private void DisplayCategoryLogo(string filePath)
-        //{
-        //    // Check if the filePath is null or empty
-        //    if (string.IsNullOrEmpty(filePath))
-        //    {
-        //        ClearCategoryLogo();
-        //        return;
-        //    }
-
-        //    // Check if the file exists
-        //    if (!File.Exists(filePath))
-        //    {
-        //        ClearCategoryLogo();
-        //        return;
-        //    }
-
-        //    // Create a new Image control
-        //    var image = new Image();
-
-        //    // Create a BitmapImage and set its source to the image file
-        //    var bitmap = new BitmapImage();
-        //    bitmap.BeginInit();
-        //    bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
-        //    bitmap.EndInit();
-
-        //    // Set the Image control's source to the BitmapImage
-        //    image.Source = bitmap;
-
-        //    // Ensure the image keeps its aspect ratio
-        //    image.Stretch = Stretch.Uniform;
-
-        //    // Create a Viewbox to scale the image
-        //    var viewBox = new Viewbox();
-        //    viewBox.Width = 600;
-        //    viewBox.Height = 600;
-        //    viewBox.HorizontalAlignment = HorizontalAlignment.Center;
-        //    viewBox.VerticalAlignment = VerticalAlignment.Center;
-
-        //    // Add the image to the Viewbox
-        //    viewBox.Child = image;
-
-        //    var overlayGrid = TriviaPlayer.Instance.TriviaPlayerGrid.FindName("categoryLogo_Image") as Grid;
-        //    if (overlayGrid == null)
-        //    {
-        //        overlayGrid = new Grid() { Name = "categoryLogo_Image" };
-        //        TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(overlayGrid);
-        //    }
-
-        //    // Clear the overlayGrid and add the Viewbox to it
-        //    overlayGrid.Children.Clear();
-        //    overlayGrid.Children.Add(viewBox);
-        //}
-
-        private BitmapImage Logt(string filePath)
+        private BitmapImage CategoryLogo(string filePath)
         {
-            // Create a BitmapImage and set its source to the image file
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
             bitmap.EndInit();
 
             return bitmap;
-        }
-
-        private void ClearCategoryLogo()
-        {
-            var overlayGrid = TriviaPlayer.Instance.TriviaPlayerGrid.FindName("categoryLogo_Image") as Grid;
-            if (overlayGrid != null && overlayGrid.Children.Count > 0)
-            {
-                overlayGrid.Children.Clear();
-            }
         }
 
         private void DisplayCategory_RClick(object sender, RoutedEventArgs e)
@@ -399,10 +348,9 @@ namespace NOTE
 
                 ControlCenter.Instance.ClearTimer();
                 ClearQuestionText();
-                //ClearCategoryLogo();
+
                 TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Visible;
-                TriviaPlayer.Instance.Category_logo.Source = Logt(category.IconPath);
-                //DisplayCategoryLogo(category.IconPath);
+                TriviaPlayer.Instance.Category_logo.Source = CategoryLogo(category.IconPath);
 
                 MediaPlayer_Page._media.Path = new Uri(categoryBackgroundPath);
                 MediaPlayer_Page._media.Play();
@@ -518,6 +466,32 @@ namespace NOTE
                     property.SetValue(target, value, null);
                 }
             }
+        }
+
+        private void QuestionContextMenu_Opened(object sender, RoutedEventArgs e)
+        {
+            var contextMenu = (ContextMenu)sender;
+            var selectedItem = CategoryGrid.SelectedItem as Category;
+
+            if (selectedItem != null && selectedItem.CategoryType == "Pick your poison")
+            {
+                var reenableButtonMenuItem = (MenuItem)contextMenu.ItemContainerGenerator.ContainerFromIndex(2);
+                if (reenableButtonMenuItem != null)
+                    reenableButtonMenuItem.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                var reenableButtonMenuItem = (MenuItem)contextMenu.ItemContainerGenerator.ContainerFromIndex(2);
+                if (reenableButtonMenuItem != null)
+                    reenableButtonMenuItem.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ReenableButton_RClick(object sender, RoutedEventArgs e)
+        {
+            Question question = QuestionGrid.SelectedItem as Question;
+
+            PickYourPoison_Page.Instance.ReenableButton(question);
         }
     }
 }

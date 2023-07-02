@@ -303,10 +303,12 @@ namespace NOTE
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
             Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
-            TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Collapsed;
 
             if (PlayerWindowCounter() >= 1 && question != null )
             {
+                TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Collapsed;
+                TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+
                 if (question.CategoryType == "Q&A")
                 {
                     _Timer.Duration = question.Time;
@@ -386,7 +388,16 @@ namespace NOTE
                 }
                 else if (question.CategoryType == "Pick your poison")
                 {
+                    Questions_Page.Instance.ClearQuestionText();
                     TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._pickPoison_page;
+                    var selectedCategory = Questions_Page.Instance.CategoryGrid.SelectedItem as Category;
+                    List<Question> questions = selectedCategory.Questions.ToList();
+
+                    // If PickYourPoison_Page hasn't been initialized yet or if it's for a different category, create a new instance.
+                    if (TriviaPlayer.Instance._pickPoison_page == null || !TriviaPlayer.Instance._pickPoison_page.Questions.SequenceEqual(selectedCategory.Questions))
+                    {
+                        TriviaPlayer.Instance._pickPoison_page = new PickYourPoison_Page(questions);
+                    }
                 }
                 
             }

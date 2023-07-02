@@ -20,9 +20,10 @@
                 </ContextMenu>
 
                 <!-- Context menu for Question Grid -->
-                <ContextMenu x:Key="QuestionContextMenu">
+                <ContextMenu x:Key="QuestionContextMenu" Opened="QuestionContextMenu_Opened">
                     <MenuItem Header="Delete Question" Click="RemoveQuestion_RClick"/>
                     <MenuItem Header="Change team" Loaded="ChangeTeamMenuItem_Loaded"/>
+                    <MenuItem x:Name="ReenableButton" Header="Re-enable Button" Click="ReenableButton_RClick"/>
                 </ContextMenu>
             </ResourceDictionary>
         </Grid.Resources>
@@ -66,6 +67,7 @@
                             <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
                             <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
                             <DataGridTextColumn Header="Media Path" Binding="{Binding MediaPath}"/>
+                            <DataGridTextColumn Header="SubCategory" Binding="{Binding SubCategoryName}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DataTemplate>

@@ -11,6 +11,10 @@
   <ItemGroup>
     <None Remove="Images\DinChat.png" />
     <None Remove="Images\DiscordBotListening.png" />
+    <None Remove="Images\PYP_Background.jpg" />
+    <None Remove="Images\Question.jpg" />
+    <None Remove="PYP_Background.jpg" />
+    <None Remove="Registration.jpg" />
   </ItemGroup>
 
   <ItemGroup>

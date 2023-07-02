@@ -62,7 +62,7 @@ namespace NOTE
         public int Penalty { get; set; }
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
-        public string QuestionTextPos { get; set; }
+        public Tuple<string, int, int> QuestionTextPos { get; set; }
         public int QuestionTextFontSize { get; set; }
         public SolidColorBrush QuestionTextColor { get; set; }
         public string Answer { get; set; }

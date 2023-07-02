@@ -5,27 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:NOTE"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="716" d:DesignWidth="1280"
       Title="PickYourPoison_Page">
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dataGrid" Grid.Column="0" AutoGenerateColumns="False">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
-                <DataGridTextColumn Header="Question" Binding="{Binding QuestionText}" />
-                <DataGridTextColumn Header="Answer" Binding="{Binding Answer}" />
-            </DataGrid.Columns>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Re-enable Button" Click="ReenableButton_Click" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
-        <Grid x:Name="buttonGrid" Grid.Column="1">
+        <Grid x:Name="buttonGrid" Grid.Column="0" Background="#FF64E6FF">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -39,13 +26,37 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
         </Grid>
-        <Grid x:Name="questionGrid" Grid.Column="1" Background="Pink" Visibility="Hidden">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Button x:Name="prevButton" Content="Previous" Click="PrevButton_Click" Visibility="Hidden" HorizontalAlignment="Center" />
-                <TextBlock x:Name="questionText" TextAlignment="Center" />
-                <Button x:Name="nextButton" Content="Next" Click="NextButton_Click" Visibility="Hidden" HorizontalAlignment="Center" />
-                <Button Content="Go Back" Click="GoBack_Click" Margin="10" />
-            </StackPanel>
+        <Grid x:Name="questionGrid" Grid.Column="0" Visibility="Collapsed">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE9F513"/>
+                    <GradientStop Color="#FF5EB790" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <TextBlock x:Name="questionText" FontSize="60" FontWeight="Bold" TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,100,0" />
+            <Button Content="Next" Width="100" Height="100" BorderBrush="Black" BorderThickness="2" FontSize="36" Margin="1170,308,0,308"
+                    x:Name="nextButton" Click="NextButton_Click" Visibility="Collapsed" HorizontalAlignment="Left">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="50">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Prev" Width="100" Height="100" BorderBrush="Black" BorderThickness="2" FontSize="36" Margin="10,175,0,175"
+                    x:Name="prevButton" Click="PrevButton_Click" Visibility="Collapsed" HorizontalAlignment="Left">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="50">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="RTN" Click="GoBack_Click" Margin="564,632,564,26" />
         </Grid>
     </Grid>
 </Page>
