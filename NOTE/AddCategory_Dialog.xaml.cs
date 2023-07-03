@@ -21,7 +21,7 @@ namespace NOTE
         {
             InitializeComponent();
 
-            backgroundPath = "pack://application:,,,/Images/Question.jpg";
+            backgroundPath = "pack://application:,,,/Images/Registration.jpg";
             InitializeTextBox(CategoryTextBox, "");
             InitializeTextBox(PointsTextBox,"10");
             InitializeTextBox(BonusPointsTextBox, "5");

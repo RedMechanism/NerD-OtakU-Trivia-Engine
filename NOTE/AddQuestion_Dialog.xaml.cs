@@ -18,6 +18,7 @@ namespace NOTE
     {
         public List<string> filePaths;
         public string Question;
+        public string Answer;
         public int QuestionTextFontSize;
         public SolidColorBrush QuestionTextColor;
         public Tuple<string, int, int> QuestionTextPosition;
@@ -58,6 +59,7 @@ namespace NOTE
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
             Question = QuestionTextBox.Text;
+            Answer = AnswerTextBox.Text;
             SubCategoryText = SubCategoryTextBox.Text;
             DialogResult = true;
             SavePosition();

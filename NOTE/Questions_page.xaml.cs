@@ -24,6 +24,7 @@ namespace NOTE
         private string categoryBackgroundPath;
 
         private TextBlock displayedTextBlock;
+        private TextBlock displayedAnswerTextBlock;
         public Questions_Page()
         {
 
@@ -179,6 +180,7 @@ namespace NOTE
                                 QuestionTextPos = dialog.QuestionTextPosition,
                                 QuestionTextFontSize = dialog.QuestionTextFontSize,
                                 QuestionTextColor = dialog.QuestionTextColor,
+                                Answer = dialog.Answer,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 SubCategoryName = dialog.SubCategoryText,
@@ -219,6 +221,12 @@ namespace NOTE
             {
                 TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedTextBlock);
                 displayedTextBlock = null;
+            }
+
+            if (displayedAnswerTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                displayedAnswerTextBlock = null;
             }
 
             // Create a new TextBlock
@@ -298,6 +306,45 @@ namespace NOTE
             Grid.SetColumn(displayedTextBlock, 0);
 
             TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedTextBlock);
+        }
+
+        public void RevealAnswerText(Question question)
+        {
+            // Remove the previously displayed TextBlock (if any)
+            if (displayedAnswerTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                displayedAnswerTextBlock = null;
+            }
+
+            // Create a new TextBlock
+            displayedAnswerTextBlock = new TextBlock();
+            displayedAnswerTextBlock.Text = question.Answer;
+            displayedAnswerTextBlock.FontSize = question.QuestionTextFontSize;
+            displayedAnswerTextBlock.Foreground = new SolidColorBrush(Colors.Red);
+            displayedAnswerTextBlock.FontWeight = FontWeights.Bold;
+            displayedAnswerTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
+
+            if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
+            {
+                displayedAnswerTextBlock.Effect = new DropShadowEffect
+                {
+                    BlurRadius = 2,
+                    ShadowDepth = 1,
+                    Opacity = 0.5,
+                    Color = Colors.Black
+                };
+            }
+
+            displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+            displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+            displayedAnswerTextBlock.Margin = new Thickness(0, 0, 0, 100);
+
+            Grid.SetColumnSpan(displayedAnswerTextBlock, 2);
+            Grid.SetRow(displayedAnswerTextBlock, 0);
+            Grid.SetColumn(displayedAnswerTextBlock, 0);
+
+            TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedAnswerTextBlock);
         }
 
         public void ClearQuestionText()

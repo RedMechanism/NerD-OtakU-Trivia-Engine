@@ -55,13 +55,12 @@
             <Button x:Name="Penalty_button" Content="Poison" Margin="163,0,0,78" Height="26" Width="80" Click="Answer_wrong_penalty_Button" Background="#FF4F9418" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             <TextBox x:Name="Trickle_penalty_input" Text ="5" Foreground="#FF938E8E" Margin="164,0,0,53" TextWrapping="Wrap" Height="18" KeyDown="Trickle_penalty_avail_changed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"/>
             <Label x:Name="Trickle_penalty_avail_disp" Content="-5pts" Margin="204,0,0,50" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-            <TextBox x:Name="Time_input" Text ="60" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="407,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="52" Height="18" KeyDown="Time_avail_changed"/>
-            <Label x:Name="Time_avail_disp" Content="60sec" HorizontalAlignment="Left" Margin="472,0,0,23" VerticalAlignment="Bottom" />
             <Button Content="Play" HorizontalAlignment="Left" Margin="877,403,0,0" VerticalAlignment="Top" Height="30" Width="35" Click="Play_Button"/>
             <Button Content="Pause" HorizontalAlignment="Left" Margin="915,403,0,0" VerticalAlignment="Top" Height="31" Width="38" Click="Pause_Button"/>
             <Button x:Name="Stop_button" Content="Stop" HorizontalAlignment="Left" Margin="955,403,0,0" VerticalAlignment="Top" Height="31" Width="36" Click="Stop_Button"/>
             <Button x:Name="Show_scores" Content="Show scores" HorizontalAlignment="Left" Margin="877,449,0,0" VerticalAlignment="Top" Height="57" Width="114" Click="Show_scores_Click"/>
             <Button Content="End game" HorizontalAlignment="Left" Margin="877,348,0,0" VerticalAlignment="Top" Height="39" Width="115" Click="End_game"/>
+            <Button x:Name="ShowAnswer_button" Content="Show answer" HorizontalAlignment="Left" Margin="417,472,0,0" VerticalAlignment="Top" Height="30" Width="85" Background="#FFD199E8" Click="ShowAnswer_button_Click"/>
         </Grid>
     </Viewbox>
 </Window>

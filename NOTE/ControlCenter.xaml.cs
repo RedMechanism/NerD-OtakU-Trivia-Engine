@@ -144,21 +144,6 @@ namespace NOTE
             _Timer.Start();
         }
 
-        private void Time_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Time_input.Text.All(char.IsDigit))
-                {
-                    questionTime = int.Parse(Time_input.Text);
-                    Time_avail_disp.Content = $"{questionTime}sec";
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
-        }
         private void SetTimer(int duration)
         {
             
@@ -608,6 +593,15 @@ namespace NOTE
                 }
             }
         }
+        private void ShowAnswer_button_Click(object sender, RoutedEventArgs e)
+        {
+            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+
+            if (PlayerWindowCounter() >= 1 && question != null)
+            {
+                Questions_Page.Instance.RevealAnswerText(question);
+            }
+        }
         #endregion
 
         #region Keystroke Events
@@ -784,7 +778,6 @@ namespace NOTE
         }
 
         #endregion
-
     }
 
 }
