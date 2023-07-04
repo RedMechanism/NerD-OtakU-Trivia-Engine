@@ -227,6 +227,7 @@ namespace NOTE
             {
                 TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
                 displayedAnswerTextBlock = null;
+                ControlCenter.Instance.ShowAnswer_button.Content = "Show answer";
             }
 
             // Create a new TextBlock
@@ -310,41 +311,52 @@ namespace NOTE
 
         public void RevealAnswerText(Question question)
         {
-            // Remove the previously displayed TextBlock (if any)
-            if (displayedAnswerTextBlock != null)
+            // Check if the TextBlock is already displayed
+            if (displayedAnswerTextBlock != null && TriviaPlayer.Instance.TriviaPlayerGrid.Children.Contains(displayedAnswerTextBlock))
             {
+                // Remove the TextBlock
                 TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
                 displayedAnswerTextBlock = null;
+                ControlCenter.Instance.ShowAnswer_button.Content = "Show answer";
             }
-
-            // Create a new TextBlock
-            displayedAnswerTextBlock = new TextBlock();
-            displayedAnswerTextBlock.Text = question.Answer;
-            displayedAnswerTextBlock.FontSize = question.QuestionTextFontSize;
-            displayedAnswerTextBlock.Foreground = new SolidColorBrush(Colors.Red);
-            displayedAnswerTextBlock.FontWeight = FontWeights.Bold;
-            displayedAnswerTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
-
-            if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
+            else
             {
-                displayedAnswerTextBlock.Effect = new DropShadowEffect
+                // Remove the previously displayed TextBlock (if any)
+                if (displayedAnswerTextBlock != null)
                 {
-                    BlurRadius = 2,
-                    ShadowDepth = 1,
-                    Opacity = 0.5,
-                    Color = Colors.Black
-                };
+                    TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                    displayedAnswerTextBlock = null;
+                }
+
+                ControlCenter.Instance.ShowAnswer_button.Content = "Hide answer";
+                displayedAnswerTextBlock = new TextBlock();
+                displayedAnswerTextBlock.Text = question.Answer;
+                displayedAnswerTextBlock.FontSize = question.QuestionTextFontSize;
+                displayedAnswerTextBlock.Foreground = new SolidColorBrush(Colors.Red);
+                displayedAnswerTextBlock.FontWeight = FontWeights.Bold;
+                displayedAnswerTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
+
+                if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
+                {
+                    displayedAnswerTextBlock.Effect = new DropShadowEffect
+                    {
+                        BlurRadius = 2,
+                        ShadowDepth = 1,
+                        Opacity = 0.5,
+                        Color = Colors.Black
+                    };
+                }
+
+                displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+                displayedAnswerTextBlock.Margin = new Thickness(0, 0, 0, 100);
+
+                Grid.SetColumnSpan(displayedAnswerTextBlock, 2);
+                Grid.SetRow(displayedAnswerTextBlock, 0);
+                Grid.SetColumn(displayedAnswerTextBlock, 0);
+
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedAnswerTextBlock);
             }
-
-            displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-            displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
-            displayedAnswerTextBlock.Margin = new Thickness(0, 0, 0, 100);
-
-            Grid.SetColumnSpan(displayedAnswerTextBlock, 2);
-            Grid.SetRow(displayedAnswerTextBlock, 0);
-            Grid.SetColumn(displayedAnswerTextBlock, 0);
-
-            TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedAnswerTextBlock);
         }
 
         public void ClearQuestionText()

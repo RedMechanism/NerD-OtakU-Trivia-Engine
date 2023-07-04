@@ -39,15 +39,14 @@ namespace NOTE
                 Button button = new Button
                 {
                     Content = categories[i],
-                    Width = 300,
-                    Height = 150,
-                    Margin = new Thickness(5)
+                    Style = (Style)FindResource("ModernButton") // apply style here
                 };
                 button.Click += Button_Click;
                 Grid.SetRow(button, i / 4);
                 Grid.SetColumn(button, i % 4);
                 buttonGrid.Children.Add(button);
             }
+
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -65,7 +65,8 @@
                             <DataGridTextColumn Header="Bonus" Binding="{Binding BonusPoints}"/>
                             <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                             <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
-                            <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
+                            <DataGridTextColumn Header="Answer" Binding="{Binding Answer}"/>
+                            <DataGridTextColumn Header="Question" Binding="{Binding QuestionText}"/>
                             <DataGridTextColumn Header="Media Path" Binding="{Binding MediaPath}"/>
                             <DataGridTextColumn Header="SubCategory" Binding="{Binding SubCategoryName}"/>
                         </DataGrid.Columns>
