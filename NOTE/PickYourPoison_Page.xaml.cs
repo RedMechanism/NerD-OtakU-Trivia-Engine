@@ -46,7 +46,6 @@ namespace NOTE
                 Grid.SetColumn(button, i % 4);
                 buttonGrid.Children.Add(button);
             }
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

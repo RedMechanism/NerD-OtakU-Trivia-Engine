@@ -93,12 +93,12 @@
         <Label Grid.Column="0" Grid.Row="6" Content="Time in seconds"/>
         <TextBox x:Name="TimeTextBox" Height ="20" Text="60" Grid.Column="1" Grid.Row="6" Margin="5,5,200,5" Foreground="#FF938E8E"/>
 
-        <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="10" Visibility="Collapsed" Content="Load media"/>
-        <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="10" Width="100" Content="Select file(s)" Visibility="Collapsed" HorizontalAlignment="Left" Height="26" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_Click"/>
+        <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="7" Visibility="Collapsed" Content="Load media"/>
+        <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="7" Width="100" Content="Select file(s)" Visibility="Collapsed" HorizontalAlignment="Left" Height="26" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_Click"/>
 
-        <CheckBox x:Name="LoadMediaBatch_CheckBox" Grid.Column="1" Grid.Row="10" Content="Batch selection" HorizontalAlignment="Left" Margin="108,0,0,0" Visibility="Collapsed" VerticalAlignment="Center"/>
+        <CheckBox x:Name="LoadMediaBatch_CheckBox" Grid.Column="1" Grid.Row="7" Content="Batch selection" HorizontalAlignment="Left" Margin="108,0,0,0" Visibility="Collapsed" VerticalAlignment="Center"/>
         
-        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
+        <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="10">
             <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
         </StackPanel>

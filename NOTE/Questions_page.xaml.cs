@@ -1,17 +1,14 @@
-﻿using Microsoft.VisualBasic.Devices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Globalization;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace NOTE
 {
@@ -57,23 +54,26 @@ namespace NOTE
 
         private void SubItem_Click(object sender, RoutedEventArgs e)
         {
-            MenuItem clickedSubItem = sender as MenuItem;
-            if (clickedSubItem != null && QuestionGrid.SelectedItem != null)
+            if (sender is MenuItem clickedSubItem)
             {
-                Question selectedQuestion = QuestionGrid.SelectedItem as Question;
-                if (selectedQuestion != null)
+                string header = clickedSubItem.Header.ToString();
+
+                if (header.StartsWith("Team"))
                 {
-                    // Create a new Team object with the new name and assign it to the selected question
-                    Teams updatedTeam = new Teams();
-                    CopyProperties(selectedQuestion.Team, updatedTeam);
-                    updatedTeam.Name = clickedSubItem.Header.ToString();
-
-                    selectedQuestion.Team = updatedTeam;
-
-                    QuestionGrid.Items.Refresh(); // Refresh the DataGrid to reflect the changes
+                    int teamIndex = int.Parse(header.Replace("Team", "")) - 1;
+                    if (teamIndex >= 0 && teamIndex < ControlCenter.Instance.TeamsList.Count)
+                    {
+                        // Loop over all selected items in the grid
+                        foreach (Question selectedQuestion in QuestionGrid.SelectedItems)
+                        {
+                            selectedQuestion.Team = ControlCenter.Instance.TeamsList[teamIndex];
+                        }
+                        QuestionGrid.Items.Refresh(); // Refresh the DataGrid to reflect the changes
+                    }
                 }
             }
         }
+
 
         private void AddCategory_Button(object sender, RoutedEventArgs e)
         {
@@ -211,7 +211,7 @@ namespace NOTE
 
         private void RemoveQuestion_RClick(object sender, RoutedEventArgs e)
         {
-            Delete_category();
+            DeleteSelectedQuestions();
         }
         
         public void RevealQuestionText(Question question)
@@ -485,6 +485,50 @@ namespace NOTE
                 mainCategories.Remove(selectedItem);
             }
         }
+
+        public void DeleteSelectedQuestions()
+        {
+            var selectedCategory = CategoryGrid.SelectedItem as Category;
+
+            if (selectedCategory != null)
+            {
+                List<Question> itemsToRemove = new List<Question>();
+
+                foreach (var item in QuestionGrid.SelectedItems)
+                {
+                    var question = item as Question;
+                    if (question != null)
+                    {
+                        itemsToRemove.Add(question);
+                    }
+                }
+
+                foreach (var question in itemsToRemove)
+                {
+                    selectedCategory.Questions.Remove(question);
+                }
+
+                if (!itemsToRemove.Any())
+                {
+                    MessageBox.Show("Please select one or more questions to delete.");
+                }
+
+                int counter = 1;
+                foreach (var question in selectedCategory.Questions)
+                {
+                    question.QuestionNumber = counter++;
+                }
+
+                QuestionGrid.Items.Refresh();
+            }
+            else
+            {
+                MessageBox.Show("Please select a category.");
+            }
+        }
+
+
+
         private void ExpandNestedDatagrid()
         {
             var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
@@ -506,25 +550,6 @@ namespace NOTE
             var textbox = (TextBox)sender;
             textbox.Foreground = Brushes.Black;
             textbox.FontWeight = FontWeights.Bold;
-        }
-
-        // CopyProperties method for copying properties from one object to another
-        // The CopyProperties method is used in the SubItem_Click event handler to copy all the properties from the existing Team object to the new one
-        public static void CopyProperties<T>(T source, T target)
-        {
-            if (source == null || target == null)
-                throw new ArgumentNullException("Source and/or target objects cannot be null.");
-
-            Type type = typeof(T);
-            PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (PropertyInfo property in properties)
-            {
-                if (property.CanWrite)
-                {
-                    object value = property.GetValue(source, null);
-                    property.SetValue(target, value, null);
-                }
-            }
         }
 
         private void QuestionContextMenu_Opened(object sender, RoutedEventArgs e)
