@@ -67,6 +67,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
         <Grid x:Name="buttonGrid" Grid.Column="0" Margin="0,160,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -81,32 +82,6 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
         </Grid>
-        <Grid x:Name="questionGrid" Grid.Column="0" Visibility="Hidden">
-            <TextBlock x:Name="questionText" FontSize="60" FontWeight="Bold" TextWrapping="WrapWithOverflow" TextAlignment="Center" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="100,0,100,0" />
-            <Button Content="Next" Width="100" Height="100" BorderBrush="Black" BorderThickness="2" FontSize="36" Margin="1170,308,0,308"
-                x:Name="nextButton" Click="NextButton_Click" Visibility="Hidden" HorizontalAlignment="Left">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="50">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Content="Prev" Width="100" Height="100" BorderBrush="Black" BorderThickness="2" FontSize="36" Margin="10,175,0,175"
-                x:Name="prevButton" Click="PrevButton_Click" Visibility="Collapsed" HorizontalAlignment="Left">
-                <Button.Template>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="50">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button Content="RTN" Click="GoBack_Click" Margin="564,632,564,26" />
-        </Grid>
+        <Label x:Name="PickYourPoison_CategoryName" Content="" HorizontalAlignment="Left" Margin="162,10,0,0" VerticalAlignment="Top" FontSize="48" Foreground="White" Width="835" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
     </Grid>
-
 </Page>

@@ -177,5 +177,15 @@ namespace NOTE
             animations.BounceDownStory(Pos2_box, 8);
             animations.BounceDownStory(Pos1_box, 10);
         }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            PickYourPoison_Page.Instance.Next_Click();
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            PickYourPoison_Page.Instance.Prev_Click();
+        }
     }
 }

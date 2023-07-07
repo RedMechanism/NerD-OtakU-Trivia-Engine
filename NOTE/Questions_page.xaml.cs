@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace NOTE
 {
@@ -94,10 +95,14 @@ namespace NOTE
             {
                 InitializeTextBox(dialog.QuestionTextBox, selectedCategory.QuestionText);
                 InitializeTextBox(dialog.SubCategoryTextBox, "N/A");
+                InitializeTextBox(dialog.AnswerTextBox, "This is the cure");
                 InitializeTextBox(dialog.PointsTextBox, selectedCategory.Points.ToString());
                 InitializeTextBox(dialog.BonusPointsTextBox, selectedCategory.BonusPoints.ToString());
                 InitializeTextBox(dialog.PenaltyTextBox, selectedCategory.Penalty.ToString());
                 InitializeTextBox(dialog.TimeTextBox, selectedCategory.Time.TotalSeconds.ToString());
+                InitializeTextBox(dialog.xOffset, "0");
+                InitializeTextBox(dialog.yOffset, "0");
+
 
                 if (selectedCategory.CategoryType == "Media")
                 {
@@ -237,6 +242,7 @@ namespace NOTE
             displayedTextBlock.Foreground = question.QuestionTextColor;
             displayedTextBlock.FontWeight = FontWeights.Bold;
             displayedTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
+            displayedTextBlock.Margin = new Thickness(50, 0, 50, 0);
 
             if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
             {
@@ -297,10 +303,17 @@ namespace NOTE
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
             }
 
+
             int xPos = question.QuestionTextPos.Item2;
             int yPos = question.QuestionTextPos.Item3;
 
-            displayedTextBlock.Margin = new Thickness(xPos, yPos, 0, 0);
+            if (xPos != 0 || yPos != 0)
+            {
+                TranslateTransform translate = new TranslateTransform();
+                translate.X = xPos;
+                translate.Y = yPos;
+                displayedTextBlock.RenderTransform = translate;
+            }
 
             Grid.SetColumnSpan(displayedTextBlock, 2);
             Grid.SetRow(displayedTextBlock, 0);

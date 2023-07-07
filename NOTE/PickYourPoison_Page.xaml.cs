@@ -31,7 +31,7 @@ namespace NOTE
             Instance = this;
 
             Questions = questions;
-
+            PickYourPoison_CategoryName.Content = questions[0].CategoryName;
             // Generate buttons for each category.
             var categories = Questions.Select(q => q.SubCategoryName).Distinct().ToList();
             for (int i = 0; i < categories.Count; i++)
@@ -59,18 +59,15 @@ namespace NOTE
             {
                 // Display the first question and manage buttons.
                 CurrentQuestionIndex = 0;
+                TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
                 UpdateQuestionDisplay();
-
-                // Switch to the question grid.
-                buttonGrid.Visibility = Visibility.Hidden;
-                questionGrid.Visibility = Visibility.Visible;
 
                 // Disable the clicked button.
                 button.IsEnabled = false;
             }
         }
 
-        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        public void Prev_Click()
         {
             if (CurrentQuestionIndex > 0)
             {
@@ -79,7 +76,7 @@ namespace NOTE
             }
         }
 
-        private void NextButton_Click(object sender, RoutedEventArgs e)
+        public void Next_Click()
         {
             if (CurrentQuestionIndex < CurrentCategoryQuestions.Count - 1)
             {
@@ -90,12 +87,11 @@ namespace NOTE
 
         private void UpdateQuestionDisplay()
         {
-            // Update the question text.
-            questionText.Text = CurrentCategoryQuestions[CurrentQuestionIndex].QuestionText;
+            ControlCenter.Instance.ShowQuestion(CurrentCategoryQuestions[CurrentQuestionIndex]);
 
             // Enable or disable the previous and next buttons based on the current question index.
-            prevButton.Visibility = CurrentQuestionIndex > 0 ? Visibility.Visible : Visibility.Hidden;
-            nextButton.Visibility = CurrentQuestionIndex < CurrentCategoryQuestions.Count - 1 ? Visibility.Visible : Visibility.Hidden;
+            TriviaPlayer.Instance.prevButton.Visibility = CurrentQuestionIndex > 0 ? Visibility.Visible : Visibility.Hidden;
+            TriviaPlayer.Instance.nextButton.Visibility = CurrentQuestionIndex < CurrentCategoryQuestions.Count - 1 ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void ReenableButton(Question question)
@@ -115,13 +111,5 @@ namespace NOTE
                 }
             }
         }
-
-        private void GoBack_Click(object sender, RoutedEventArgs e)
-        {
-            // When the go back button is clicked, show the button grid.
-            buttonGrid.Visibility = Visibility.Visible;
-            questionGrid.Visibility = Visibility.Hidden;
-        }
-
     }
 }

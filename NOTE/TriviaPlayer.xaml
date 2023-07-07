@@ -37,6 +37,28 @@
                 <Label x:Name="Points_awarded_disp" Visibility="Collapsed" Opacity="0" Content ="+5" FontSize="200" FontFamily="Luckiest Guy"
                     Foreground="#FF5BEF0B" Canvas.Left="-296" Canvas.Top="-127" HorizontalAlignment="Left" VerticalAlignment="Center" />
             </Canvas>
+            <Button Content="Next" Width="100" Height="100" BorderBrush="Black" BorderThickness="2" FontSize="36" Margin="1170,308,0,308"
+                x:Name="nextButton" Click="NextButton_Click" Visibility="Hidden" HorizontalAlignment="Left">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="50">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Content="Prev" Width="100" Height="100" BorderBrush="Black" BorderThickness="2" FontSize="36" Margin="10,175,0,175"
+                x:Name="prevButton" Click="PrevButton_Click" Visibility="Collapsed" HorizontalAlignment="Left">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="50">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
             <StackPanel x:Name="Scores_view_container" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
                 <!-- Position 1 -->

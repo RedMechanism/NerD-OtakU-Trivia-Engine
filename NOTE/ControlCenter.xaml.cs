@@ -58,7 +58,7 @@ namespace NOTE
         };
 
         public static ControlCenter Instance;
-
+        public Question currentQuestion;
         public CountdownTimer _Timer;
         public DiscordBot discordBot;
         public Settings_Page _settings_Page;
@@ -292,26 +292,13 @@ namespace NOTE
             if (PlayerWindowCounter() >= 1 && question != null )
             {
                 TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Collapsed;
-                TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                TriviaPlayer.Instance.prevButton.Visibility = Visibility.Collapsed;
+                TriviaPlayer.Instance.nextButton.Visibility = Visibility.Collapsed;
 
                 if (question.CategoryType == "Q&A")
                 {
-                    _Timer.Duration = question.Time;
-                    if (question.ClearClock)
-                    {
-                        ClearTimer();
-                    }
-
-                    if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
-                    {
-                        TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                        TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
-                    }
-
-                    Questions_Page.Instance.RevealQuestionText(question);
-                    MediaPlayer_Page._media.Path = new Uri(question.BackgroundImagePath);
-                    MediaPlayer_Page._media.Play();
-                    _Timer.Start();
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    ShowQuestion(question);
                 }
                 else if (question.CategoryType == "Media")
                 {
@@ -373,6 +360,7 @@ namespace NOTE
                 }
                 else if (question.CategoryType == "Pick your poison")
                 {
+                    ClearTimer();
                     Questions_Page.Instance.ClearQuestionText();
                     TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._pickPoison_page;
                     var selectedCategory = Questions_Page.Instance.CategoryGrid.SelectedItem as Category;
@@ -595,11 +583,9 @@ namespace NOTE
         }
         private void ShowAnswer_button_Click(object sender, RoutedEventArgs e)
         {
-            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
-
-            if (PlayerWindowCounter() >= 1 && question != null)
+            if (PlayerWindowCounter() >= 1 && currentQuestion != null)
             {
-                Questions_Page.Instance.RevealAnswerText(question);
+                Questions_Page.Instance.RevealAnswerText(currentQuestion);
             }
         }
         #endregion
@@ -682,6 +668,27 @@ namespace NOTE
         #endregion
 
         #region Methods
+
+        public void ShowQuestion(Question question)
+        {
+            _Timer.Duration = question.Time;
+            if (question.ClearClock)
+            {
+                ClearTimer();
+            }
+
+            if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
+            {
+                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+            }
+
+            Questions_Page.Instance.RevealQuestionText(question);
+            currentQuestion = question;
+            MediaPlayer_Page._media.Path = new Uri(question.BackgroundImagePath);
+            MediaPlayer_Page._media.Play();
+            _Timer.Start();
+        }
         public int PlayerWindowCounter()
         {
             return Application.Current.Windows.OfType<TriviaPlayer>().Count();
