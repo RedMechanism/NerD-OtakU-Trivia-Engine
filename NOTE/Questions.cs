@@ -63,6 +63,7 @@ namespace NOTE
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
         public Tuple<string, int, int> QuestionTextPos { get; set; }
+        public Tuple<string, int, int> AnswerTextPos { get; set; }
         public int QuestionTextFontSize { get; set; }
         public SolidColorBrush QuestionTextColor { get; set; }
         public string Answer { get; set; }

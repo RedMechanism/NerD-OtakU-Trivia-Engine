@@ -287,22 +287,22 @@ namespace NOTE
 
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
-            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+            currentQuestion = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
 
-            if (PlayerWindowCounter() >= 1 && question != null )
+            if (PlayerWindowCounter() >= 1 && currentQuestion != null )
             {
                 TriviaPlayer.Instance.Category_logo.Visibility = Visibility.Collapsed;
                 TriviaPlayer.Instance.prevButton.Visibility = Visibility.Collapsed;
                 TriviaPlayer.Instance.nextButton.Visibility = Visibility.Collapsed;
 
-                if (question.CategoryType == "Q&A")
+                if (currentQuestion.CategoryType == "Q&A")
                 {
                     TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
-                    ShowQuestion(question);
+                    ShowQuestion(currentQuestion);
                 }
-                else if (question.CategoryType == "Media")
+                else if (currentQuestion.CategoryType == "Media")
                 {
-                    Questions_Page.Instance.RevealQuestionText(question);
+                    Questions_Page.Instance.DisplayQuestionText(currentQuestion);
 
                     TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
 
@@ -315,7 +315,7 @@ namespace NOTE
                     if (_Timer.Status == TimerState.Running)
                     {
                         // If the file path is the same, pause the media
-                        if (MediaPlayer_Page.Instance._currentMediaPath == question.MediaPath)
+                        if (MediaPlayer_Page.Instance._currentMediaPath == currentQuestion.MediaPath)
                         {
                             MediaPlayer_Page._media.Pause();
                             _Timer.Stop();
@@ -323,13 +323,13 @@ namespace NOTE
                         // If the file path is different, load the new file and play
                         else
                         {
-                            _Timer.Duration = question.Time;
-                            if (question.ClearClock)
+                            _Timer.Duration = currentQuestion.Time;
+                            if (currentQuestion.ClearClock)
                             {
                                 ClearTimer();
                             }
-                            MediaPlayer_Page.Instance._currentMediaPath = question.MediaPath;
-                            MediaPlayer_Page._media.Path = question.MediaPath;
+                            MediaPlayer_Page.Instance._currentMediaPath = currentQuestion.MediaPath;
+                            MediaPlayer_Page._media.Path = currentQuestion.MediaPath;
                             MediaPlayer_Page._media.Play();
                             _Timer.Start();
                         }
@@ -337,7 +337,7 @@ namespace NOTE
                     else
                     {
                         // If the Timer is not running, check if the filePath has been changed
-                        if (MediaPlayer_Page.Instance._currentMediaPath == question.MediaPath)
+                        if (MediaPlayer_Page.Instance._currentMediaPath == currentQuestion.MediaPath)
                         {
                             // If the filePath hasn't been changed, resume playing
                             MediaPlayer_Page._media.Play();
@@ -346,19 +346,19 @@ namespace NOTE
                         else
                         {
                             // If the filePath has been changed, load the new file and play
-                            _Timer.Duration = question.Time;
-                            if (question.ClearClock)
+                            _Timer.Duration = currentQuestion.Time;
+                            if (currentQuestion.ClearClock)
                             {
                                 ClearTimer();
                             }
-                            MediaPlayer_Page.Instance._currentMediaPath = question.MediaPath;
-                            MediaPlayer_Page._media.Path = question.MediaPath;
+                            MediaPlayer_Page.Instance._currentMediaPath = currentQuestion.MediaPath;
+                            MediaPlayer_Page._media.Path = currentQuestion.MediaPath;
                             MediaPlayer_Page._media.Play();
                             _Timer.Start();
                         }
                     }
                 }
-                else if (question.CategoryType == "Pick your poison")
+                else if (currentQuestion.CategoryType == "Pick your poison")
                 {
                     ClearTimer();
                     Questions_Page.Instance.ClearQuestionText();
@@ -585,7 +585,7 @@ namespace NOTE
         {
             if (PlayerWindowCounter() >= 1 && currentQuestion != null)
             {
-                Questions_Page.Instance.RevealAnswerText(currentQuestion);
+                Questions_Page.Instance.DisplayAnswerText(currentQuestion);
             }
         }
         #endregion
@@ -683,8 +683,7 @@ namespace NOTE
                 TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
             }
 
-            Questions_Page.Instance.RevealQuestionText(question);
-            currentQuestion = question;
+            Questions_Page.Instance.DisplayQuestionText(question);
             MediaPlayer_Page._media.Path = new Uri(question.BackgroundImagePath);
             MediaPlayer_Page._media.Play();
             _Timer.Start();

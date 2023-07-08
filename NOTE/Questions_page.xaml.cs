@@ -10,6 +10,7 @@ using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Linq;
 using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace NOTE
 {
@@ -109,7 +110,7 @@ namespace NOTE
                     dialog.LoadMedia_Text.Visibility = Visibility.Visible;
                     dialog.LoadMedia_Button.Visibility = Visibility.Visible;
                     dialog.LoadMediaBatch_CheckBox.Visibility = Visibility.Visible;
-                    
+
                 }
                 else if (selectedCategory.CategoryType == "Pick your poison")
                 {
@@ -141,6 +142,8 @@ namespace NOTE
                                 QuestionTextPos = dialog.QuestionTextPosition,
                                 QuestionTextFontSize = dialog.QuestionTextFontSize,
                                 QuestionTextColor = dialog.QuestionTextColor,
+                                Answer = dialog.Answer,
+                                AnswerTextPos = dialog.AnswerTextPosition,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
@@ -186,6 +189,7 @@ namespace NOTE
                                 QuestionTextFontSize = dialog.QuestionTextFontSize,
                                 QuestionTextColor = dialog.QuestionTextColor,
                                 Answer = dialog.Answer,
+                                AnswerTextPos = dialog.AnswerTextPosition,
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 SubCategoryName = dialog.SubCategoryText,
@@ -218,8 +222,8 @@ namespace NOTE
         {
             DeleteSelectedQuestions();
         }
-        
-        public void RevealQuestionText(Question question)
+
+        public void DisplayQuestionText(Question question)
         {
             // Remove the previously displayed TextBlock (if any)
             if (displayedTextBlock != null)
@@ -256,50 +260,20 @@ namespace NOTE
             }
 
             // Set the position of the TextBlock based on the selected  question attribute
-            
-            if (question.QuestionTextPos.Item1 == "Top Left")
-            {
-                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
-                displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
-            }
-            else if (question.QuestionTextPos.Item1 == "Top Middle")
+
+            if (question.QuestionTextPos.Item1 == "Top")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
-            }
-            else if (question.QuestionTextPos.Item1 == "Top Right")
-            {
-                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
-                displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
-            }
-            else if (question.QuestionTextPos.Item1 == "Middle Left")
-            {
-                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
-                displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
             }
             else if (question.QuestionTextPos.Item1 == "Center")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
             }
-            else if (question.QuestionTextPos.Item1 == "Middle Right")
-            {
-                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
-                displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
-            }
-            else if (question.QuestionTextPos.Item1 == "Bottom Left")
-            {
-                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Left;
-                displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
-            }
-            else if (question.QuestionTextPos.Item1 == "Bottom Middle")
+            else if (question.QuestionTextPos.Item1 == "Bottom")
             {
                 displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
-            }
-            else if (question.QuestionTextPos.Item1 == "Bottom Right")
-            {
-                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Right;
                 displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
             }
 
@@ -322,7 +296,7 @@ namespace NOTE
             TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedTextBlock);
         }
 
-        public void RevealAnswerText(Question question)
+        public void DisplayAnswerText(Question question)
         {
             // Check if the TextBlock is already displayed
             if (displayedAnswerTextBlock != null && TriviaPlayer.Instance.TriviaPlayerGrid.Children.Contains(displayedAnswerTextBlock))
@@ -349,6 +323,22 @@ namespace NOTE
                 displayedAnswerTextBlock.FontWeight = FontWeights.Bold;
                 displayedAnswerTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
 
+                if (question.AnswerTextPos.Item1 == "Top")
+                {
+                    displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Top;
+                }
+                else if (question.AnswerTextPos.Item1 == "Center")
+                {
+                    displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Center;
+                }
+                else if (question.AnswerTextPos.Item1 == "Bottom")
+                {
+                    displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+                }
+
                 if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
                 {
                     displayedAnswerTextBlock.Effect = new DropShadowEffect
@@ -360,9 +350,16 @@ namespace NOTE
                     };
                 }
 
-                displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
-                displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
-                displayedAnswerTextBlock.Margin = new Thickness(0, 0, 0, 100);
+                int xAnsPos = question.QuestionTextPos.Item2;
+                int yAnsPos = question.QuestionTextPos.Item3;
+
+                if (xAnsPos != 0 || yAnsPos != 0)
+                {
+                    TranslateTransform translate = new TranslateTransform();
+                    translate.X = xAnsPos;
+                    translate.Y = yAnsPos;
+                    displayedAnswerTextBlock.RenderTransform = translate;
+                }
 
                 Grid.SetColumnSpan(displayedAnswerTextBlock, 2);
                 Grid.SetRow(displayedAnswerTextBlock, 0);

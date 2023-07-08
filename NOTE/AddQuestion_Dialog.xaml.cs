@@ -22,12 +22,14 @@ namespace NOTE
         public int QuestionTextFontSize;
         public SolidColorBrush QuestionTextColor;
         public Tuple<string, int, int> QuestionTextPosition;
+        public Tuple<string, int, int> AnswerTextPosition;
         public string SubCategoryText;
         public AddQuestion_Dialog()
         {
             InitializeComponent();
             filePaths = new List<string>();
-            QPos_Combobox.SelectedIndex = 4;
+            QuestionPos_Combobox.SelectedIndex = 1;
+            AnswerPos_Combobox.SelectedIndex = 2;
             QuestionTextFontSize = 60;
             QuestionTextColor = new SolidColorBrush(Colors.White);
             SubCategoryText = "Null";
@@ -47,22 +49,34 @@ namespace NOTE
             }
         }
 
-        public void SavePosition()
+        public void SaveQuestionPosition()
         {
-            var selectedItem = QPos_Combobox.SelectedItem as ComboBoxItem;
+            var selectedItem = QuestionPos_Combobox.SelectedItem as ComboBoxItem;
 
             if (selectedItem != null)
             {
                 QuestionTextPosition = new Tuple<string, int, int>(selectedItem.Content.ToString(), int.Parse(xOffset.Text), int.Parse(yOffset.Text));
             }
         }
+
+        public void SaveAnswerPosition()
+        {
+            var selectedItem = AnswerPos_Combobox.SelectedItem as ComboBoxItem;
+
+            if (selectedItem != null)
+            {
+                AnswerTextPosition = new Tuple<string, int, int>(selectedItem.Content.ToString(), int.Parse(xOffset_Answer.Text), int.Parse(yOffset_Answer.Text));
+            }
+        }
+
         private void okButton_Click(object sender, RoutedEventArgs e)
         {
             Question = QuestionTextBox.Text;
             Answer = AnswerTextBox.Text;
             SubCategoryText = SubCategoryTextBox.Text;
             DialogResult = true;
-            SavePosition();
+            SaveQuestionPosition();
+            SaveAnswerPosition();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -119,6 +133,16 @@ namespace NOTE
         private void Question_yOffset_changed(object sender, KeyEventArgs e)
         {
             HandleTextChange(sender, e, yOffset, _ => { });
+        }
+
+        private void Answer_xOffset_changed(object sender, KeyEventArgs e)
+        {
+            HandleTextChange(sender, e, xOffset_Answer, _ => { });
+        }
+
+        private void Answer_yOffset_changed(object sender, KeyEventArgs e)
+        {
+            HandleTextChange(sender, e, yOffset_Answer, _ => { });
         }
     }
 }
