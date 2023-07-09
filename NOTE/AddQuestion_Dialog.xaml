@@ -22,6 +22,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Question"/>
         <TextBox x:Name="QuestionTextBox" Text="This is a sickness!" Grid.Column="1" Grid.Row="0" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
@@ -101,6 +103,8 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Ans. Position" Grid.ColumnSpan="3" Margin="0,0,0,38" Grid.RowSpan="2"/>
                 <StackPanel Grid.Column="3" Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,38" Grid.RowSpan="2">
@@ -146,6 +150,12 @@
         <Label Grid.Column="0" Grid.Row="8" Content="Time in seconds"/>
         <TextBox x:Name="TimeTextBox" Height="20" Text="60" Grid.Column="1" Grid.Row="8" Margin="5,5,200,5" Foreground="#FF938E8E"/>
         <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="9" Visibility="Collapsed" Content="Load media"/>
+        <Label Grid.Column="0" Grid.Row="10" Content="Reset clock"/>
+        <CheckBox x:Name="ResetClock_CheckBox" Grid.Column="1" Grid.Row="10" IsChecked="True" Margin="0,7,0,0"/>
+        <Label Grid.Column="0" Grid.Row="11" Content="Background"/>
+        <Button Grid.Column="1" Grid.Row="11" Content="Select image" Height="20"  Width="80" HorizontalAlignment="Left" Margin="5,0,0,0" Click="BackgroundSelect_Click"/>
+        <TextBlock x:Name="BackgroundPath_label" Grid.Column="1" Grid.Row="11" Margin="90,5,5,5" Text=""/>
+
         <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="9" Width="100" Content="Select file(s)" Visibility="Collapsed" HorizontalAlignment="Left" Height="26" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_Click"/>
         <CheckBox x:Name="LoadMediaBatch_CheckBox" Grid.Column="1" Grid.Row="9" Content="Batch selection" HorizontalAlignment="Left" Margin="108,0,0,0" Visibility="Collapsed" VerticalAlignment="Center"/>
 

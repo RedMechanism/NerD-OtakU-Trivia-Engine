@@ -76,7 +76,6 @@ namespace NOTE
             }
         }
 
-
         private void AddCategory_Button(object sender, RoutedEventArgs e)
         {
             AddCategory_Dialog addCategoryDialog = new AddCategory_Dialog();
@@ -152,6 +151,7 @@ namespace NOTE
                                 Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
                                 QuestionNumber = questionNumber,
                                 MediaPath = new Uri(mediaPath),
+                                ClearClock = dialog.ResetClock,
                                 Team = ControlCenter.Instance.TeamsList[teamIndex - 1]
                             });
                             teamIndex++;
@@ -193,12 +193,13 @@ namespace NOTE
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 SubCategoryName = dialog.SubCategoryText,
-                                BackgroundImagePath = selectedCategory.BackgroundImagePath,
+                                BackgroundImagePath = dialog.BackgroundImagePath,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
                                 BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
                                 Penalty = int.Parse(dialog.PenaltyTextBox.Text),
                                 Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text)),
                                 QuestionNumber = questionNumber,
+                                ClearClock = dialog.ResetClock,
                                 MediaPath = null,
                                 Team = ControlCenter.Instance.TeamsList[teamIndex]
                             }); ;
@@ -536,8 +537,6 @@ namespace NOTE
                 MessageBox.Show("Please select a category.");
             }
         }
-
-
 
         private void ExpandNestedDatagrid()
         {

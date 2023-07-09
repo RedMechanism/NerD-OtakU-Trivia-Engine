@@ -71,10 +71,5 @@ namespace NOTE
         public bool ClearClock { get; set; }
         public string BackgroundImagePath { get; set; }
         public string SubCategoryName { get; set; }
-
-        public Question()
-        {
-            ClearClock = true;
-        }
     }
 }

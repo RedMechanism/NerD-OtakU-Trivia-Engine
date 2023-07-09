@@ -6,8 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using static NOTE.Questions_Page;
-using static NOTE.Teams;
+using System.IO;
 
 namespace NOTE
 {
@@ -24,9 +23,12 @@ namespace NOTE
         public Tuple<string, int, int> QuestionTextPosition;
         public Tuple<string, int, int> AnswerTextPosition;
         public string SubCategoryText;
+        public bool ResetClock;
+        public string BackgroundImagePath;
         public AddQuestion_Dialog()
         {
             InitializeComponent();
+            BackgroundImagePath = "pack://application:,,,/Images/Registration.jpg";
             filePaths = new List<string>();
             QuestionPos_Combobox.SelectedIndex = 1;
             AnswerPos_Combobox.SelectedIndex = 2;
@@ -47,6 +49,26 @@ namespace NOTE
                     filePaths.Add(file);
                 }
             }
+        }
+
+        private void BackgroundSelect_Click(object sender, RoutedEventArgs e)
+        {
+            BackgroundImagePath = ImageSelect(BackgroundPath_label, BackgroundImagePath);
+        }
+        private string ImageSelect(TextBlock textBlock, string path)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                path = openFileDialog.FileName;
+                string fileName = Path.GetFileName(path);
+                string parentFolder = Path.GetDirectoryName(path);
+                string parentFolderName = new DirectoryInfo(parentFolder).Name;
+                textBlock.Text = parentFolderName + "\\" + fileName;
+            }
+
+            return path;
         }
 
         public void SaveQuestionPosition()
@@ -74,9 +96,10 @@ namespace NOTE
             Question = QuestionTextBox.Text;
             Answer = AnswerTextBox.Text;
             SubCategoryText = SubCategoryTextBox.Text;
-            DialogResult = true;
+            ResetClock = ResetClock_CheckBox.IsChecked ?? false;
             SaveQuestionPosition();
             SaveAnswerPosition();
+            DialogResult = true;
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
