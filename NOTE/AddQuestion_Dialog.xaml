@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NOTE"
         mc:Ignorable="d"
-        Title="Add Question" Height="374" Width="350">
+        Title="Add Question"
+        Width="350"
+        SizeToContent="Height">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100"/>
@@ -70,15 +72,12 @@
                     <Button x:Name="ColorPicker_Botton" Content="Select" Width="60" HorizontalAlignment="Left" Click="ColorPicker_Botton_Click" Margin="5,0,0,0" />
                 </StackPanel>
                 <Label Grid.Column="0" Grid.Row="4" Content="TextAlignment" Grid.ColumnSpan="3" Margin="0,9,0,3" Grid.RowSpan="2"/>
-                <ComboBox x:Name="TextAlignmentComboBox" Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left" Margin="5,14,0,20" Width="120" Grid.RowSpan="2">
+                <ComboBox x:Name="TextAlignmentComboBox" Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left" Margin="5,14,0,20" Height="25"  Width="120" Grid.RowSpan="2">
                     <ComboBoxItem>Left</ComboBoxItem>
                     <ComboBoxItem>Center</ComboBoxItem>
                     <ComboBoxItem>Right</ComboBoxItem>
                     <ComboBoxItem>Justify</ComboBoxItem>
                 </ComboBox>
-
-                <Label Grid.Column="0" Grid.Row="5" Content="Width" Grid.ColumnSpan="3" Margin="0,13,0,-25"/>
-                <TextBox x:Name="WidthTextBox" Grid.Column="3" Grid.Row="5" HorizontalAlignment="Left" Margin="5,18,0,-20" Width="120"/>
             </Grid>
         </Expander>
         <Label x:Name="SubCategoryLabel" Grid.Column="0" Grid.Row="2" Visibility="Collapsed" Content="Sub Category"/>
@@ -148,19 +147,18 @@
         <Label Grid.Column="0" Grid.Row="7" Content="Penalty Points"/>
         <TextBox x:Name="PenaltyTextBox" Text="0" Grid.Column="1" Grid.Row="7" Margin="5,5,200,5" Foreground="#FF938E8E"/>
         <Label Grid.Column="0" Grid.Row="8" Content="Time in seconds"/>
-        <TextBox x:Name="TimeTextBox" Height="20" Text="60" Grid.Column="1" Grid.Row="8" Margin="5,5,200,5" Foreground="#FF938E8E"/>
-        <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="9" Visibility="Collapsed" Content="Load media"/>
-        <Label Grid.Column="0" Grid.Row="10" Content="Reset clock"/>
-        <CheckBox x:Name="ResetClock_CheckBox" Grid.Column="1" Grid.Row="10" IsChecked="True" Margin="0,7,0,0"/>
-        <Label Grid.Column="0" Grid.Row="11" Content="Background"/>
-        <Button Grid.Column="1" Grid.Row="11" Content="Select image" Height="20"  Width="80" HorizontalAlignment="Left" Margin="5,0,0,0" Click="BackgroundSelect_Click"/>
-        <TextBlock x:Name="BackgroundPath_label" Grid.Column="1" Grid.Row="11" Margin="90,5,5,5" Text=""/>
+        <TextBox x:Name="TimeTextBox" Height="20" Text="60" Grid.Column="1" Grid.Row="8" Margin="5,5,0,5" Foreground="#FF938E8E" HorizontalAlignment="Left" Width="45"/>
+        <Label Grid.Column="0" Grid.Row="9" Content="Reset clock"/>
+        <CheckBox x:Name="ResetClock_CheckBox" Grid.Column="1" Grid.Row="9" IsChecked="True" Margin="0,7,0,0"/>
+        <Label Grid.Column="0" Grid.Row="10" Content="Background"/>
+        <Button Grid.Column="1" Grid.Row="10" Content="Select image" Height="20"  Width="80" HorizontalAlignment="Left" Margin="5,0,0,0" Click="BackgroundSelect_Click"/>
+        <TextBlock x:Name="BackgroundPath_label" Grid.Column="1" Grid.Row="10" Margin="90,5,5,5" Text=""/>
+        <Label x:Name="LoadMedia_Text" Grid.Column="0" Grid.Row="11" Visibility="Collapsed" Content="Load media"/>
+        <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="11" Content="Select file(s)" Visibility="Collapsed" Height="20"  Width="80" HorizontalAlignment="Left" Margin="5,0,0,0" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_Click"/>
+        <TextBlock x:Name="LoadMedia_filenames_label" Grid.Column="1" Grid.Row="11" Visibility="Collapsed" Margin="90,5,5,30" Text=""/>
 
-        <Button x:Name="LoadMedia_Button" Grid.Column="1" Grid.Row="9" Width="100" Content="Select file(s)" Visibility="Collapsed" HorizontalAlignment="Left" Height="26" Grid.RowSpan="2" VerticalAlignment="Top" Click="LoadMedia_Click"/>
-        <CheckBox x:Name="LoadMediaBatch_CheckBox" Grid.Column="1" Grid.Row="9" Content="Batch selection" HorizontalAlignment="Left" Margin="108,0,0,0" Visibility="Collapsed" VerticalAlignment="Center"/>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="9" HorizontalAlignment="Right" Margin="0,29,10,-9" Grid.Column="1">
-            <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="12" HorizontalAlignment="Right" Grid.Column="1">
+            <Button x:Name="okButton" Content="OK" Width="40" Click="okButton_Click" Margin="0,0,10,0"  IsDefault="True"/>
             <Button x:Name="cancelButton" Content="Cancel" Click="cancelButton_Click"/>
         </StackPanel>
     </Grid>

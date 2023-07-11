@@ -55,6 +55,23 @@ namespace NOTE
                 }
             }
         }
+
+        public static string ImageSelect(TextBlock textBlock, string path)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                path = openFileDialog.FileName;
+                string fileName = Path.GetFileName(path);
+                string parentFolder = Path.GetDirectoryName(path);
+                string parentFolderName = new DirectoryInfo(parentFolder).Name;
+                textBlock.Text = parentFolderName + "\\" + fileName;
+            }
+
+            return path;
+        }
+
         public static string SelectRandomFile(string dir)
         {
             var directoryInfo = new DirectoryInfo(dir).GetFiles("*.*");

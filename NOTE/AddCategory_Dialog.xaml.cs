@@ -43,28 +43,12 @@ namespace NOTE
 
         private void CategoryLogoSelect_Click(object sender, RoutedEventArgs e)
         {
-            categoryLogoPath = ImageSelect(CategoryLogoPath, categoryLogoPath);
+            categoryLogoPath = FileBrowser.ImageSelect(CategoryLogoPath, categoryLogoPath);
         }
 
         private void BackgroundSelect_Click(object sender, RoutedEventArgs e)
         {
-            backgroundPath = ImageSelect(BackgroundPath, backgroundPath);
-        }
-
-        private string ImageSelect(TextBlock textBlock, string path)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                path = openFileDialog.FileName;
-                string fileName = Path.GetFileName(path);
-                string parentFolder = Path.GetDirectoryName(path);
-                string parentFolderName = new DirectoryInfo(parentFolder).Name;
-                textBlock.Text = parentFolderName + "\\" + fileName;
-            }
-
-            return path;
+            backgroundPath = FileBrowser.ImageSelect(BackgroundPath, backgroundPath);
         }
 
         private void Enter_KeyDown(object sender, KeyEventArgs e)

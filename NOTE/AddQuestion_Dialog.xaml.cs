@@ -28,7 +28,6 @@ namespace NOTE
         public AddQuestion_Dialog()
         {
             InitializeComponent();
-            BackgroundImagePath = "pack://application:,,,/Images/Registration.jpg";
             filePaths = new List<string>();
             QuestionPos_Combobox.SelectedIndex = 1;
             AnswerPos_Combobox.SelectedIndex = 2;
@@ -48,27 +47,14 @@ namespace NOTE
                 {
                     filePaths.Add(file);
                 }
+
+                LoadMedia_filenames_label.Text = $"{openFileDialog.FileNames.Length} selected";
             }
         }
 
         private void BackgroundSelect_Click(object sender, RoutedEventArgs e)
         {
-            BackgroundImagePath = ImageSelect(BackgroundPath_label, BackgroundImagePath);
-        }
-        private string ImageSelect(TextBlock textBlock, string path)
-        {
-            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                path = openFileDialog.FileName;
-                string fileName = Path.GetFileName(path);
-                string parentFolder = Path.GetDirectoryName(path);
-                string parentFolderName = new DirectoryInfo(parentFolder).Name;
-                textBlock.Text = parentFolderName + "\\" + fileName;
-            }
-
-            return path;
+            BackgroundImagePath = FileBrowser.ImageSelect(BackgroundPath_label, BackgroundImagePath);
         }
 
         public void SaveQuestionPosition()

@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using System.Xaml;
 
 namespace NOTE
 {
@@ -108,8 +109,6 @@ namespace NOTE
                 {
                     dialog.LoadMedia_Text.Visibility = Visibility.Visible;
                     dialog.LoadMedia_Button.Visibility = Visibility.Visible;
-                    dialog.LoadMediaBatch_CheckBox.Visibility = Visibility.Visible;
-
                 }
                 else if (selectedCategory.CategoryType == "Pick your poison")
                 {
@@ -132,6 +131,8 @@ namespace NOTE
                             questionNumber = selectedCategory.QuestionCount;
                             teamIndex = questionNumber % 4;
                         }
+
+
                         itemList = dialog.filePaths;
                         foreach (string mediaPath in itemList)
                         {
@@ -182,6 +183,16 @@ namespace NOTE
                                 teamIndex = (questionNumber - 1) % 4;
                             }
 
+                            string questionBackgroundPath;
+                            if (dialog.BackgroundImagePath == null)
+                            {
+                                questionBackgroundPath = selectedCategory.BackgroundImagePath;
+                            }
+                            else
+                            {
+                                questionBackgroundPath = dialog.BackgroundImagePath;
+                            }
+
                             selectedCategory.Questions.Add(new Question
                             {
                                 QuestionText = dialog.QuestionTextBox.Text,
@@ -193,7 +204,7 @@ namespace NOTE
                                 CategoryType = selectedCategory.CategoryType,
                                 CategoryName = selectedCategory.CategoryName,
                                 SubCategoryName = dialog.SubCategoryText,
-                                BackgroundImagePath = dialog.BackgroundImagePath,
+                                BackgroundImagePath = questionBackgroundPath,
                                 Points = int.Parse(dialog.PointsTextBox.Text),
                                 BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text),
                                 Penalty = int.Parse(dialog.PenaltyTextBox.Text),
@@ -247,7 +258,7 @@ namespace NOTE
             displayedTextBlock.Foreground = question.QuestionTextColor;
             displayedTextBlock.FontWeight = FontWeights.Bold;
             displayedTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
-            displayedTextBlock.Margin = new Thickness(50, 0, 50, 0);
+            displayedTextBlock.Margin =   new Thickness(100);
 
             if (ControlCenter.Instance._settings_Page.DropShadow_checkbox.IsChecked == true)
             {
