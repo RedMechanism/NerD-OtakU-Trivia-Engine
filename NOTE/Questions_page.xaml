@@ -21,9 +21,10 @@
 
                 <!-- Context menu for Question Grid -->
                 <ContextMenu x:Key="QuestionContextMenu" Opened="QuestionContextMenu_Opened">
-                    <MenuItem Header="Delete Question" Click="RemoveQuestion_RClick"/>
+                    <MenuItem Header="Edit question" Click="EditQuestion_RClick"/>
                     <MenuItem Header="Change team" Loaded="ChangeTeamMenuItem_Loaded"/>
                     <MenuItem x:Name="ReenableButton" Header="Re-enable Button" Click="ReenableButton_RClick"/>
+                    <MenuItem Header="Delete Question" Click="RemoveQuestion_RClick"/>
                 </ContextMenu>
             </ResourceDictionary>
         </Grid.Resources>

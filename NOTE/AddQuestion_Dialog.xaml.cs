@@ -25,15 +25,43 @@ namespace NOTE
         public string SubCategoryText;
         public bool ResetClock;
         public string BackgroundImagePath;
-        public AddQuestion_Dialog()
+        public AddQuestion_Dialog(Question question = null)
         {
             InitializeComponent();
-            filePaths = new List<string>();
-            QuestionPos_Combobox.SelectedIndex = 1;
-            AnswerPos_Combobox.SelectedIndex = 2;
-            QuestionTextFontSize = 60;
-            QuestionTextColor = new SolidColorBrush(Colors.White);
-            SubCategoryText = "Null";
+            if (question == null)
+            {
+                filePaths = new List<string>();
+                QuestionPos_Combobox.SelectedIndex = 1;
+                AnswerPos_Combobox.SelectedIndex = 2;
+                QuestionTextFontSize = 60;
+                QuestionTextColor = new SolidColorBrush(Colors.White);
+                SubCategoryText = "Null";
+            }
+            else
+            {
+                // Update text boxes
+                QuestionTextBox.Text = question.QuestionText;
+                AnswerTextBox.Text = question.Answer;
+                xOffset.Text = question.QuestionTextPos.Item2.ToString();
+                yOffset.Text = question.QuestionTextPos.Item3.ToString();
+                FontSize_input.Text = question.QuestionTextFontSize.ToString();
+                FontSize_current_disp.Content = $"{question.QuestionTextFontSize}px";
+                xOffset_Answer.Text = question.AnswerTextPos.Item2.ToString();
+                yOffset_Answer.Text = question.AnswerTextPos.Item3.ToString();
+                SubCategoryTextBox.Text = question.SubCategoryName;
+                PointsTextBox.Text = question.Points.ToString();
+                BonusPointsTextBox.Text = question.BonusPoints.ToString();
+                PenaltyTextBox.Text = question.Penalty.ToString();
+                TimeTextBox.Text = ((int)question.Time.TotalSeconds).ToString();
+
+                // Update variables
+                QuestionTextColor = question.QuestionTextColor;
+                QuestionTextFontSize = question.QuestionTextFontSize;
+                QuestionPos_Combobox.SelectedIndex = 1;
+                AnswerPos_Combobox.SelectedIndex = 2;
+                SubCategoryText = question.SubCategoryName;
+
+            }
         }
 
         private void LoadMedia_Click(object sender, RoutedEventArgs e)

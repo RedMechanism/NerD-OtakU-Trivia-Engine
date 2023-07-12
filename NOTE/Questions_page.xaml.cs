@@ -109,6 +109,7 @@ namespace NOTE
                 {
                     dialog.LoadMedia_Text.Visibility = Visibility.Visible;
                     dialog.LoadMedia_Button.Visibility = Visibility.Visible;
+                    dialog.LoadMedia_filenames_label.Visibility = Visibility.Visible;
                 }
                 else if (selectedCategory.CategoryType == "Pick your poison")
                 {
@@ -596,6 +597,41 @@ namespace NOTE
             Question question = QuestionGrid.SelectedItem as Question;
 
             PickYourPoison_Page.Instance.ReenableButton(question);
+        }
+
+
+        private void EditQuestion_RClick(object sender, RoutedEventArgs e)
+        {
+            var selectedQuestion = QuestionGrid.SelectedItem as Question;
+            if (selectedQuestion != null)
+            {
+                var dialog = new AddQuestion_Dialog(selectedQuestion);
+                if (dialog.ShowDialog() == true)
+                {
+                    selectedQuestion.QuestionText = dialog.Question;
+                    selectedQuestion.Answer = dialog.Answer;
+                    selectedQuestion.QuestionTextPos = dialog.QuestionTextPosition;
+                    selectedQuestion.QuestionTextFontSize = dialog.QuestionTextFontSize;
+                    selectedQuestion.QuestionTextColor = dialog.QuestionTextColor;
+                    selectedQuestion.AnswerTextPos = dialog.AnswerTextPosition;
+                    selectedQuestion.SubCategoryName = dialog.SubCategoryText;
+                    if (dialog.BackgroundImagePath != null)
+                    {
+                        selectedQuestion.BackgroundImagePath = dialog.BackgroundImagePath;
+                    }
+                    selectedQuestion.Points = int.Parse(dialog.PointsTextBox.Text);
+                    selectedQuestion.BonusPoints = int.Parse(dialog.BonusPointsTextBox.Text);
+                    selectedQuestion.Penalty = int.Parse(dialog.PenaltyTextBox.Text);
+                    selectedQuestion.Time = TimeSpan.FromSeconds(int.Parse(dialog.TimeTextBox.Text));
+                    selectedQuestion.ClearClock = dialog.ResetClock;
+
+                    QuestionGrid.Items.Refresh();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a question to edit");
+            }
         }
     }
 }
