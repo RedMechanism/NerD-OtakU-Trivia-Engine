@@ -30,6 +30,9 @@
                 <Button x:Name="Stop_clock" Content="Reset" Height="40" Width="40" Click="TimerReset_Button"/>
                 <Button Content="Clear" Height="40" Width="40"  Click="TimerClear_Button"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="20,0,0,110">
+                <Button Content="Clear all" Height="30" Width="70"  Click="ClearAll_Button"/>
+            </StackPanel>
 
             <Button Content="Sort Players" Height="40" Width="115" HorizontalAlignment="Right" Margin="0,0,20,0" Click="TeamShufflerButton_Click"/>
 

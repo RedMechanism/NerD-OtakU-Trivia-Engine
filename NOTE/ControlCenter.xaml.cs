@@ -588,6 +588,18 @@ namespace NOTE
                 Questions_Page.Instance.DisplayAnswerText(currentQuestion);
             }
         }
+
+        private void ClearAll_Button(object sender, RoutedEventArgs e)
+        {
+            if (TriviaPlayer.Instance.TriviaPlayer_Frame.Content is not MediaPlayer_Page)
+            {
+                TriviaPlayer.Instance.TriviaPlayer_Frame.Content = new MediaPlayer_Page();
+            }
+
+            MediaPlayer_Page._media.Stop();
+            ClearTimer();
+            Questions_Page.Instance.ClearQuestionText();
+        }
         #endregion
 
         #region Keystroke Events

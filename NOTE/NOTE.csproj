@@ -13,6 +13,7 @@
     <None Remove="Images\DiscordBotListening.png" />
     <None Remove="Images\PYP_Background.jpg" />
     <None Remove="Images\Question.jpg" />
+    <None Remove="Images\QuestionBackground.jpg" />
     <None Remove="PYP_Background.jpg" />
     <None Remove="Registration.jpg" />
   </ItemGroup>
@@ -49,6 +50,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\DiscordBotListening.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\QuestionBackground.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Registration.jpg">
