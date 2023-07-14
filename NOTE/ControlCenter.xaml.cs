@@ -288,6 +288,8 @@ namespace NOTE
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
             currentQuestion = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
+            CurrentQ_disp.Content = String.Concat(currentQuestion.QuestionNumber + " - " + currentQuestion.CategoryName);
+            Status_disp.Content = String.Concat("Loaded " + currentQuestion.QuestionNumber + " - " + currentQuestion.CategoryName);
 
             if (PlayerWindowCounter() >= 1 && currentQuestion != null )
             {
@@ -377,65 +379,35 @@ namespace NOTE
         }
         private void Answer_correct_Button(object sender, RoutedEventArgs e)
         {
-            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
-            if (question != null)
+            if (currentQuestion != null)
             {
-                AddPoints(question.Team, question.Points);
-                playSound(question.Team.SoundPath);
-
-                // Colour selected row to green
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
-
-                if (selectedItem != null)
-                {
-                    
-                    DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
-                    if (row != null)
-                    {
-                        row.Background = Brushes.LightGreen;
-                    }
-                }
-            } 
+                AddPoints(currentQuestion.Team, currentQuestion.Points);
+                playSound(currentQuestion.Team.SoundPath);
+            }
             _Timer.Stop();
         }
 
         private void Bonus_correct_Button(object sender, RoutedEventArgs e)
         {
-            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
-            if (question != null)
+            if (currentQuestion != null)
             {
-                AddPoints(question.Team, question.BonusPoints);
-                playSound(question.Team.SoundPath);
+                AddPoints(currentQuestion.Team, currentQuestion.BonusPoints);
+                playSound(currentQuestion.Team.SoundPath);
             }
             _Timer.Stop();
         }
 
         private void Answer_wrong_Button(object sender, RoutedEventArgs e)
-        {
-            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
-            
-            if (question != null)
+        {   
+            if (currentQuestion != null)
             {
-                if (question.Penalty == 0)
+                if (currentQuestion.Penalty == 0)
                 {
-                    WrongAnswer(question.Team);
+                    WrongAnswer(currentQuestion.Team);
                 }
                 else
                 {
-                    DeductPoints(question.Team, question.Penalty);
-                }
-
-                // Colour selected row to red
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
-
-                if (selectedItem != null)
-                {
-
-                    DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
-                    if (row != null)
-                    {
-                        row.Background = Brushes.Tomato;
-                    }
+                    DeductPoints(currentQuestion.Team, currentQuestion.Penalty);
                 }
             }
             _Timer.Stop();
@@ -443,10 +415,9 @@ namespace NOTE
 
         private void Answer_wrong_penalty_Button(object sender, RoutedEventArgs e)
         {
-            Question? question = Questions_Page.Instance?.QuestionGrid?.SelectedItem as Question;
-            if (question != null)
+            if (currentQuestion != null)
             {
-                DeductPoints(question.Team, question.Penalty);
+                DeductPoints(currentQuestion.Team, currentQuestion.Penalty);
             }
             _Timer.Stop();
         }
