@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Media;
+using static NOTE.CountdownTimer;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace NOTE
 {
@@ -51,7 +53,7 @@ namespace NOTE
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
-    public class Question
+    public class Question : INotifyPropertyChanged
     {
         public string CategoryType { get; set; }
         public string CategoryName { get; set; }
@@ -71,5 +73,49 @@ namespace NOTE
         public bool ClearClock { get; set; }
         public string BackgroundImagePath { get; set; }
         public string SubCategoryName { get; set; }
+        private QuestionState _status;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public QuestionState Status
+        {
+            get { return _status; }
+            set
+            {
+                if (_status != value)
+                {
+                    _status = value;
+                    OnPropertyChanged(nameof(Status));
+                }
+            }
+        }
+
+        public void Correct()
+        {
+            Status = QuestionState.Correct;
+
+        }
+
+        private void Wrong()
+        {
+            Status = QuestionState.Wrong;
+        }
+
+        private void Timeout()
+        {
+            Status = QuestionState.Timeout;
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public enum QuestionState
+    {
+        Unanswered,
+        Correct,
+        Wrong,
+        Timeout
     }
 }
