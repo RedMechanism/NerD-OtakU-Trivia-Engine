@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,9 +8,6 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Linq;
-using Newtonsoft.Json.Linq;
-using System.IO;
-using System.Xaml;
 
 namespace NOTE
 {
@@ -154,7 +150,8 @@ namespace NOTE
                                 QuestionNumber = questionNumber,
                                 MediaPath = new Uri(mediaPath),
                                 ClearClock = dialog.ResetClock,
-                                Team = ControlCenter.Instance.TeamsList[teamIndex - 1]
+                                Team = ControlCenter.Instance.TeamsList[teamIndex - 1],
+                                Status = QuestionState.Unanswered
                             });
                             teamIndex++;
                             questionNumber++;
@@ -213,7 +210,8 @@ namespace NOTE
                                 QuestionNumber = questionNumber,
                                 ClearClock = dialog.ResetClock,
                                 MediaPath = null,
-                                Team = ControlCenter.Instance.TeamsList[teamIndex]
+                                Team = ControlCenter.Instance.TeamsList[teamIndex],
+                                Status = QuestionState.Unanswered
                             }); ;
                             questionNumber++;
                             selectedCategory.QuestionCount = questionNumber;
@@ -557,6 +555,11 @@ namespace NOTE
             {
                 selectedRow.DetailsVisibility = Visibility.Visible;
             }
+        }
+
+        public void ResetQuestionGrid()
+        {
+            QuestionGrid.Items.Refresh();
         }
 
         public void InitializeTextBox(TextBox textbox, string text)

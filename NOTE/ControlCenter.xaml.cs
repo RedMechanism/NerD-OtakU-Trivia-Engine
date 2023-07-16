@@ -383,6 +383,7 @@ namespace NOTE
             {
                 AddPoints(currentQuestion.Team, currentQuestion.Points);
                 playSound(currentQuestion.Team.SoundPath);
+                currentQuestion.Status = QuestionState.Correct;
             }
             _Timer.Stop();
         }
@@ -393,6 +394,7 @@ namespace NOTE
             {
                 AddPoints(currentQuestion.Team, currentQuestion.BonusPoints);
                 playSound(currentQuestion.Team.SoundPath);
+                currentQuestion.Status = QuestionState.Correct;
             }
             _Timer.Stop();
         }
@@ -409,6 +411,7 @@ namespace NOTE
                 {
                     DeductPoints(currentQuestion.Team, currentQuestion.Penalty);
                 }
+                currentQuestion.Status = QuestionState.Wrong;
             }
             _Timer.Stop();
         }
@@ -418,6 +421,7 @@ namespace NOTE
             if (currentQuestion != null)
             {
                 DeductPoints(currentQuestion.Team, currentQuestion.Penalty);
+                currentQuestion.Status = QuestionState.Wrong;
             }
             _Timer.Stop();
         }

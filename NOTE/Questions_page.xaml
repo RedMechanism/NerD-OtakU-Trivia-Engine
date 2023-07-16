@@ -58,6 +58,18 @@
                           Visibility="{Binding IsExpanded}"
                           Style="{StaticResource QuestionDataGridStyle}"
                           ContextMenu="{StaticResource QuestionContextMenu}">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Status}" Value="Correct">
+                                        <Setter Property="Background" Value="LightGreen"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Status}" Value="Wrong">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="#" Binding="{Binding QuestionNumber}"/>
                             <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
@@ -67,6 +79,7 @@
                             <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                             <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
                             <DataGridTextColumn Header="Answer" Binding="{Binding Answer}"/>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
                             <DataGridTextColumn Header="Question" Binding="{Binding QuestionText}"/>
                             <DataGridTextColumn Header="Media Path" Binding="{Binding MediaPath}"/>
                             <DataGridTextColumn Header="SubCategory" Binding="{Binding SubCategoryName}"/>
