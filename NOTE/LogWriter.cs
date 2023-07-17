@@ -60,11 +60,11 @@ namespace NOTE
 
                 if (selectedItem != null)
                 {
-                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber} incorrect answer");
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber}, incorrect, Total = {TeamX.Score} pts");
                 }
                 else
                 {
-                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name} incorrect answer");
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, incorrect, Total = {TeamX.Score} pts");
                 }
             }
         }

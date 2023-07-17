@@ -10,13 +10,15 @@
     <Viewbox>
         <Grid x:Name="ControlGrid">
             <!-- Left panel -->
-            <Button Content="Files" HorizontalAlignment="Left" Margin="20,130,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="File_viewer_Button"/>
-            <Button Content="Questions" HorizontalAlignment="Left" Margin="20,78,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Questions_Page_Button"/>
-            <Button Content="Settings" HorizontalAlignment="Left" Margin="20,182,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Settings_Page_Button"/>
-            <Button Content="Scores" HorizontalAlignment="Left" Margin="20,233,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Scores_page_Button"/>
-            <Button Content="Players" HorizontalAlignment="Left" Margin="20,285,0,0" VerticalAlignment="Top" Height="46" Width="78" Click="Players_page_Button"/>
+            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,40,0,0">
+                <Button Content="Questions" Height="46" Width="78" Click="Questions_Page_Button" Margin="0,0,0,5"/>
+                <Button Content="Files" Height="46" Width="78" Click="File_viewer_Button" Margin="0,0,0,5"/>
+                <Button Content="Settings" Height="46" Width="78" Click="Settings_Page_Button" Margin="0,0,0,5"/>
+                <Button Content="Scores" Height="46" Width="78" Click="Scores_page_Button" Margin="0,0,0,5"/>
+                <Button Content="Players" Height="46" Width="78" Click="Players_page_Button" Margin="0,0,0,5"/>
+                <Button Content="Logs" Height="46" Width="78" Click="Logs_page_Button"/>
+            </StackPanel>
             <Button x:Name="Launch_Player" Content="Launch player!" HorizontalAlignment="Left" Margin="20,0,0,11" VerticalAlignment="Bottom" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
-
             <!-- Right panel -->
             <StackPanel Orientation="Horizontal" Margin="848,106,3,371">
                 <Button x:Name="timer60sec" Content="60s" Height="40" Width="40" Click="Timer60_Button"/>

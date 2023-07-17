@@ -487,6 +487,13 @@ namespace NOTE
                 Page_Frame.Content = new Questions_Page();
             Page_Frame.Content = Questions_Page.Instance;
         }
+        private void Logs_page_Button(object sender, RoutedEventArgs e)
+        {
+            if (Logs_Page.Instance == null)
+                Page_Frame.Content = new Logs_Page();
+            Page_Frame.Content = Logs_Page.Instance;
+        }
+
         private void End_game(object sender, RoutedEventArgs e)
         {
             if (PlayerWindowCounter()>=1)

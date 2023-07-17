@@ -16,6 +16,9 @@
     <Compile Update="Files_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Logs_Page.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MediaPlayer_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -61,6 +64,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Files_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Logs_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MediaPlayer_Page.xaml">
