@@ -28,7 +28,7 @@ namespace NOTE
             LoadLogFile();
         }
 
-        private void LoadLogFile()
+        public void LoadLogFile()
         {
             var logEntries = new List<LogEntry>();
             var lines = System.IO.File.ReadAllLines(LogWriter.fileName);

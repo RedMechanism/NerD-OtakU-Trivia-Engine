@@ -492,6 +492,7 @@ namespace NOTE
             if (Logs_Page.Instance == null)
                 Page_Frame.Content = new Logs_Page();
             Page_Frame.Content = Logs_Page.Instance;
+            Logs_Page.Instance.LoadLogFile();
         }
 
         private void End_game(object sender, RoutedEventArgs e)

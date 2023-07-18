@@ -13,7 +13,7 @@ namespace NOTE
             DoubleAnimation slideOffScreen = new DoubleAnimation()
             {
                 From = 0,
-                To = -SystemParameters.VirtualScreenWidth / 2,
+                To = -SystemParameters.VirtualScreenWidth,
                 Duration = TimeSpan.FromSeconds(0.7)
             };
             element.RenderTransform = new TranslateTransform();
@@ -24,7 +24,7 @@ namespace NOTE
         {
             DoubleAnimation slideOnScreen = new DoubleAnimation()
             {
-                From = -SystemParameters.VirtualScreenWidth / 2,
+                From = -SystemParameters.VirtualScreenWidth,
                 To = 0,
                 Duration = TimeSpan.FromSeconds(0.7)
             };
