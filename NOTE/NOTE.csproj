@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Images\DinChat.png" />
     <None Remove="Images\DiscordBotListening.png" />
+    <None Remove="Images\LogsPage.png" />
     <None Remove="Images\PYP_Background.jpg" />
     <None Remove="Images\Question.jpg" />
     <None Remove="Images\QuestionBackground.jpg" />
@@ -52,6 +53,7 @@
     <Resource Include="Images\DiscordBotListening.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\LogsPage.png" />
     <Resource Include="Images\QuestionBackground.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

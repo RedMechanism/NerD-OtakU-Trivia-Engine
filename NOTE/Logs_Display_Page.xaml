@@ -1,0 +1,30 @@
+﻿<Page x:Class="NOTE.Logs_Display_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:NOTE"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Logs_Display_Page">
+    <Page.Background>
+        <ImageBrush ImageSource="Images/LogsPage.png"/>
+    </Page.Background>
+    <Grid>
+        <DataGrid x:Name="LogDataGrid" 
+          AutoGenerateColumns="False" 
+          Margin="70,70,70,25" 
+          FontSize="24"
+          Sorting="LogDataGrid_Sorting">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
+                <DataGridTextColumn Header="Time" Binding="{Binding Time}"/>
+                <DataGridTextColumn Header="Team" Binding="{Binding Team}"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}"/>
+                <DataGridTextColumn Header="Question#" Binding="{Binding Question}"/>
+                <DataGridTextColumn Header="Score" Binding="{Binding Score}"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Page>

@@ -9,7 +9,9 @@
       Title="Logs_Page">
 
     <Grid>
-        <DataGrid x:Name="LogDataGrid" AutoGenerateColumns="False">
+        <DataGrid x:Name="LogDataGrid" 
+                  AutoGenerateColumns="False"
+                  Sorting="LogDataGrid_Sorting">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}"/>
                 <DataGridTextColumn Header="Time" Binding="{Binding Time}"/>
@@ -20,6 +22,6 @@
                 <DataGridTextColumn Header="Total" Binding="{Binding Total}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Show logs" HorizontalAlignment="Right" Height="40" Width="80" VerticalAlignment="Bottom" Margin="0,0,5,5" Click="Show_logs_Click"/>
     </Grid>
-
 </Page>

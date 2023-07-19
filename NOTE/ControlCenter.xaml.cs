@@ -168,15 +168,6 @@ namespace NOTE
             }
             Timer_display.Content = "";
         }
-
-        public void ClearText()
-        {
-            if (PlayerWindowCounter() >= 1)
-            {
-                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
-                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
-            }
-        }
         # endregion
 
         #region Scoring
