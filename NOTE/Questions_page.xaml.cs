@@ -92,7 +92,7 @@ namespace NOTE
             {
                 InitializeTextBox(dialog.QuestionTextBox, selectedCategory.QuestionText);
                 InitializeTextBox(dialog.SubCategoryTextBox, "N/A");
-                InitializeTextBox(dialog.AnswerTextBox, "This is the cure");
+                InitializeTextBox(dialog.AnswerTextBox, "");
                 InitializeTextBox(dialog.PointsTextBox, selectedCategory.Points.ToString());
                 InitializeTextBox(dialog.BonusPointsTextBox, selectedCategory.BonusPoints.ToString());
                 InitializeTextBox(dialog.PenaltyTextBox, selectedCategory.Penalty.ToString());

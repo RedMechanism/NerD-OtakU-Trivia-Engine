@@ -27,7 +27,7 @@ namespace NOTE
             InitializeTextBox(BonusPointsTextBox, "5");
             InitializeTextBox(PenaltyPointsTextBox, "0");
             InitializeTextBox(TimeTextBox, "60");
-            InitializeTextBox(QuestionTextBox, "This is a sickness");
+            InitializeTextBox(QuestionTextBox, "");
         }
 
         private void okButton_Click(object sender, RoutedEventArgs e)

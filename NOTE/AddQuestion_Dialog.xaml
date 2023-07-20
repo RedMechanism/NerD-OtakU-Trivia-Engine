@@ -29,7 +29,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Question"/>
-        <TextBox x:Name="QuestionTextBox" Text="This is a sickness!" Grid.Column="1" Grid.Row="0" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
+        <TextBox x:Name="QuestionTextBox" Text="" Grid.Column="1" Grid.Row="0" Margin="5" Height="40" TextWrapping="Wrap" Foreground="Gray"/>
         <Expander x:Name="TextOptions_Expander" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Header="Question Text Options" Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -84,7 +84,7 @@
         <Label x:Name="SubCategoryLabel" Grid.Column="0" Grid.Row="2" Visibility="Collapsed" Content="Sub Category"/>
         <TextBox x:Name="SubCategoryTextBox" Visibility="Collapsed" Text="N/A" Grid.Column="1" Grid.Row="2" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
         <Label Grid.Column="0" Grid.Row="3" Content="Answer"/>
-        <TextBox x:Name="AnswerTextBox" Text="This is the cure" Grid.Column="1" Grid.Row="3" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
+        <TextBox x:Name="AnswerTextBox" Text="" Grid.Column="1" Grid.Row="3" Margin="5" Height="25" TextWrapping="Wrap" Foreground="Gray"/>
         <Expander x:Name="AnswerTextOptions_Expander" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Header="Answer Text Options" Margin="5">
             <Grid>
                 <Grid.ColumnDefinitions>
