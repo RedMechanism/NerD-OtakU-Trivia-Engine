@@ -365,7 +365,19 @@ namespace NOTE
                         TriviaPlayer.Instance._pickPoison_page = new PickYourPoison_Page(questions);
                     }
                 }
-                
+                else if (currentQuestion.CategoryType == "Crossword")
+                {
+                    ClearTimer();
+                    Questions_Page.Instance.ClearQuestionText();
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._crossWord_page;
+                    var selectedCategory = Questions_Page.Instance.CategoryGrid.SelectedItem as Category;
+                    List<Question> questions = selectedCategory.Questions.ToList();
+
+                    if (TriviaPlayer.Instance._crossWord_page == null || !TriviaPlayer.Instance._crossWord_page.Questions.SequenceEqual(selectedCategory.Questions))
+                    {
+                        TriviaPlayer.Instance._crossWord_page = new Crossword_Page(questions);
+                    }
+                }
             }
         }
         private void Answer_correct_Button(object sender, RoutedEventArgs e)

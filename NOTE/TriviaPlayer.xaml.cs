@@ -20,6 +20,7 @@ namespace NOTE
         public TextBox displayTimer;
         public Image clock_face;
         public PickYourPoison_Page _pickPoison_page;
+        public Crossword_Page _crossWord_page;
         public MediaPlayer_Page _mediaPlayer_page;
         public TriviaPlayer()
         {

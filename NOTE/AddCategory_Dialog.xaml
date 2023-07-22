@@ -29,6 +29,7 @@
             <ComboBoxItem IsSelected="True" Content="Q&amp;A"/>
             <ComboBoxItem Content="Media"/>
             <ComboBoxItem Content="Pick your poison"/>
+            <ComboBoxItem Content="Crossword"/>
             <ComboBoxItem Content="Other"/>
         </ComboBox>
         <Label Grid.Column="0" Grid.Row="1" Content="Category Name"/>
