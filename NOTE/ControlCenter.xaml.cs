@@ -377,6 +377,9 @@ namespace NOTE
                     {
                         TriviaPlayer.Instance._crossWord_page = new Crossword_Page(questions);
                     }
+
+                    ClueCrossword_button.Visibility = Visibility.Visible;
+                    GenCrossword_button.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -585,6 +588,19 @@ namespace NOTE
             MediaPlayer_Page._media.Stop();
             ClearTimer();
             Questions_Page.Instance.ClearQuestionText();
+        }
+
+        private void GenCrossword_Click(object sender, RoutedEventArgs e)
+        {
+            Crossword_Page.Instance.GenerateButton_Click(sender, e);
+        }
+
+        private void ShowClueCrossword_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter() >= 1 && currentQuestion != null)
+            {
+                Crossword_Page.Instance.ClueBox.Text = currentQuestion.QuestionText;
+            }
         }
         #endregion
 

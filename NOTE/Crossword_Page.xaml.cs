@@ -7,6 +7,7 @@ using System.Windows.Input;
 using Microsoft.Win32;
 using System.IO;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace NOTE
 {
@@ -34,6 +35,10 @@ namespace NOTE
             Instance = this;
             DataContext = this;
             Questions = questions;
+            ImageBrush myBrush = new ImageBrush();
+            myBrush.ImageSource = new BitmapImage(new Uri(Questions[0].BackgroundImagePath));
+            LayoutRoot.Background = myBrush;
+            CategoryName.Text = Questions[0].CategoryName;
 
             // Dynamically create grid rows and columns
             for (int i = 0; i < _board.N; i++)
@@ -209,7 +214,7 @@ namespace NOTE
 
         public void GenerateButton_Click(object sender, RoutedEventArgs e)
         {
-            _words = Questions.Select(wc => wc.QuestionText).ToList();
+            _words = Questions.Select(wc => wc.Answer).ToList();
             _words.Sort(Comparer);
             _words.Reverse();
             _order = _words;
@@ -280,6 +285,5 @@ namespace NOTE
             }
             blackSquaresLabel.Content = (_board.N * _board.M).ToString();
         }
-
     }
 }

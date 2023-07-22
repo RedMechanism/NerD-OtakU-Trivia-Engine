@@ -5,15 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:NOTE"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="716" d:DesignWidth="1280"
       Title="Crossword_Page">
+
     <Grid x:Name="LayoutRoot" Width="1280" Height="716" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="729*" />
             <ColumnDefinition Width="456*" />
         </Grid.ColumnDefinitions>
-        <Grid x:Name="grid1" Height="644" VerticalAlignment="Top" Margin="10,10,360,0" Background="#FFE40C0C" Grid.ColumnSpan="2">
-        </Grid>
+        <Grid x:Name="grid1" Height="640" VerticalAlignment="Top" Margin="10,66,450,0" Background="#FFE40C0C" Grid.ColumnSpan="2" Width="820"/>
         <Button Content="" Height="21.71" HorizontalAlignment="Right" Margin="0,0,250,576" Name="button4" VerticalAlignment="Bottom" Width="88" Visibility="Hidden">
             <Button.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -33,13 +33,31 @@
         </Button>
         <ListView Height="137" Visibility="Hidden" HorizontalAlignment="Left" Margin="225,34,0,0" Name="horizontalWordsListView" VerticalAlignment="Top" Width="166" Grid.Column="1" />
         <ListView Height="140" Visibility="Hidden" HorizontalAlignment="Left" Margin="225,210,0,0" Name="verticalWordsListView" VerticalAlignment="Top" Width="166" Grid.Column="1" />
-        <Label Visibility="Hidden" Grid.Column="1" Height="32" Margin="352,505,0,0" Name="blackSquaresLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" />
-        <Label x:Name="ClueBox" Content="Clues go Here! Keep an eye out!" HorizontalAlignment="Left" Margin="104,659,0,0" VerticalAlignment="Top" Height="89" Width="950" FontSize="24" Grid.ColumnSpan="2" FontWeight="Bold" Background="{x:Null}" Foreground="#FFFF9FFB">
-            <Label.Resources>
-                <Style TargetType="TextBlock">
-                    <Setter Property="TextWrapping" Value="Wrap" />
-                </Style>
-            </Label.Resources>
+        <Label Visibility="Hidden" Grid.Column="1" Height="32" Margin="352,505,0,0" Name="blackSquaresLabel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="40" Background="{x:Null}" />
+        <Rectangle Grid.Column="1" Height="483" Margin="72,225,22,0" VerticalAlignment="Top" Fill="yellow" Opacity="0.6" RadiusX="10" RadiusY="10"/>
+        <TextBlock x:Name="ClueBox" HorizontalAlignment="Left" Margin="83,294,0,0" VerticalAlignment="Top" 
+           Height="400" Width="380" FontSize="24" FontWeight="Bold" 
+           Background="{x:Null}" Foreground="Purple" TextWrapping="Wrap" Grid.Column="1">
+           Clues go Here! Keep an eye out!
+        </TextBlock>
+        <Label Grid.Column="1" Foreground="Blue" Content="CLUE" HorizontalAlignment="Left" Margin="197,229,0,0" VerticalAlignment="Top" FontFamily="Arial Black" FontSize="40"/>
+        <Label Margin="10,9,450,0" 
+           VerticalAlignment="Top" 
+           Grid.ColumnSpan="2" 
+           Width="820">
+            <Label.Content>
+                <TextBlock x:Name="CategoryName" Text="Category name" 
+                   FontSize="42" 
+                   FontFamily="Arial Black" 
+                   TextAlignment="Center" Width="810"
+                   Foreground="Tomato"/>
+            </Label.Content>
+            <Label.Effect>
+                <DropShadowEffect ShadowDepth="1.5" 
+                          BlurRadius="3" 
+                          Color="Black" 
+                          Opacity="0.7"/>
+            </Label.Effect>
         </Label>
     </Grid>
 </Page>

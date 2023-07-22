@@ -9,6 +9,10 @@
         Height="576" Width="1024" MinWidth="200" MinHeight="200">
     <Viewbox>
         <Grid x:Name="ControlGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="685*"/>
+                <ColumnDefinition Width="326*"/>
+            </Grid.ColumnDefinitions>
             <!-- Left panel -->
             <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20,40,0,0">
                 <Button Content="Questions" Height="46" Width="78" Click="Questions_Page_Button" Margin="0,0,0,5"/>
@@ -20,13 +24,13 @@
             </StackPanel>
             <Button x:Name="Launch_Player" Content="Launch player!" HorizontalAlignment="Left" Margin="20,0,0,11" VerticalAlignment="Bottom" Height="94" Width="126"  Click = "LaunchPlayer_Button" />
             <!-- Right panel -->
-            <StackPanel Orientation="Horizontal" Margin="848,106,3,371">
+            <StackPanel Orientation="Horizontal" Margin="163,106,3,371" Grid.Column="1">
                 <Button x:Name="timer60sec" Content="60s" Height="40" Width="40" Click="Timer60_Button"/>
                 <Button x:Name="timer30sec" Content="30s" Height="40" Width="40" Click="Timer30_Button"/>
                 <Button x:Name="timer15sec" Content="15s" Height="40" Width="40" Click="Timer15_Button"/>
                 <TextBox x:Name="Custom_timer_input" MaxLength="3" HorizontalAlignment="Center"  TextWrapping="Wrap" Text="0" VerticalAlignment="Center" Width="40" Height="40" TextAlignment="Center" FontFamily="DS-Digital" FontSize="24" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" KeyDown="Timer_avail_changed"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="848,154,3,323">
+            <StackPanel Orientation="Horizontal" Margin="163,154,3,323" Grid.Column="1">
                 <Button x:Name="Start_clock" Content="Start" Height="40" Width="40" Click="TimerStart_Button"/>
                 <Button x:Name="Pause_clock" Content="Stop" Height="40" Width="40" Click="TimerStop_Button"/>
                 <Button x:Name="Stop_clock" Content="Reset" Height="40" Width="40" Click="TimerReset_Button"/>
@@ -36,16 +40,16 @@
                 <Button Content="Clear all" Height="30" Width="70"  Click="ClearAll_Button"/>
             </StackPanel>
 
-            <Button Content="Sort Players" Height="40" Width="115" HorizontalAlignment="Right" Margin="0,0,20,0" Click="TeamShufflerButton_Click"/>
+            <Button Content="Sort Players" Height="40" Width="115" HorizontalAlignment="Left" Margin="191,238,0,239" Click="TeamShufflerButton_Click" Grid.Column="1"/>
 
-            <Image x:Name="Clock_face_image" Source="Images/clock_face.png" Height="100" Width="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,28,0"/>
+            <Image x:Name="Clock_face_image" Source="Images/clock_face.png" Height="100" Width="100" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,0,28,0" Grid.Column="1"/>
             <Label x:Name="Timer_display" Content="" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
-                  FontSize="60" FontWeight="Bold" FontFamily="DS-Digital" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,16,41,0" Width="73"/>
+                  FontSize="60" FontWeight="Bold" FontFamily="DS-Digital" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,16,41,0" Width="73" Grid.Column="1"/>
 
 
             <!-- Center panel -->
-            <Frame  x:Name="Page_Frame" Source="Questions_Page.xaml" NavigationUIVisibility="Hidden" Margin="130,-8,0,0" VerticalAlignment="Top" Height="406" HorizontalAlignment="Left" Width="698"/>
-            <MediaElement x:Name="Tick_sound" LoadedBehavior="Manual" Height="0" Width="0" />
+            <Frame  x:Name="Page_Frame" Source="Questions_Page.xaml" NavigationUIVisibility="Hidden" Margin="130,-8,0,0" VerticalAlignment="Top" Height="406" HorizontalAlignment="Left" Width="698" Grid.ColumnSpan="2"/>
+            <MediaElement x:Name="Tick_sound" LoadedBehavior="Manual" Height="0" Width="0" Margin="506,258,179,259" />
 
             <!-- Bottom panel -->
             <Button x:Name="Correct_button" Content="Correct" Margin="535,0,0,58" Height="48" Width="127" Click="Answer_correct_Button" Background="LightGreen" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
@@ -53,22 +57,24 @@
             <Label x:Name="Status_disp" Content="No scores yet" HorizontalAlignment="Left" Margin="235,0,0,4" VerticalAlignment="Bottom"/>
             <TextBox x:Name="Points_input" Text ="10" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="540,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="81" Height="18" KeyDown="Points_avail_changed"/>
             <Label x:Name="Points_avail_disp" Content="10pts" HorizontalAlignment="Left" Margin="629,0,0,23" VerticalAlignment="Bottom" />
-            <Button x:Name="Bonus_button" Content="Flex" HorizontalAlignment="Left" Margin="670,415,0,0" VerticalAlignment="Top" Height="26" Width="80" Click="Bonus_correct_Button"/>
-            <TextBox x:Name="Bonus_points_input" Text ="5" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="673,449,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" Height="18" KeyDown="Bonus_points_avail_changed"/>
-            <Label x:Name="Bonus_points_avail_disp" Content="5pts" HorizontalAlignment="Left" Margin="723,445,0,0" VerticalAlignment="Top" Width="43" RenderTransformOrigin="0.452,0.882" />
+            <Button x:Name="Bonus_button" Content="Flex" HorizontalAlignment="Left" Margin="670,415,0,0" VerticalAlignment="Top" Height="26" Width="80" Click="Bonus_correct_Button" Grid.ColumnSpan="2"/>
+            <TextBox x:Name="Bonus_points_input" Text ="5" Foreground="#FF938E8E" HorizontalAlignment="Left" Margin="673,449,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="45" Height="18" KeyDown="Bonus_points_avail_changed" Grid.ColumnSpan="2"/>
+            <Label x:Name="Bonus_points_avail_disp" Content="5pts" HorizontalAlignment="Left" Margin="38,445,0,0" VerticalAlignment="Top" Width="43" RenderTransformOrigin="0.452,0.882" Grid.Column="1" />
             <Button Content="Start/pause" Margin="396,0,0,58" Height="48" Width="127" Click="Play_pause_Button" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             <Button Content="Wrong" Margin="255,0,0,58" Height="48" Width="127" Click="Answer_wrong_Button" Background="Red" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             <Button x:Name="Penalty_button" Content="Poison" Margin="163,0,0,78" Height="26" Width="80" Click="Answer_wrong_penalty_Button" Background="#FF4F9418" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             <TextBox x:Name="Trickle_penalty_input" Text ="5" Foreground="#FF938E8E" Margin="164,0,0,53" TextWrapping="Wrap" Height="18" KeyDown="Trickle_penalty_avail_changed" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="40"/>
             <Label x:Name="Trickle_penalty_avail_disp" Content="-5pts" Margin="204,0,0,50" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-            <Button Content="Play" HorizontalAlignment="Left" Margin="877,403,0,0" VerticalAlignment="Top" Height="30" Width="35" Click="Play_Button"/>
-            <Button Content="Pause" HorizontalAlignment="Left" Margin="915,403,0,0" VerticalAlignment="Top" Height="31" Width="38" Click="Pause_Button"/>
-            <Button x:Name="Stop_button" Content="Stop" HorizontalAlignment="Left" Margin="955,403,0,0" VerticalAlignment="Top" Height="31" Width="36" Click="Stop_Button"/>
-            <Button x:Name="Show_scores" Content="Show scores" HorizontalAlignment="Left" Margin="877,449,0,0" VerticalAlignment="Top" Height="57" Width="114" Click="Show_scores_Click"/>
-            <Button Content="End game" HorizontalAlignment="Left" Margin="877,348,0,0" VerticalAlignment="Top" Height="39" Width="115" Click="End_game"/>
+            <Button Content="Play" HorizontalAlignment="Left" Margin="192,403,0,0" VerticalAlignment="Top" Height="30" Width="35" Click="Play_Button" Grid.Column="1"/>
+            <Button Content="Pause" HorizontalAlignment="Left" Margin="230,403,0,0" VerticalAlignment="Top" Height="31" Width="38" Click="Pause_Button" Grid.Column="1"/>
+            <Button x:Name="Stop_button" Content="Stop" HorizontalAlignment="Left" Margin="270,403,0,0" VerticalAlignment="Top" Height="31" Width="36" Click="Stop_Button" Grid.Column="1"/>
+            <Button x:Name="Show_scores" Content="Show scores" HorizontalAlignment="Left" Margin="192,449,0,0" VerticalAlignment="Top" Height="57" Width="114" Click="Show_scores_Click" Grid.Column="1"/>
+            <Button Content="End game" HorizontalAlignment="Left" Margin="192,348,0,0" VerticalAlignment="Top" Height="39" Width="115" Click="End_game" Grid.Column="1"/>
             <Button x:Name="ShowAnswer_button" Content="Show answer" HorizontalAlignment="Left" Margin="417,472,0,0" VerticalAlignment="Top" Height="30" Width="85" Background="#FFD199E8" Click="ShowAnswer_button_Click"/>
             <Label Content="Loaded Question:" HorizontalAlignment="Left" Margin="160,0,0,22" VerticalAlignment="Bottom" FontWeight="Bold"/>
             <Label x:Name="CurrentQ_disp" Content="No question loaded" Width="150" HorizontalAlignment="Left" Margin="262,0,0,22" VerticalAlignment="Bottom"/>
+            <Button x:Name="GenCrossword_button" Visibility="Collapsed" Content="Generate" HorizontalAlignment="Left" Margin="254,296,0,0" VerticalAlignment="Top" Grid.Column="1" Height="30" Width="55" Click="GenCrossword_Click"/>
+            <Button x:Name="ClueCrossword_button" Visibility="Collapsed" Content="Show Clue" HorizontalAlignment="Left" Margin="188,296,0,0" VerticalAlignment="Top" Grid.Column="1" Height="30" Width="65" Click="ShowClueCrossword_Click"/>
         </Grid>
     </Viewbox>
 </Window>
