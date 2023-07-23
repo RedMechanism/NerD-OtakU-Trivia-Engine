@@ -91,6 +91,8 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button x:Name="addCategoryButton" Content="Add Category" Click="AddCategory_Button" Width="80" Height="40"/>
             <Button x:Name="addQuestionButton" Content="Add Question" Click="AddQuestion_Button" Width="80" Height="40"/>
+            <Button Content="Save Questions" Click="SaveToJson" Width="80" Height="40" />
+            <Button Content="Load Questions" Click="LoadFromJson" Width="80" Height="40" />
         </StackPanel>
     </Grid>
 </Page>

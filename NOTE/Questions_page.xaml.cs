@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text.Json;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -8,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace NOTE
 {
@@ -602,7 +605,6 @@ namespace NOTE
             PickYourPoison_Page.Instance.ReenableButton(question);
         }
 
-
         private void EditQuestion_RClick(object sender, RoutedEventArgs e)
         {
             var selectedQuestion = QuestionGrid.SelectedItem as Question;
@@ -634,6 +636,31 @@ namespace NOTE
             else
             {
                 MessageBox.Show("Please select a question to edit");
+            }
+        }
+
+        private void SaveToJson(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.SaveFileDialog saveFileDialog = new Microsoft.Win32.SaveFileDialog();
+            saveFileDialog.Filter = "JSON Files (*.json)|*.json";
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                string json = JsonConvert.SerializeObject(CategoryGrid.ItemsSource, Formatting.Indented);
+                File.WriteAllText(saveFileDialog.FileName, json);
+            }
+        }
+
+        private void LoadFromJson(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
+            openFileDialog.Filter = "JSON Files (*.json)|*.json";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string json = File.ReadAllText(openFileDialog.FileName);
+                var categories = JsonConvert.DeserializeObject<ObservableCollection<Category>>(json);
+                CategoryGrid.ItemsSource = categories;
             }
         }
     }
