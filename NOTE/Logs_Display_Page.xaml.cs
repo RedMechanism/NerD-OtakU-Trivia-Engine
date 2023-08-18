@@ -9,8 +9,11 @@ namespace NOTE
     /// </summary>
     public partial class Logs_Display_Page : Page
     {
+        public static Logs_Display_Page Instance;
         public Logs_Display_Page(List<Logs_Page.LogEntry> logEntry)
         {
+            Instance = this;
+
             InitializeComponent();
             LogDataGrid.ItemsSource = logEntry;
         }

@@ -28,7 +28,7 @@ namespace NOTE
             LogDataGrid.ItemsSource = LoadLogFile();
         }
 
-        public List<LogEntry> LoadLogFile()
+        public static List<LogEntry> LoadLogFile()
         {
             var logEntries = new List<LogEntry>();
             var lines = File.ReadAllLines(LogWriter.fileName);
@@ -42,6 +42,11 @@ namespace NOTE
             }
 
             return logEntries;
+        }
+
+        public static void UpdateLogDataGrid()
+        {
+            Instance.LogDataGrid.ItemsSource = LoadLogFile();
         }
 
         public static LogEntry ParseLogEntry(string line)
@@ -116,7 +121,13 @@ namespace NOTE
                 }
                 else if (TriviaPlayer.Instance.TriviaPlayer_Frame.Content is MediaPlayer_Page)
                 {
-                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = new Logs_Display_Page(LoadLogFile());
+                    if (Logs_Display_Page.Instance == null)
+                        TriviaPlayer.Instance.TriviaPlayer_Frame.Content = new Logs_Display_Page(LoadLogFile());
+                    else
+                    {
+                        Logs_Display_Page.Instance.LogDataGrid.ItemsSource = LoadLogFile();
+                        TriviaPlayer.Instance.TriviaPlayer_Frame.Content = Logs_Display_Page.Instance;
+                    }
                 }
             }
         }
