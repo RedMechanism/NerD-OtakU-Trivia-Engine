@@ -36,23 +36,37 @@ namespace NOTE
 
         private async Task ConnectBot()
         {
-            using (var reader = new StreamReader("config.json"))
+            try
             {
-                var json = await reader.ReadToEndAsync();
-                config = JsonSerializer.Deserialize<dynamic>(json);
+                using (var reader = new StreamReader("config.json"))
+                {
+                    var json = await reader.ReadToEndAsync();
+                    config = JsonSerializer.Deserialize<dynamic>(json);
+                }
+
+                discord = new DiscordClient(new DiscordConfiguration()
+                {
+                    Token = config.GetProperty("Token").GetString(),
+                    TokenType = TokenType.Bot,
+                    Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
+                });
+
+                // Register the MessageCreated event handler
+                discord.MessageCreated += Discord_MessageCreated;
+
+                await discord.ConnectAsync();
             }
-
-            discord = new DiscordClient(new DiscordConfiguration()
+            catch (Exception ex)
             {
-                Token = config.GetProperty("Token").GetString(),
-                TokenType = TokenType.Bot,
-                Intents = DiscordIntents.AllUnprivileged | DiscordIntents.MessageContents
-            });
-
-            // Register the MessageCreated event handler
-            discord.MessageCreated += Discord_MessageCreated;
-
-            await discord.ConnectAsync();
+                if (ex.Message == "Authentication failed. Check your token and try again.")
+                {
+                    MessageBox.Show("Discord authentication failed. Please check your token and try again.", "Authentication Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
         private async Task DisconnectBot()
         {
