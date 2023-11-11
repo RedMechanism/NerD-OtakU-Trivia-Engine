@@ -7,10 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="AddCategory_Dialog.xaml.cs">
+    <Compile Update="MediaPlayer_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Files_Page.xaml.cs">
+    <Compile Update="NerdFeud_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Questions_Page.xaml.cs">
@@ -19,30 +19,24 @@
     <Compile Update="Scores_Page.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Settings_Page.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="TriviaPlayer.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="AddCategory_Dialog.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="ControlCenter.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Files_Page.xaml">
+    <Page Update="MediaPlayer_Page.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="NerdFeud_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Questions_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Scores_Page.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Settings_Page.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="TriviaPlayer.xaml">

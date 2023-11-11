@@ -7,69 +7,45 @@
       mc:Ignorable="d" 
       d:DesignHeight="476" d:DesignWidth="724"
       Title="Questions_page">
+    <Page.Resources>
+        <Style TargetType="DataGridRow" x:Key="OpaqueDataGridRowStyle">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+    </Page.Resources>
     <Grid>
-        <DataGrid x:Name="CategoryGrid" 
-                  AutoGenerateColumns="False"   
-                  Margin="0,0,0,40" 
+        <Grid.Resources>
+            <Style TargetType="{x:Type DataGridRow}" x:Key="CustomDataGridRowStyle">
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="pink"/>
+                        <Setter Property="Foreground" Value="Black"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
+        <DataGrid x:Name="CategoryGrid" Opacity="0.8"
+                  AutoGenerateColumns="False" 
                   RowDetailsVisibilityChanged="MainGrid_RowDetailsVisibilityChanged"
-                  MouseLeftButtonUp="CategoryGrid_LButtonUp"
-                  ContextMenuOpening="CategoryGrid_ContextMenuOpening"
-                  ScrollViewer.CanContentScroll="False"
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
                   PreviewMouseDown="CategoryGrid_PreviewMouseDown">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
+                <DataGridTextColumn Header="Question" Binding="{Binding QuestionName}"/>
+                <DataGridTextColumn Header="Team" Binding="{Binding Team.Name}"/>
                 <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>
-                <DataGridTextColumn Header="BonusPoints" Binding="{Binding BonusPoints}"/>
+                <DataGridTextColumn Header="Flex" Binding="{Binding BonusPoints}"/>
                 <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
                 <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
-                <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
-                <DataGridTextColumn Header="Special" Binding="{Binding IsSpecial}"/>
             </DataGrid.Columns>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Display Category" Click="DisplayCategory_RClick"/>
-                    <MenuItem Header="Delete Category" Click="RemoveCategory_RClick"/>
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <DataGrid x:Name="QuestionGrid" AutoGenerateColumns="False" 
-                      ItemsSource="{Binding Questions}"
-                      IsReadOnly="True"
-                      MouseLeftButtonUp="QuestionGrid_LButtonUp"
-                      Visibility="{Binding IsExpanded}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="#" Binding="{Binding QuestionNumber}"/>
-                            <DataGridTextColumn Header="Category" Binding="{Binding CategoryName}"/>
-                            <DataGridTemplateColumn Header="Team">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding DataContext.TeamNames, RelativeSource={RelativeSource AncestorType=Page}}"
-                                                  SelectedItem="{Binding Team.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Points" Binding="{Binding Points}"/>
-                            <DataGridTextColumn Header="BonusPoints" Binding="{Binding BonusPoints}"/>
-                            <DataGridTextColumn Header="Penalty" Binding="{Binding Penalty}"/>
-                            <DataGridTextColumn Header="Time" Binding="{Binding Time, StringFormat={}{0:mm}:{0:ss}}"/>
-                            <DataGridTextColumn Header="QuestionText" Binding="{Binding QuestionText}"/>
-                            <DataGridTextColumn Header="File Path" Binding="{Binding FilePath}"/>
-                        </DataGrid.Columns>
-                        <DataGrid.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Delete Question" Click="RemoveQuestion_RClick"/>
-                            </ContextMenu>
-                        </DataGrid.ContextMenu>
-                    </DataGrid>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="{Binding RowColor}" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="pink"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="pink"/>
+            </DataGrid.Resources>
         </DataGrid>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-            <Button x:Name="addCategoryButton" Content="Add Category" Click="AddCategory_Button" Width="80" Height="40"/>
-            <Button x:Name="addQuestionFileButton" Content="Add Files" Click="AddQuestionFile_Button" Width="80" Height="40"/>
-            <Button x:Name="addQuestionButton" Content="Add Question" Click="AddQuestion_Button" Width="80" Height="40"/>
-        </StackPanel>
-     
     </Grid>
 </Page>

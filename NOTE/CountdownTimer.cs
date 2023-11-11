@@ -41,7 +41,6 @@ namespace NOTE
             {
                 Stop();
                 CurrentTime = TimeSpan.Zero;
-                colourQuestionRow();
                 OnCompleted();
             }
         }
@@ -108,6 +107,7 @@ namespace NOTE
         {
             Running,
             Stopped,
+            Frozen,
             Complete
         }
 
@@ -134,38 +134,6 @@ namespace NOTE
             CurrentTime = Duration;
             OnReset();
         }
-
-        private void colourQuestionRow()
-        {
-            // Colour selected row to 
-            var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
-
-            if (selectedItem != null)
-            {
-
-                DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
-                if (row != null)
-                {
-                    row.Background = Brushes.Yellow;
-                }
-            }
-        }
-
-        //private void playSound()
-        //{
-        //    MediaPlayer tickSounds = new MediaPlayer();
-
-        //    if (CurrentTime != TimeSpan.Zero)
-        //    {
-        //        tickSounds.Open(new Uri(SoundPath_Tick, UriKind.Relative));
-        //        tickSounds.Play();
-        //    }
-        //    else
-        //    {
-        //        tickSounds.Open(new Uri(SoundPath_TimeUp, UriKind.Relative));
-        //        tickSounds.Play();
-        //    }
-        //}
 
         #region State Update Methods
         private void OnTick()

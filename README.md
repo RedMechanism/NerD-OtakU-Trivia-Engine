@@ -1,12 +1,6 @@
-# NerD|OtakU Trivia Engine (NOTE)
+# NerD|OtakU Trivia Engine (NOTE): Streamlined Edition
 
-A trivia companion application developed for [NerD|OtakU Zambia](https://www.nerdotaku.org/) events.
+This is a streamlined version of the [NerD|OtakU Trivia Engine](https://github.com/RedMechanism/NerD-OtakU-Trivia-Engine).
 
 ## How it works
-The trivia app is composed of two parts (i) NOTE Control Center and (ii) the N|O Trivia player
-
-### 1. NOTE Control Center
-This is the window that opens when the executable is launched. The Control Center manages everything, from selecting what files to display on the N|O Trivia player to making trivia settings. The N|O Trivia player can be opened from this window.
-
-### 2. N|O Trivia player
-The function of the player is just to display trivia content for the audience, without any distracting buttons and knobs on screen.
+This works in the same way as the main program except for the streamlined edition, case Control Center has a playlist of questions that is defined as opposed to the more versatile nature of the main program.

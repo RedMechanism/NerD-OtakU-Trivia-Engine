@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,10 +15,10 @@ namespace NOTE
         
         public static TriviaPlayer Instance;
 
-        public static MediaController _media;
-
         public TextBox displayTimer;
         public Image clock_face;
+        public MediaPlayer_Page _mediaPlayer_page;
+        public NerdFeud_Page _nerdFeud_page;
         public TriviaPlayer()
         {
             InitializeComponent();
@@ -29,7 +27,9 @@ namespace NOTE
             displayTimer = Timer_display;
             clock_face = Clock_face_image;
             ControlCenter.Instance._Timer.TickEvent += new CountdownTimer.TimerTickHandler(TimerDisplay);
-            _media = new MediaController(Media_player, Image_player);
+            _mediaPlayer_page = new MediaPlayer_Page();
+            _nerdFeud_page = new NerdFeud_Page();
+            TriviaPlayer_Frame.Content = _mediaPlayer_page;
         }
         protected void TimerDisplay(TimeSpan timerValue)
         {
@@ -132,22 +132,28 @@ namespace NOTE
         private void Timer_text_changed(object sender, TextChangedEventArgs e)
         {
             MediaPlayer tickSounds = new MediaPlayer();
-            if (_media.Status != MediaController.MediaState.Playing)
+            if (MediaPlayer_Page._media.Status != MediaController.MediaState.Playing || ControlCenter.Instance.currentQuestion.Type != "Media")
             {
                 if (ControlCenter.Instance._Timer.CurrentTime != TimeSpan.Zero)
                 {
-                    tickSounds.Open(new Uri("Audio/Core/tick_sound.mp3", UriKind.Relative));
-                    tickSounds.Play();
+                    PlaySound(tickSounds, "Audio/Core/tick_sound.mp3");
                 }
                 else
                 {
-                    tickSounds.Open(new Uri("Audio/Core/time_up.wav", UriKind.Relative));
-                    tickSounds.Play();
+                    PlaySound(tickSounds, "Audio/Core/time_up.wav");
                 }
             }
         }
+
+        private void PlaySound(MediaPlayer player, string audioPath)
+        {
+            player.Open(new Uri(audioPath, UriKind.Relative));
+            player.Play();
+        }
+
         public void FinalScores()
         {
+            TriviaPlayer_Frame.Content = _mediaPlayer_page;
             ControlCenter.Instance.ClearTimer();
             MediaPlayer finalScores = new MediaPlayer();
             finalScores.Open(new Uri("Audio/Core/final_scores.mp3", UriKind.Relative));
@@ -163,8 +169,8 @@ namespace NOTE
                 animations.ScoresAppear(Scores_view_container);
             }
 
-            _media.Path = new Uri("Videos/VictoryBackground_EjraVFX.mp4", UriKind.Relative);
-            _media.Play();
+            MediaPlayer_Page._media.Path = new Uri("Videos/VictoryBackground_EjraVFX.mp4", UriKind.Relative);
+            MediaPlayer_Page._media.Play();
 
             animations.FadeIn_Grid(Position_numbers);
             animations.BounceDownStory(Pos4_box, 4);

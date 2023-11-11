@@ -40,11 +40,11 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                var selectedItem = Questions_Page.Instance.CategoryGrid.SelectedItem;
 
                 if (selectedItem != null)
                 {
-                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber}, +{points} pts, Total = {TeamX.Score} pts");
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).QuestionName}, +{points} pts, Total = {TeamX.Score} pts");
                 }
                 else
                 {
@@ -56,11 +56,11 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                var selectedItem = Questions_Page.Instance.CategoryGrid.SelectedItem;
 
                 if (selectedItem != null)
                 {
-                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber} incorrect answer");
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).QuestionName}, incorrect answer");
                 }
                 else
                 {
@@ -72,11 +72,11 @@ namespace NOTE
         {
             using (StreamWriter writer = File.AppendText(fileName))
             {
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                var selectedItem = Questions_Page.Instance.CategoryGrid.SelectedItem;
 
                 if (selectedItem != null)
                 {
-                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).CategoryName}, Q#{((Question)selectedItem).QuestionNumber}, -{points} pts, Total = {TeamX.Score} pts");
+                    writer.WriteLine($"{GetTimestamp(DateTime.Now)} - {TeamX.Name}, {((Question)selectedItem).QuestionName}, -{points} pts, Total = {TeamX.Score} pts");
                 }
                 else
                 {

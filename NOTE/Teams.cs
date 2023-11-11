@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace NOTE
@@ -11,6 +12,8 @@ namespace NOTE
         public string SoundPath { get; set; }
         public SolidColorBrush PrimaryColour { get; set; }
         public SolidColorBrush SecondaryColour { get; set; }
+
+        public List<string> Members { get; set; } = new List<string>();
 
         private class SortDescending : IComparer
         {

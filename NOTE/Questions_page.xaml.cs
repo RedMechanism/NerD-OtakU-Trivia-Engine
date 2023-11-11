@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data;
-using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -14,194 +14,222 @@ namespace NOTE
     public partial class Questions_Page : Page
     {
         public static Questions_Page Instance;
-        public ObservableCollection<string> TeamNames { get; set; }
 
+        public ObservableCollection<Question> gridItems = new ObservableCollection<Question>();
+
+        public Uri selectedMediaFilePath = null;
+        public Dictionary<string, int> selectedNerdFeudAnswers = null;
+        public string selectedQuestionType = null;
+        public bool noClock;
+        public bool clearClock;
         public Questions_Page()
         {
 
             InitializeComponent();
-
-            TeamNames = new ObservableCollection<string>();
-            foreach (Teams team in ControlCenter.Instance.TeamsList)
-            {
-                TeamNames.Add(team.Name);
-            }
-
             Instance = this;
-            ObservableCollection<Category> mainCategories = new ObservableCollection<Category>();
-            CategoryGrid.ItemsSource = mainCategories;
+            
+            CategoryGrid.ItemsSource = gridItems;
             CategoryGrid.IsReadOnly = true;
             DataContext = this;
-        }
+            CategoryGrid.SelectedIndex = 0;
 
-        private void AddCategory_Button(object sender, RoutedEventArgs e)
-        {
-            AddCategory_Dialog addRowDialog = new AddCategory_Dialog();
-            addRowDialog.ShowDialog();
-        }
-
-        private void ExpandNestedDatagrid()
-        {
-            var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
-            if (selectedRow != null)
+            gridItems.Add(new Question
             {
-                selectedRow.DetailsVisibility = Visibility.Visible;
-            }
-        }
-        private void AddQuestion_Button(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            if (selectedItem != null)
+                QuestionName = "Geography Category Banner",
+                Type = "Banner",
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\Geography.png"),
+            });
+
+            gridItems.Add(new Question
             {
-                if (!selectedItem.IsSpecial) {
-                    selectedItem.Questions.Add(new Question { CategoryName = "New Sub-Category" });
-                    selectedItem.IsExpanded = Visibility.Visible;
-                }
-                else
-                {
-                    MessageBox.Show("Special!");
-                }
-                    
-            }
+                QuestionName = "Geography 1",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 5,
+                Penalty = 0,
+                Time = TimeSpan.FromSeconds(30),
+                Team = ControlCenter.Instance.Team1,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\1.jpg")
+            });
 
-            // Immediately expands Datagrid
-            ExpandNestedDatagrid();
-        }
-
-        private void AddQuestionFile_Button(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            if (selectedItem != null)
+            gridItems.Add(new Question
             {
-                Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog();
-                openFileDialog.Multiselect = true;
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    int teamNumber = 1;
-                    int questionNumber = 1;
-                    foreach (string file in openFileDialog.FileNames)
-                    {
-                        selectedItem.Questions.Add(new Question
-                        {
-                            CategoryName = selectedItem.CategoryName,
-                            QuestionNumber = questionNumber,
-                            QuestionText = selectedItem.QuestionText,
-                            Team = ControlCenter.Instance.TeamsList[teamNumber - 1],
-                            Points = selectedItem.Points,
-                            BonusPoints = selectedItem.BonusPoints,
-                            Penalty =   selectedItem.Penalty,
-                            Time = selectedItem.Time,
-                            FilePath = new Uri(file)
-                        });
+                QuestionName = "Geography 2",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 5,
+                Penalty = 0,
+                Time = TimeSpan.FromSeconds(30),
+                Team = ControlCenter.Instance.Team2,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\2.jpg")
+            });
 
-                        teamNumber++;
-                        questionNumber++;
-                        if (teamNumber > 4)
-                        {
-                            teamNumber = 1;
-                        }
-
-                        selectedItem.IsExpanded = Visibility.Visible;
-                    }
-                }
-            }
-
-            // Immediately displays added media files
-            ExpandNestedDatagrid();
-        }
-
-        public DataGrid QuestionGrid;
-        private void RemoveQuestion_RClick(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            if (selectedItem != null)
+            gridItems.Add(new Question
             {
-                var selectedFiles = QuestionGrid.SelectedItems;
-                while (selectedFiles.Count > 0)
-                {
-                    selectedItem.Questions.Remove(selectedFiles[0] as Question);
-                }
-            }
-        }
+                QuestionName = "Geography 3",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 5,
+                Penalty = 0,
+                Time = TimeSpan.FromSeconds(30),
+                Team = ControlCenter.Instance.Team3,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\3.jpg")
+            });
 
-        private void RemoveCategory_RClick(object sender, RoutedEventArgs e)
-        {
-            var selectedItem = CategoryGrid.SelectedItem as Category;
-            if (selectedItem != null)
+            gridItems.Add(new Question
             {
-                var mainCategories = CategoryGrid.ItemsSource as ObservableCollection<Category>;
-                mainCategories.Remove(selectedItem);
-            }
-        }
+                QuestionName = "Geography 4",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 5,
+                Penalty = 0,
+                Time = TimeSpan.FromSeconds(30),
+                Team = ControlCenter.Instance.Team4,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\4.jpg")
+            });
 
-        private void DisplayCategory_RClick(object sender, RoutedEventArgs e)
-        {
-            Category category = (Category)CategoryGrid.SelectedItem;
-
-            if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
+            gridItems.Add(new Question
             {
-                TriviaPlayer._media.Path = new Uri(category.IconPath);
-                TriviaPlayer._media.Play();
-            }
+                QuestionName = "Mythology Category Banner",
+                Type = "Banner",
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\Mythology.png"),
+                NoClock = true,
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Mythology 1",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 0,
+                TricklePenalty = 0,
+                Time = TimeSpan.FromSeconds(40),
+                Team = ControlCenter.Instance.Team1,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\1.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Mythology 2",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 0,
+                TricklePenalty = 0,
+                Time = TimeSpan.FromSeconds(40),
+                Team = ControlCenter.Instance.Team2,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\2.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Mythology 3",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 0,
+                TricklePenalty = 0,
+                Time = TimeSpan.FromSeconds(40),
+                Team = ControlCenter.Instance.Team3,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\3.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Mythology 4",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 0,
+                TricklePenalty = 0,
+                Time = TimeSpan.FromSeconds(40),
+                Team = ControlCenter.Instance.Team4,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\4.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Movies Category Banner",
+                Type = "Banner",
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\Movies.png"),
+                NoClock = true,
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Movies 1",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 5,
+                Time = TimeSpan.FromSeconds(15),
+                Team = ControlCenter.Instance.Team1,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\1.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Movies 2",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 5,
+                Time = TimeSpan.FromSeconds(15),
+                Team = ControlCenter.Instance.Team2,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\2.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Movies 3",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 5,
+                Time = TimeSpan.FromSeconds(15),
+                Team = ControlCenter.Instance.Team3,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\3.jpg")
+            });
+
+            gridItems.Add(new Question
+            {
+                QuestionName = "Movies 4",
+                Type = "Media",
+                Points = 10,
+                BonusPoints = 0,
+                Penalty = 5,
+                Time = TimeSpan.FromSeconds(15),
+                Team = ControlCenter.Instance.Team4,
+                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\4.jpg")
+            });
+
+            ControlCenter.Instance.currentQuestion = CategoryGrid.SelectedItem as Question;
         }
 
         private void CategoryGrid_LButtonUp(object sender, MouseButtonEventArgs e)
         {
-            var selectedRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
-            if (selectedRow != null)
-            {
-                if (CategoryGrid.SelectedItem != null)
-                {
-                    if (selectedRow.DetailsVisibility == Visibility.Collapsed)
-                    {
-                        selectedRow.DetailsVisibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        selectedRow.DetailsVisibility = Visibility.Collapsed;
-                    }
-                }
-            }
-        }
-
-        private void QuestionGrid_LButtonUp(object sender, MouseButtonEventArgs e)
-        {
             e.Handled = true;
 
-            Question question = (Question)QuestionGrid.SelectedItem;
+            Question question = (Question)CategoryGrid.SelectedItem;
 
             if (question != null)
             {
                 if (ControlCenter.Instance.PlayerWindowCounter() >= 1)
                 {
-                    TriviaPlayer._media.Path = question.FilePath;
+                    MediaPlayer_Page._media.Path = question.FilePath;
+                    
                     ControlCenter.Instance._Timer.Duration = question.Time;
-                    if (question.ClearClock)
-                    {
-                        ControlCenter.Instance.ClearTimer();
-                    }
                 }
             }
         }
+
         private void MainGrid_RowDetailsVisibilityChanged(object sender, DataGridRowDetailsEventArgs e)
         {
-            QuestionGrid = e.DetailsElement as DataGrid;
-            if (QuestionGrid == null) return;
-        }
-        public void ColourRow(SolidColorBrush solidColorBrush)
-        {
-            DataGridRow dataGridRow = CategoryGrid.ItemContainerGenerator.ContainerFromItem(CategoryGrid.SelectedItem) as DataGridRow;
-            if (dataGridRow != null)
-                dataGridRow.Background = solidColorBrush;
+            CategoryGrid = e.DetailsElement as DataGrid;
+            if (CategoryGrid == null) return;          
         }
 
-        private void CategoryGrid_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            if (CategoryGrid.SelectedItem == null)
-            {
-                e.Handled = true;
-            }
-        }
         private void CategoryGrid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             // Check if the clicked item is not a row
@@ -217,7 +245,11 @@ namespace NOTE
 
             // Clicked outside of a row, clear selection
             CategoryGrid.SelectedItem = null;
-        }
 
+            if (!(e.OriginalSource is DataGridCell || e.OriginalSource is TextBlock))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

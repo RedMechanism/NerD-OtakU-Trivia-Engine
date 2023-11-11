@@ -13,7 +13,7 @@ namespace NOTE
             DoubleAnimation slideOffScreen = new DoubleAnimation()
             {
                 From = 0,
-                To = -SystemParameters.VirtualScreenWidth / 2,
+                To = -SystemParameters.VirtualScreenWidth,
                 Duration = TimeSpan.FromSeconds(0.7)
             };
             element.RenderTransform = new TranslateTransform();
@@ -24,7 +24,7 @@ namespace NOTE
         {
             DoubleAnimation slideOnScreen = new DoubleAnimation()
             {
-                From = -SystemParameters.VirtualScreenWidth / 2,
+                From = -SystemParameters.VirtualScreenWidth,
                 To = 0,
                 Duration = TimeSpan.FromSeconds(0.7)
             };
@@ -121,40 +121,40 @@ namespace NOTE
             element.RenderTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleY);
         }
 
-        public void FadeInOut_Label(Label label)
+        public void FadeInOut_Label(Label label, int FadeOutDuration = 3)
         {
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.5)
+                Duration = TimeSpan.FromSeconds(1)
             };
 
             DoubleAnimation fadeOut = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(2)
+                Duration = TimeSpan.FromSeconds(FadeOutDuration)
             };
 
             label.BeginAnimation(Label.OpacityProperty, fadeIn);
             label.BeginAnimation(Label.OpacityProperty, fadeOut);
         }
 
-        public void FadeInOut_Image(Image image)
+        public void FadeInOut_Image(Image image, int FadeOutDuration = 3)
         {
             DoubleAnimation fadeIn = new DoubleAnimation()
             {
                 From = 0,
                 To = 1,
-                Duration = TimeSpan.FromSeconds(0.5)
+                Duration = TimeSpan.FromSeconds(1)
             };
 
             DoubleAnimation fadeOut = new DoubleAnimation()
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(2)
+                Duration = TimeSpan.FromSeconds(FadeOutDuration)
             };
 
             image.BeginAnimation(Image.OpacityProperty, fadeIn);

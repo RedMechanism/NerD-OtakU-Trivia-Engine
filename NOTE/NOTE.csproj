@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
 	  <UseWindowsForms>true</UseWindowsForms>
+	  <PackageIcon>Iko.png</PackageIcon>
+	  <ApplicationIcon>Chibikon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,22 +31,34 @@
     <None Remove="Electabuzz.png" />
     <None Remove="Images\CategoryBackground.jpg" />
     <None Remove="Images\clock_face.png" />
+    <None Remove="Images\ControlCenterBackground.jpg" />
+    <None Remove="Images\DinChat.png" />
+    <None Remove="Images\LogsPage.png" />
+    <None Remove="Images\NerdFeud.png" />
     <None Remove="Images\OpeningScreen.jpg" />
+    <None Remove="Images\QuestionBackground.jpg" />
     <None Remove="Images\Team1.png" />
     <None Remove="Images\Team2.png" />
     <None Remove="Images\Team3.png" />
     <None Remove="Images\Team4.png" />
+    <None Remove="Images\TeamPage.png" />
     <None Remove="nudist_beach.png" />
     <None Remove="Pos1.png" />
     <None Remove="Pos2.png" />
     <None Remove="Pos3.png" />
     <None Remove="Pos4.png" />
     <None Remove="ramona.png" />
-    <None Remove="Team1.png" />
     <None Remove="Team2.png" />
     <None Remove="Team3.png" />
     <None Remove="Team4.png" />
+    <None Remove="Videos\ANIMEET_AMV.mp4" />
     <None Remove="Videos\VictoryBackground_EjraVFX.mp4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Chibikon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -82,24 +96,29 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Resource Include="Images\CategoryBackground.jpg" />
+    <Resource Include="Images\ControlCenterBackground.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\cross.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\clock_face.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\NerdFeud.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\OpeningScreen.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Pos1.png" />
     <Resource Include="Images\Pos2.png" />
     <Resource Include="Images\Pos3.png" />
     <Resource Include="Images\Pos4.png" />
-    <EmbeddedResource Include="Images\Team2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
     <Resource Include="Images\Team1.png" />
-    <Resource Include="Images\Team2.png" />
+    <Resource Include="Images\Team2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Team3.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -108,4 +127,78 @@
     </Resource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide1.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide10.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide11.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide12.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide2.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide3.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide4.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide5.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide6.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide7.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide8.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\April FoolsFacts - Sithe\Slide9.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\1.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\10.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\11.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\12.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\2.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\3.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\4.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\5.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\6.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\7.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\8.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TriviaFiles\Video Games - Grimmu\9.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ using System.Media;
 using static NOTE.CountdownTimer;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Media.Animation;
 
 namespace NOTE
 {
@@ -56,7 +57,8 @@ namespace NOTE
         };
 
         public static ControlCenter Instance;
-
+        public Question currentQuestion;
+        private int currentQuestionIndex = -1;
         public CountdownTimer _Timer;
         public ControlCenter()
         {
@@ -81,7 +83,6 @@ namespace NOTE
         public int questionPoints = 10;
         public int bonusPoints = 5;
         public int penaltyPoints = 5;
-        public int questionTime = 60;
 
         #region Timing
         protected void TimerDisplay(TimeSpan timerValue)
@@ -124,38 +125,6 @@ namespace NOTE
             _Timer.Start();
         }
 
-        private void Timer_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Points_input.Text.All(char.IsDigit))
-                {
-                    int timerInput = int.Parse(Custom_timer_input.Text);
-                    SetTimer(timerInput);
-                    _Timer.Start();
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
-        }
-
-        private void Time_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Time_input.Text.All(char.IsDigit))
-                {
-                    questionTime = int.Parse(Time_input.Text);
-                    Time_avail_disp.Content = $"{questionTime}sec";
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
-        }
         private void SetTimer(int duration)
         {
             
@@ -184,7 +153,7 @@ namespace NOTE
 
         #region Scoring
 
-        private void AddPoints(Teams TeamX, int points)
+        public void AddPoints(Teams TeamX, int points)
         {
             Animations Animation = new Animations();
             LogWriter logWriter = new LogWriter();
@@ -246,8 +215,55 @@ namespace NOTE
             playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
         }
 
+
+        public void AddDeductPoints(Teams TeamAdd, Teams TeamDeduct, int AddedPoints, int DeductedPoints)
+        {
+            // Use this to add point to one team and deduct from another
+            Animations Animation = new Animations();
+            LogWriter logWriter = new LogWriter();
+
+            TeamAdd.Score += AddedPoints;
+            TeamDeduct.Score -= DeductedPoints;
+
+            // Update control info
+            Status_disp.Content = $"{TeamAdd.Name} +{AddedPoints} and {TeamDeduct.Name} -{DeductedPoints}";
+
+            //Write logs
+            logWriter.WriterCorrect(TeamAdd, AddedPoints);
+            logWriter.WriterDeduct(TeamDeduct, DeductedPoints);
+
+            if (PlayerWindowCounter() >= 1)
+            {
+                // Add points - Top space
+                TriviaPlayer.Instance.Points_awarded_disp_top.Content = $"+{AddedPoints}";             
+                TriviaPlayer.Instance.Points_awarded_disp_top.Foreground = new SolidColorBrush(Colors.Green);
+
+                // Top space animations
+                TriviaPlayer.Instance.Team_logo_top.Source = new BitmapImage(new Uri(TeamAdd.LogoPath, UriKind.Relative));
+                Animation.FadeInOut_Label(TriviaPlayer.Instance.Points_awarded_disp_top, 5);
+                Animation.FadeInOut_Image(TriviaPlayer.Instance.Team_logo_top, 5);
+
+                // Deduct points - Bottom space
+                TriviaPlayer.Instance.Points_awarded_disp_bottom.Content = $"-{DeductedPoints}";
+                TriviaPlayer.Instance.Points_awarded_disp_bottom.Foreground = new SolidColorBrush(Colors.Red);
+
+                //Bottom space animations
+                TriviaPlayer.Instance.Team_logo_bottom.Source = new BitmapImage(new Uri(TeamDeduct.LogoPath, UriKind.Relative));
+                Animation.FadeInOut_Label(TriviaPlayer.Instance.Points_awarded_disp_bottom, 5);
+                Animation.FadeInOut_Image(TriviaPlayer.Instance.Team_logo_bottom, 5);
+            }
+
+            if (Page_Frame.Content.GetType() == new Scores_Page().GetType())
+            {
+                Page_Frame.Content = new Scores_Page();
+            }
+            playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
+        }
+
         private void WrongAnswer(Teams TeamX)
         {
+            //if (TeamX == null) return; // Add this line to ignore the method if TeamX is null
+
             Animations Animation = new Animations();
             LogWriter logWriter = new LogWriter();
 
@@ -271,6 +287,8 @@ namespace NOTE
             }
             playSound(FileBrowser.SelectRandomFile("Audio/Incorrect"));
         }
+
+
         # endregion
 
         # region Button click events
@@ -289,103 +307,422 @@ namespace NOTE
         }
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
+            var newQuestion = Questions_Page.Instance?.CategoryGrid?.SelectedItem as Question;
+            if (newQuestion != currentQuestion)
+            {
+                _Timer.Reset();
+                currentQuestion = newQuestion;
+                currentQuestionIndex = Questions_Page.Instance.CategoryGrid.SelectedIndex;
+            }
+
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
-                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+                Timer_Visibility();
+                _Timer.Duration = currentQuestion.Time;
 
-                if (_Timer.Status == TimerState.Running)
+                if (currentQuestionIndex == 0)
                 {
-                    TriviaPlayer._media.Pause();
-                    _Timer.Stop();
+                    Previous_Button.IsEnabled = false;
                 }
                 else
                 {
-                    TriviaPlayer._media.Play();
-                    _Timer.Start();
+                    // If it's not the first item, enable the Previous button
+                    Previous_Button.IsEnabled = true;
+                }
+
+                // If the last item is selected, disable the Next button
+                if (currentQuestionIndex == Questions_Page.Instance.gridItems.Count - 1)
+                {
+                    Next_Button.IsEnabled = false;
+                }
+                else
+                {
+                    // If it's not the last item, enable the Next button
+                    Next_Button.IsEnabled = true;
+                }
+
+                // Enable/disable flex button based on point availability
+                if (currentQuestion.BonusPoints == 0)
+                {
+                    Bonus_button.IsEnabled = false;
+                }
+                else
+                {
+                    Bonus_button.IsEnabled = true;
+                }
+
+                if (currentQuestion.Type == "Media")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    MediaController media = MediaPlayer_Page._media;
+
+                    media.Path = currentQuestion.FilePath;
+
+                    if (media.Status == MediaController.MediaState.Playing)
+                    {
+                        media.Pause();
+                        if (!Questions_Page.Instance.noClock) _Timer.Stop();
+                    }
+                    else if (media.Path == null)
+                    {
+                        TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
+                        TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        media.Play();
+                        if (!Questions_Page.Instance.noClock) _Timer.Start();
+                    }
+                }
+                else if (currentQuestion.Type == "PayItForward")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    MediaController media = MediaPlayer_Page._media;
+
+                    Bonus_button.IsEnabled = false;
+
+                    media.Path = currentQuestion.FilePath;
+
+                    if (media.Status == MediaController.MediaState.Playing)
+                    {
+                        media.Pause();
+                        if (!Questions_Page.Instance.noClock) _Timer.Stop();
+                    }
+                    else if (media.Path == null)
+                    {
+                        TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
+                        TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        media.Play();
+                        if (!Questions_Page.Instance.noClock) _Timer.Start();
+                    }
+                }
+                else if (currentQuestion.Type == "Banner")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    MediaController media = MediaPlayer_Page._media;
+
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+                    ClearTimer();
+                }
+
+                ResetRowColors();
+                var selectedItem = (Question)Questions_Page.Instance.CategoryGrid.SelectedItem;
+                if (selectedItem != null)
+                {
+                    selectedItem.RowColor = new SolidColorBrush(Colors.Yellow);
                 }
             }
         }
-        private void Answer_correct_Button(object sender, RoutedEventArgs e)
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
-            if(question != null)
+            if (PlayerWindowCounter() >= 1)
             {
-                AddPoints(question.Team, question.Points);
-                playSound(question.Team.SoundPath);
+                currentQuestionIndex++;
+                if (currentQuestionIndex < Questions_Page.Instance.gridItems.Count)
+                {
+                    Questions_Page.Instance.CategoryGrid.SelectedIndex = currentQuestionIndex;
+                    currentQuestion = Questions_Page.Instance?.CategoryGrid?.SelectedItem as Question;
+                }
 
-                // Colour selected row to green
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
+                // Enable Previous button because we're not at the first item anymore
+                Previous_Button.IsEnabled = true;
 
+                // If we have reached the last item, disable the Next button
+                if (currentQuestionIndex >= Questions_Page.Instance.gridItems.Count - 1)
+                {
+                    Next_Button.IsEnabled = false;
+                }
+
+                // Enable/disable flex button based on point availability
+                if (currentQuestion.BonusPoints == 0)
+                {
+                    Bonus_button.IsEnabled = false;
+                }
+                else
+                {
+                    Bonus_button.IsEnabled = true;
+                }
+
+                Timer_Visibility();
+                _Timer.Duration = currentQuestion.Time;
+
+                if (!currentQuestion.NoClock)
+                {
+                    _Timer.Reset();
+                    _Timer.Start();
+                }
+                else
+                {
+                    ClearTimer();
+                    _Timer.Reset();
+                }
+
+                if (currentQuestion.Type == "Media")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    SeekerBar.Value = 0;
+                    MediaController media = MediaPlayer_Page._media;
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+                }
+                else if (currentQuestion.Type == "PayItForward")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    SeekerBar.Value = 0;
+                    MediaController media = MediaPlayer_Page._media;
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+
+                    Bonus_button.IsEnabled = false;
+                }
+                else if (currentQuestion.Type == "Banner")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    MediaController media = MediaPlayer_Page._media;
+
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+                    ClearTimer();
+                }
+
+                ResetRowColors();
+                ResetRowColors();
+                var selectedItem = (Question)Questions_Page.Instance.CategoryGrid.SelectedItem;
                 if (selectedItem != null)
                 {
-                    
-                    DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
-                    if (row != null)
+                    selectedItem.RowColor = new SolidColorBrush(Colors.Yellow);
+                }
+            }
+        }
+
+        private void PreviousButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter() >= 1)
+            {
+                currentQuestionIndex--;
+                if (currentQuestionIndex >= 0)
+                {
+                    Questions_Page.Instance.CategoryGrid.SelectedIndex = currentQuestionIndex;
+                    currentQuestion = Questions_Page.Instance?.CategoryGrid?.SelectedItem as Question;
+                }
+
+                // Enable Next button because we're not at the last item anymore
+                Next_Button.IsEnabled = true;
+
+                // If we have reached the first item, disable the Previous button
+                if (currentQuestionIndex <= 0)
+                {
+                    Previous_Button.IsEnabled = false;
+                }
+
+                // Enable/disable flex button based on point availability
+                if (currentQuestion.BonusPoints == 0)
+                {
+                    Bonus_button.IsEnabled = false;
+                }
+                else
+                {
+                    Bonus_button.IsEnabled = true;
+                }
+
+                Timer_Visibility();
+                _Timer.Duration = currentQuestion.Time;
+
+                if (!currentQuestion.NoClock)
+                {
+                    _Timer.Reset();
+                    _Timer.Start();
+                }
+                else
+                {
+                    ClearTimer();
+                    _Timer.Reset();
+                }
+
+                if (currentQuestion.Type == "Media")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    SeekerBar.Value = 0;
+                    MediaController media = MediaPlayer_Page._media;
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+                }
+                else if (currentQuestion.Type == "PayItForward")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    SeekerBar.Value = 0;
+                    MediaController media = MediaPlayer_Page._media;
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+
+                    Bonus_button.IsEnabled = false;
+                }
+                else if (currentQuestion.Type == "Banner")
+                {
+                    TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
+                    Correct_button.Content = "Correct";
+                    Correct_button.IsEnabled = true;
+                    MediaController media = MediaPlayer_Page._media;
+
+                    media.Path = currentQuestion.FilePath;
+                    media.Play();
+                    ClearTimer();
+                }
+
+                ResetRowColors();
+                ResetRowColors();
+                var selectedItem = (Question)Questions_Page.Instance.CategoryGrid.SelectedItem;
+                if (selectedItem != null)
+                {
+                    selectedItem.RowColor = new SolidColorBrush(Colors.Yellow);
+                }
+            }
+        }
+
+        private void Answer_correct_Button(object sender, RoutedEventArgs e)
+        {
+            if (PlayerWindowCounter() >= 1)
+            {
+                if (currentQuestion.Team != null)
+                {
+                    if (currentQuestion.Type == "Media")
                     {
-                        row.Background = Brushes.LightGreen;
+                        AddPoints(currentQuestion.Team, currentQuestion.Points);
+                        playSound(currentQuestion.Team.SoundPath);
+                    }
+                    else if (currentQuestion.Type == "PayItForward")
+                    {
+                        Teams nextTeam;
+
+                        switch (TeamsList.IndexOf(currentQuestion.Team))
+                        {
+                            case 0:
+                                nextTeam = Team2;
+                                break;
+                            case 1:
+                                nextTeam = Team3;
+                                break;
+                            case 2:
+                                nextTeam = Team4;
+                                break;
+                            case 3:
+                                nextTeam = Team1;
+                                break;
+                            default:
+                                nextTeam = currentQuestion.Team;
+                                break;
+                        }
+
+                        AddPoints(nextTeam, currentQuestion.Points);
                     }
                 }
-            } 
-            _Timer.Stop();
+                _Timer.Stop();
+            }
         }
 
         private void Bonus_correct_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
-            if (question != null)
+            if (PlayerWindowCounter() >= 1)
             {
-                AddPoints(question.Team, question.BonusPoints);
-                playSound(question.Team.SoundPath);
+                if (currentQuestion.Team != null)
+                {
+                    AddPoints(currentQuestion.Team, currentQuestion.BonusPoints);
+                    playSound(currentQuestion.Team.SoundPath);
+                }
+                _Timer.Stop();
             }
-            _Timer.Stop();
         }
 
         private void Answer_wrong_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
-            if (question != null)
+            if (PlayerWindowCounter() >= 1)
             {
-                if (question.Penalty == 0)
+                if (currentQuestion.Team != null)
                 {
-                    WrongAnswer(question.Team);
-                }
-                else
-                {
-                    DeductPoints(question.Team, question.Penalty);
-                }
-
-                // Colour selected row to red
-                var selectedItem = Questions_Page.Instance.QuestionGrid.SelectedItem;
-
-                if (selectedItem != null)
-                {
-
-                    DataGridRow row = (DataGridRow)Questions_Page.Instance.QuestionGrid.ItemContainerGenerator.ContainerFromItem(selectedItem);
-                    if (row != null)
+                    if (currentQuestion.Type == "Media")
                     {
-                        row.Background = Brushes.Tomato;
+                        if (currentQuestion.Penalty == 0)
+                        {
+                            WrongAnswer(currentQuestion.Team);
+                        }
+                        else
+                        {
+                            MessageBoxResult result = MessageBox.Show("Are you sure you want to deduct points?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                            if (result == MessageBoxResult.Yes)
+                            {
+                                DeductPoints(currentQuestion.Team, currentQuestion.Penalty);
+                            }
+                        }
+                    }
+                    else if (currentQuestion.Type == "PayItForward")
+                    {
+                        Teams nextTeam;
+
+                        switch (TeamsList.IndexOf(currentQuestion.Team))
+                        {
+                            case 0:
+                                nextTeam = Team2;
+                                break;
+                            case 1:
+                                nextTeam = Team3;
+                                break;
+                            case 2:
+                                nextTeam = Team4;
+                                break;
+                            case 3:
+                                nextTeam = Team1;
+                                break;
+                            default:
+                                nextTeam = currentQuestion.Team;
+                                break;
+                        }
+
+                        AddDeductPoints(nextTeam, currentQuestion.Team, currentQuestion.BonusPoints, currentQuestion.Penalty);
                     }
                 }
+                _Timer.Stop();
             }
-            _Timer.Stop();
         }
 
         private void Answer_wrong_penalty_Button(object sender, RoutedEventArgs e)
         {
-            Question question = (Question)Questions_Page.Instance.QuestionGrid.SelectedItem;
-            if (question != null)
+            if (PlayerWindowCounter() >= 1)
             {
-                DeductPoints(question.Team, question.Penalty);
+                if (currentQuestion.Team != null)
+                {
+                    DeductPoints(currentQuestion.Team, currentQuestion.TricklePenalty);
+                }
+                _Timer.Stop();
             }
-            _Timer.Stop();
         }
 
         private void Play_Button(object sender, RoutedEventArgs e)
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Play();
+                MediaPlayer_Page._media.Play();
             }
         }
 
@@ -393,36 +730,24 @@ namespace NOTE
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Pause();
+                MediaPlayer_Page._media.Pause();
             }
         }
         private void Stop_Button(object sender, RoutedEventArgs e)
         {
             if (PlayerWindowCounter() >= 1)
             {
-                TriviaPlayer._media.Stop();
+                MediaPlayer_Page._media.Stop();
             }
         }
 
         private void Show_scores_Click(object sender, RoutedEventArgs e)
         {
-            TriviaPlayer.Instance.ShowScores();
+            if (PlayerWindowCounter() >= 1)
+            {
+                TriviaPlayer.Instance.ShowScores();
+            }
         }
-
-        private void Settings_Page_Button(object sender, RoutedEventArgs e)
-        {
-            if (Settings_Page.Instance == null)
-                Page_Frame.Content = new Settings_Page();
-            Page_Frame.Content = Settings_Page.Instance;
-        }
-
-        private void File_viewer_Button(object sender, RoutedEventArgs e)
-        {
-            if (Files_Page.Instance == null)
-                Page_Frame.Content = new Files_Page();
-            Page_Frame.Content = Files_Page.Instance;
-        }
-
         private void Scores_page_Button(object sender, RoutedEventArgs e)
         {
             if (Scores_Page.Instance == null)
@@ -438,8 +763,15 @@ namespace NOTE
         }
         private void End_game(object sender, RoutedEventArgs e)
         {
-            if (PlayerWindowCounter()>=1)
-                TriviaPlayer.Instance.FinalScores();
+            if (PlayerWindowCounter() >= 1)
+            {
+                MessageBoxResult result = MessageBox.Show("Do you really want to end the game?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    TriviaPlayer.Instance.FinalScores();
+                }
+            }    
         }
 
         private void Bonus_RClick_Team1(object sender, RoutedEventArgs e)
@@ -491,15 +823,16 @@ namespace NOTE
         }
         #endregion
 
-        #region Keystroke Events
-        private void Points_avail_changed(object sender, KeyEventArgs e)
+        #region Keystroke
+        private void Timer_avail_changed(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                if (Points_input.Text.All(char.IsDigit))
+                if (Custom_timer_input.Text.All(char.IsDigit))
                 {
-                    questionPoints = int.Parse(Points_input.Text);
-                    Points_avail_disp.Content = $"{questionPoints}pts";
+                    int timerInput = int.Parse(Custom_timer_input.Text);
+                    SetTimer(timerInput);
+                    _Timer.Start();
                 }
                 else
                 {
@@ -507,39 +840,6 @@ namespace NOTE
                 }
             }
         }
-
-        private void Bonus_points_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Bonus_points_input.Text.All(char.IsDigit))
-                {
-                    bonusPoints = int.Parse(Bonus_points_input.Text);
-                    Bonus_points_avail_disp.Content = $"{bonusPoints}pts";
-                }
-                else
-                {
-                    MessageBox.Show("Enter only positive digits");
-                }
-            }
-        }
-
-        private void Trickle_penalty_avail_changed(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (Trickle_penalty_input.Text.All(char.IsDigit))
-                {
-                    penaltyPoints = int.Parse(Trickle_penalty_input.Text);
-                    Trickle_penalty_avail_disp.Content = $"-{penaltyPoints}pts";
-                }
-                else
-                {
-                    MessageBox.Show("Enter only POSITIVE digits");
-                }
-            }
-        }
-
         # endregion
 
         #region Sounds
@@ -555,6 +855,46 @@ namespace NOTE
         public int PlayerWindowCounter()
         {
             return Application.Current.Windows.OfType<TriviaPlayer>().Count();
+        }
+
+        private void ControlCenter_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Get all open windows
+            foreach (Window window in Application.Current.Windows)
+            {
+                // Don't close the main window again
+                if (window != this)
+                {
+                    // Close the window
+                    window.Close();
+                }
+            }
+        }
+
+        private void Timer_Visibility()
+        {
+            if (Questions_Page.Instance.noClock)
+            {
+                TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Hidden;
+                TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Hidden;
+                ClearTimer();
+            }
+            else
+            {
+                if (TriviaPlayer.Instance.Clock_face_image.Visibility == Visibility.Hidden)
+                {
+                    TriviaPlayer.Instance.Clock_face_image.Visibility = Visibility.Visible;
+                    TriviaPlayer.Instance.Timer_display.Visibility = Visibility.Visible;
+                }
+            }
+        }
+
+        private void ResetRowColors()
+        {
+            foreach (Question question in Questions_Page.Instance.CategoryGrid.Items)
+            {
+                question.RowColor = new SolidColorBrush(Colors.White);
+            }
         }
 
         private void GenerateContextMenu(List<Teams> TeamList)
@@ -596,12 +936,10 @@ namespace NOTE
                 contextMenu_penalty.Items.Add(menuItem_penalty);
                 contextMenu_bonus.Items.Add(menuItem_bonus);
             }
-
-            Penalty_button.ContextMenu = contextMenu_penalty;
             Bonus_button.ContextMenu = contextMenu_bonus;
         }
-
         #endregion
+
     }
 
 }
