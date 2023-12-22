@@ -1,0 +1,181 @@
+{
+  "categories": [
+    {
+      "name": "Geography",
+      "bannerPath": "TriviaFiles\\Geography\\Geography.png",
+      "noClock": false,
+      "questions": [
+        {
+          "questionName": "Geography 1",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 5,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 30,
+          "teamIndex": 1,
+          "filePath": "TriviaFiles\\Geography\\1.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Geography 2",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 5,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 30,
+          "teamIndex": 2,
+          "filePath": "TriviaFiles\\Geography\\2.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Geography 3",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 5,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 30,
+          "teamIndex": 3,
+          "filePath": "TriviaFiles\\Geography\\3.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Geography 4",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 5,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 30,
+          "teamIndex": 4,
+          "filePath": "TriviaFiles\\Geography\\4.jpg",
+          "clearClock": true,
+          "noClock": false
+        }
+      ]
+    },
+    {
+      "name": "Mythology",
+      "bannerPath": "TriviaFiles\\Mythology\\Mythology.png",
+      "noClock": true,
+      "questions": [
+        {
+          "questionName": "Mythology 1",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 40,
+          "teamIndex": 1,
+          "filePath": "TriviaFiles\\Mythology\\1.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Mythology 2",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 40,
+          "teamIndex": 2,
+          "filePath": "TriviaFiles\\Mythology\\2.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Mythology 3",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 40,
+          "teamIndex": 3,
+          "filePath": "TriviaFiles\\Mythology\\3.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Mythology 4",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 0,
+          "tricklePenalty": 0,
+          "timeSeconds": 40,
+          "teamIndex": 4,
+          "filePath": "TriviaFiles\\Mythology\\4.jpg",
+          "clearClock": true,
+          "noClock": false
+        }
+      ]
+    },
+    {
+      "name": "Movies",
+      "bannerPath": "TriviaFiles\\Movies\\Movies.png",
+      "noClock": true,
+      "questions": [
+        {
+          "questionName": "Movies 1",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 5,
+          "tricklePenalty": 0,
+          "timeSeconds": 15,
+          "teamIndex": 1,
+          "filePath": "TriviaFiles\\Movies\\1.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Movies 2",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 5,
+          "tricklePenalty": 0,
+          "timeSeconds": 15,
+          "teamIndex": 2,
+          "filePath": "TriviaFiles\\Movies\\2.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Movies 3",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 5,
+          "tricklePenalty": 0,
+          "timeSeconds": 15,
+          "teamIndex": 3,
+          "filePath": "TriviaFiles\\Movies\\3.jpg",
+          "clearClock": true,
+          "noClock": false
+        },
+        {
+          "questionName": "Movies 4",
+          "type": "Media",
+          "points": 10,
+          "bonusPoints": 0,
+          "penalty": 5,
+          "tricklePenalty": 0,
+          "timeSeconds": 15,
+          "teamIndex": 4,
+          "filePath": "TriviaFiles\\Movies\\4.jpg",
+          "clearClock": true,
+          "noClock": false
+        }
+      ]
+    }
+  ]
+}

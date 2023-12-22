@@ -2,5 +2,5 @@
 
 This is a streamlined version of the [NerD|OtakU Trivia Engine](https://github.com/RedMechanism/NerD-OtakU-Trivia-Engine).
 
-## How it works
-This works in the same way as the main program except for the streamlined edition, case Control Center has a playlist of questions that is defined as opposed to the more versatile nature of the main program.
+## Description
+NOTE:Streamlined Edition functions similarly to the main program, but with a key difference: this version features a predefined playlist of questions, whereas the main program is more flexible. The NOTE:Streamlined Edition is ideal for packaging specific experiences.

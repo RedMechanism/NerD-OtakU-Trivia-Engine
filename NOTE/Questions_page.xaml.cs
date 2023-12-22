@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
+using System.Text.Json;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+
 
 namespace NOTE
 {
@@ -33,178 +35,76 @@ namespace NOTE
             DataContext = this;
             CategoryGrid.SelectedIndex = 0;
 
-            gridItems.Add(new Question
-            {
-                QuestionName = "Geography Category Banner",
-                Type = "Banner",
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\Geography.png"),
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Geography 1",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 5,
-                Penalty = 0,
-                Time = TimeSpan.FromSeconds(30),
-                Team = ControlCenter.Instance.Team1,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\1.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Geography 2",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 5,
-                Penalty = 0,
-                Time = TimeSpan.FromSeconds(30),
-                Team = ControlCenter.Instance.Team2,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\2.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Geography 3",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 5,
-                Penalty = 0,
-                Time = TimeSpan.FromSeconds(30),
-                Team = ControlCenter.Instance.Team3,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\3.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Geography 4",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 5,
-                Penalty = 0,
-                Time = TimeSpan.FromSeconds(30),
-                Team = ControlCenter.Instance.Team4,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Geography\\4.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Mythology Category Banner",
-                Type = "Banner",
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\Mythology.png"),
-                NoClock = true,
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Mythology 1",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 0,
-                TricklePenalty = 0,
-                Time = TimeSpan.FromSeconds(40),
-                Team = ControlCenter.Instance.Team1,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\1.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Mythology 2",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 0,
-                TricklePenalty = 0,
-                Time = TimeSpan.FromSeconds(40),
-                Team = ControlCenter.Instance.Team2,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\2.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Mythology 3",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 0,
-                TricklePenalty = 0,
-                Time = TimeSpan.FromSeconds(40),
-                Team = ControlCenter.Instance.Team3,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\3.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Mythology 4",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 0,
-                TricklePenalty = 0,
-                Time = TimeSpan.FromSeconds(40),
-                Team = ControlCenter.Instance.Team4,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Mythology\\4.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Movies Category Banner",
-                Type = "Banner",
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\Movies.png"),
-                NoClock = true,
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Movies 1",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 5,
-                Time = TimeSpan.FromSeconds(15),
-                Team = ControlCenter.Instance.Team1,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\1.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Movies 2",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 5,
-                Time = TimeSpan.FromSeconds(15),
-                Team = ControlCenter.Instance.Team2,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\2.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Movies 3",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 5,
-                Time = TimeSpan.FromSeconds(15),
-                Team = ControlCenter.Instance.Team3,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\3.jpg")
-            });
-
-            gridItems.Add(new Question
-            {
-                QuestionName = "Movies 4",
-                Type = "Media",
-                Points = 10,
-                BonusPoints = 0,
-                Penalty = 5,
-                Time = TimeSpan.FromSeconds(15),
-                Team = ControlCenter.Instance.Team4,
-                FilePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}TriviaFiles\\Movies\\4.jpg")
-            });
+            LoadQuestionsFromJson();
 
             ControlCenter.Instance.currentQuestion = CategoryGrid.SelectedItem as Question;
+        }
+
+        private void LoadQuestionsFromJson()
+        {
+            try
+            {
+                string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "questions.json");
+                string jsonContent = File.ReadAllText(jsonPath);
+
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+                var data = JsonSerializer.Deserialize<JsonDocument>(jsonContent, options);
+
+                foreach (var category in data.RootElement.GetProperty("categories").EnumerateArray())
+                {
+                    string categoryName = category.GetProperty("name").GetString();
+                    string bannerPath = category.GetProperty("bannerPath").GetString();
+                    bool noClock = category.TryGetProperty("noClock", out var noClockProp) && noClockProp.GetBoolean();
+
+                    // Add category banner
+                    gridItems.Add(new Question
+                    {
+                        QuestionName = $"{categoryName} Category Banner",
+                        Type = "Banner",
+                        FilePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, bannerPath)),
+                        NoClock = noClock
+                    });
+
+                    // Add questions
+                    foreach (var q in category.GetProperty("questions").EnumerateArray())
+                    {
+                        gridItems.Add(new Question
+                        {
+                            QuestionName = q.GetProperty("questionName").GetString(),
+                            Type = q.GetProperty("type").GetString(),
+                            Points = q.GetProperty("points").GetInt32(),
+                            BonusPoints = q.GetProperty("bonusPoints").GetInt32(),
+                            Penalty = q.GetProperty("penalty").GetInt32(),
+                            TricklePenalty = q.GetProperty("tricklePenalty").GetInt32(),
+                            Time = TimeSpan.FromSeconds(q.GetProperty("timeSeconds").GetInt32()),
+                            Team = GetTeamByIndex(q.GetProperty("teamIndex").GetInt32()),
+                            FilePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, q.GetProperty("filePath").GetString())),
+                            ClearClock = q.TryGetProperty("clearClock", out var cc) ? cc.GetBoolean() : true,
+                            NoClock = q.TryGetProperty("noClock", out var nc) && nc.GetBoolean()
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    $"Error loading questions from JSON: {ex.Message}",
+                    "Configuration Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
+        }
+
+        private Teams GetTeamByIndex(int index)
+        {
+            switch (index)
+            {
+                case 1: return ControlCenter.Instance.Team1;
+                case 2: return ControlCenter.Instance.Team2;
+                case 3: return ControlCenter.Instance.Team3;
+                case 4: return ControlCenter.Instance.Team4;
+                default: return null;
+            }
         }
 
         private void CategoryGrid_LButtonUp(object sender, MouseButtonEventArgs e)
