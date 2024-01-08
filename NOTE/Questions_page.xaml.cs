@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using System.Windows.Media.Effects;
 
 namespace NOTE
 {
@@ -24,16 +26,32 @@ namespace NOTE
         public string selectedQuestionType = null;
         public bool noClock;
         public bool clearClock;
+
+        private TextBlock displayedTextBlock;
+        private TextBlock displayedAnswerTextBlock;
         public Questions_Page()
         {
 
             InitializeComponent();
             Instance = this;
-            
+
             CategoryGrid.ItemsSource = gridItems;
             CategoryGrid.IsReadOnly = true;
             DataContext = this;
             CategoryGrid.SelectedIndex = 0;
+
+            //gridItems.Add(new Question
+            //{
+            //    QuestionName = "Q&A Defined in CS",
+            //    Type = "Q&A",
+            //    QuestionText = "Things we lost in the fire",
+            //    AnswerText = "Agenda",
+            //    Points = 10,
+            //    BonusPoints = 5,
+            //    Penalty = 0,
+            //    Time = TimeSpan.FromSeconds(30),
+            //    Team = ControlCenter.Instance.Team3
+            //});
 
             LoadQuestionsFromJson();
 
@@ -68,7 +86,7 @@ namespace NOTE
                     // Add questions
                     foreach (var q in category.GetProperty("questions").EnumerateArray())
                     {
-                        gridItems.Add(new Question
+                        var question = new Question
                         {
                             QuestionName = q.GetProperty("questionName").GetString(),
                             Type = q.GetProperty("type").GetString(),
@@ -78,10 +96,29 @@ namespace NOTE
                             TricklePenalty = q.GetProperty("tricklePenalty").GetInt32(),
                             Time = TimeSpan.FromSeconds(q.GetProperty("timeSeconds").GetInt32()),
                             Team = GetTeamByIndex(q.GetProperty("teamIndex").GetInt32()),
-                            FilePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, q.GetProperty("filePath").GetString())),
                             ClearClock = q.TryGetProperty("clearClock", out var cc) ? cc.GetBoolean() : true,
                             NoClock = q.TryGetProperty("noClock", out var nc) && nc.GetBoolean()
-                        });
+                        };
+
+                        // Handle optional QuestionText
+                        if (q.TryGetProperty("questionText", out var qt))
+                        {
+                            question.QuestionText = qt.GetString();
+                        }
+
+                        // Handle optional AnswerText
+                        if (q.TryGetProperty("answerText", out var at))
+                        {
+                            question.AnswerText = at.GetString();
+                        }
+
+                        // Handle optional FilePath (for Media types)
+                        if (q.TryGetProperty("filePath", out var fp))
+                        {
+                            question.FilePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fp.GetString()));
+                        }
+
+                        gridItems.Add(question);
                     }
                 }
             }
@@ -107,6 +144,21 @@ namespace NOTE
             }
         }
 
+        public void ClearQuestionAnswerText()
+        {
+            if (displayedTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedTextBlock);
+                displayedTextBlock = null;
+            }
+
+            if (displayedAnswerTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                displayedAnswerTextBlock = null;
+            }
+        }
+
         private void CategoryGrid_LButtonUp(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
@@ -121,6 +173,130 @@ namespace NOTE
                     
                     ControlCenter.Instance._Timer.Duration = question.Time;
                 }
+            }
+        }
+
+        public void DisplayQuestionText(Question question)
+        {
+            // Remove the previously displayed TextBlock (if any)
+            if (displayedTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedTextBlock);
+                displayedTextBlock = null;
+            }
+
+            if (displayedAnswerTextBlock != null)
+            {
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                displayedAnswerTextBlock = null;
+                ControlCenter.Instance.ShowAnswer_button.Content = "Show answer";
+            }
+
+            // Create a new TextBlock
+            displayedTextBlock = new TextBlock();
+            displayedTextBlock.Text = question.QuestionText;
+            displayedTextBlock.FontSize = question.QuestionTextFontSize;
+            displayedTextBlock.Foreground = question.QuestionTextColor;
+            displayedTextBlock.FontWeight = FontWeights.Bold;
+            displayedTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
+            displayedTextBlock.Margin = new Thickness(100);
+
+            // Set the position of the TextBlock based on the selected  question attribute
+
+            if (question.QuestionTextPos.Item1 == "Top")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Top;
+            }
+            else if (question.QuestionTextPos.Item1 == "Center")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Center;
+            }
+            else if (question.QuestionTextPos.Item1 == "Bottom")
+            {
+                displayedTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                displayedTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+            }
+
+
+            int xPos = question.QuestionTextPos.Item2;
+            int yPos = question.QuestionTextPos.Item3;
+
+            if (xPos != 0 || yPos != 0)
+            {
+                TranslateTransform translate = new TranslateTransform();
+                translate.X = xPos;
+                translate.Y = yPos;
+                displayedTextBlock.RenderTransform = translate;
+            }
+
+            Grid.SetColumnSpan(displayedTextBlock, 2);
+            Grid.SetRow(displayedTextBlock, 0);
+            Grid.SetColumn(displayedTextBlock, 0);
+
+            TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedTextBlock);
+        }
+
+        public void DisplayAnswerText(Question question)
+        {
+            // Check if the TextBlock is already displayed
+            if (displayedAnswerTextBlock != null && TriviaPlayer.Instance.TriviaPlayerGrid.Children.Contains(displayedAnswerTextBlock))
+            {
+                // Remove the TextBlock
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                displayedAnswerTextBlock = null;
+                ControlCenter.Instance.ShowAnswer_button.Content = "Show answer";
+            }
+            else
+            {
+                // Remove the previously displayed TextBlock (if any)
+                if (displayedAnswerTextBlock != null)
+                {
+                    TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
+                    displayedAnswerTextBlock = null;
+                }
+
+                ControlCenter.Instance.ShowAnswer_button.Content = "Hide answer";
+                displayedAnswerTextBlock = new TextBlock();
+                displayedAnswerTextBlock.Text = question.AnswerText;
+                displayedAnswerTextBlock.FontSize = question.QuestionTextFontSize;
+                displayedAnswerTextBlock.Foreground = new SolidColorBrush(Colors.Red);
+                displayedAnswerTextBlock.FontWeight = FontWeights.Bold;
+                displayedAnswerTextBlock.TextWrapping = TextWrapping.WrapWithOverflow;
+
+                if (question.AnswerTextPos.Item1 == "Top")
+                {
+                    displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Top;
+                }
+                else if (question.AnswerTextPos.Item1 == "Center")
+                {
+                    displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Center;
+                }
+                else if (question.AnswerTextPos.Item1 == "Bottom")
+                {
+                    displayedAnswerTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
+                    displayedAnswerTextBlock.VerticalAlignment = VerticalAlignment.Bottom;
+                }
+
+                int xAnsPos = question.QuestionTextPos.Item2;
+                int yAnsPos = question.QuestionTextPos.Item3;
+
+                if (xAnsPos != 0 || yAnsPos != 0)
+                {
+                    TranslateTransform translate = new TranslateTransform();
+                    translate.X = xAnsPos;
+                    translate.Y = yAnsPos;
+                    displayedAnswerTextBlock.RenderTransform = translate;
+                }
+
+                Grid.SetColumnSpan(displayedAnswerTextBlock, 2);
+                Grid.SetRow(displayedAnswerTextBlock, 0);
+                Grid.SetColumn(displayedAnswerTextBlock, 0);
+
+                TriviaPlayer.Instance.TriviaPlayerGrid.Children.Add(displayedAnswerTextBlock);
             }
         }
 

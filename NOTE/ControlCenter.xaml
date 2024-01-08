@@ -64,6 +64,7 @@
                 <TextBlock Text="&#x23EE;" FontSize="24" />
             </Button>
             <TextBlock HorizontalAlignment="Left" Margin="873,256,0,0" TextWrapping="Wrap" FontSize="14" Text="&#x2B07; Media Controls &#x2B07;" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+            <Button x:Name="ShowAnswer_button" Content="Show Answer" Margin="602,0,0,-6" Height="45" Width="107" Click="ShowAnswer_button_Click" Background="#FF9055EA" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
             <Grid.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Background" Value="#FF1377D8"/>

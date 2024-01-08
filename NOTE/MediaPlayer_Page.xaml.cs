@@ -43,7 +43,10 @@ namespace NOTE
 
         private void Media_player_MediaOpened(object sender, RoutedEventArgs e)
         {
-            ControlCenter.Instance.SeekerBar.Maximum = Media_player.NaturalDuration.TimeSpan.TotalSeconds;
+            if (Media_player.NaturalDuration.HasTimeSpan)
+            {
+                ControlCenter.Instance.SeekerBar.Maximum = Media_player.NaturalDuration.TimeSpan.TotalSeconds;
+            }
         }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)

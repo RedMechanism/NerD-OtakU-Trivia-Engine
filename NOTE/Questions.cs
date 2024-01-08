@@ -13,6 +13,7 @@ namespace NOTE
     {
         public string Type { get; set; }
         public string QuestionName { get; set; }
+        public string CategoryName { get; set; }
         public Teams Team { get; set; }
         public int Points { get; set; }
         public int BonusPoints { get; set; }
@@ -20,7 +21,13 @@ namespace NOTE
         public int TricklePenalty { get; set; }
         public TimeSpan Time { get; set; }
         public string QuestionText { get; set; }
+        public Tuple<string, int, int> QuestionTextPos { get; set; }
+        public Tuple<string, int, int> AnswerTextPos { get; set; }
+        public int QuestionTextFontSize { get; set; }
+        public SolidColorBrush QuestionTextColor { get; set; }
+        public string AnswerText { get; set; }
         public Uri FilePath { get; set; }
+        public Uri BackgroundImagePath { get; set; }
         public bool ClearClock { get; set; }
         public bool NoClock { get; set; }
         public Dictionary<string, int> NerdFeudAnswers { get; set; }
@@ -33,6 +40,13 @@ namespace NOTE
             BonusPoints = 0;
             Penalty = 0;
             TricklePenalty = 0;
+
+            // Predefined attributed for Q&A questions
+            QuestionTextPos = new Tuple<string, int, int>("Center", 0, 0);
+            QuestionTextFontSize = 60;
+            QuestionTextColor = new SolidColorBrush(Colors.White);
+            AnswerTextPos = new Tuple<string, int, int>("Bottom", 0, 0);
+            BackgroundImagePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}Images\\QuestionBackground.jpg");
         }
 
         private SolidColorBrush rowColor = new SolidColorBrush(Colors.White);
