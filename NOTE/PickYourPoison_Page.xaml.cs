@@ -33,7 +33,7 @@ namespace NOTE
             Questions = questions;
             PickYourPoison_CategoryName.Content = questions[0].CategoryName;
             // Generate buttons for each category.
-            var categories = Questions.Select(q => q.QuestionName).Distinct().ToList();
+            var categories = Questions.Select(q => q.CategoryName).Distinct().ToList();
             for (int i = 0; i < categories.Count; i++)
             {
                 Button button = new Button
@@ -53,7 +53,7 @@ namespace NOTE
             // Get all questions for this category.
             Button button = (Button)sender;
             string category = button.Content.ToString();
-            CurrentCategoryQuestions = Questions.Where(q => q.QuestionName == category).ToList();
+            CurrentCategoryQuestions = Questions.Where(q => q.CategoryName == category).ToList();
 
             if (CurrentCategoryQuestions.Any())
             {
@@ -85,6 +85,12 @@ namespace NOTE
             }
         }
 
+        public void ClearPickYourPoisonNavigationButtons()
+        {
+            TriviaPlayer.Instance.prevButton.Visibility = Visibility.Collapsed;
+            TriviaPlayer.Instance.nextButton.Visibility = Visibility.Collapsed;
+        }
+
         private void UpdateQuestionDisplay()
         {
             ControlCenter.Instance.ShowQuestion(CurrentCategoryQuestions[CurrentQuestionIndex]);
@@ -103,7 +109,7 @@ namespace NOTE
                 // Find the corresponding button and re-enable it.
                 foreach (Button button in buttonGrid.Children)
                 {
-                    if (button.Content.ToString() == question.QuestionName)
+                    if (button.Content.ToString() == question.CategoryName)
                     {
                         button.IsEnabled = true;
                         break;

@@ -31,6 +31,9 @@ namespace NOTE
         public bool ClearClock { get; set; }
         public bool NoClock { get; set; }
         public Dictionary<string, int> NerdFeudAnswers { get; set; }
+
+        // Recursive property for nested questions
+        public List<Question> QuestionList { get; set; }
         public Question()
         {
             NoClock = false;

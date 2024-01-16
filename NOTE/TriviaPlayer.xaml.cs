@@ -18,6 +18,7 @@ namespace NOTE
         public TextBox displayTimer;
         public Image clock_face;
         public MediaPlayer_Page _mediaPlayer_page;
+        public PickYourPoison_Page _pickPoison_page;
         public NerdFeud_Page _nerdFeud_page;
         public TriviaPlayer()
         {

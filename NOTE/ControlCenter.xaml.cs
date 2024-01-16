@@ -382,17 +382,22 @@ namespace NOTE
                 case "Banner":
                     HandleBannerQuestion(question);
                     break;
+                case "Pick your poison":
+                    HandlePickYourPoisonQuestion(question);
+                    break;
             }
         }
 
         private void HandleQAQuestion(Question question)
         {
+            TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
             TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
             ShowQuestion(question);
         }
 
         private void HandleMediaQuestion(Question question, bool isPayItForward)
         {
+            TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
             Questions_Page.Instance.ClearQuestionAnswerText();
             TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
             Correct_button.Content = "Correct";
@@ -423,8 +428,26 @@ namespace NOTE
             }
         }
 
+        private void HandlePickYourPoisonQuestion(Question question)
+        {
+            ClearTimer();
+            Questions_Page.Instance.ClearQuestionAnswerText();
+
+            if (TriviaPlayer.Instance._pickPoison_page != null)
+            {
+                TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            }
+            else
+            {
+                TriviaPlayer.Instance._pickPoison_page = new PickYourPoison_Page(question.QuestionList);
+            }
+
+            TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._pickPoison_page;
+        }
+
         private void HandleBannerQuestion(Question question)
         {
+            TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
             Questions_Page.Instance.ClearQuestionAnswerText();
             TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
             Correct_button.Content = "Correct";

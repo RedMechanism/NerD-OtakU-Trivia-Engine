@@ -40,18 +40,82 @@ namespace NOTE
             DataContext = this;
             CategoryGrid.SelectedIndex = 0;
 
-            //gridItems.Add(new Question
+            //// If PickYourPoison_Page hasn't been initialized yet or if it's for a different category, create a new instance.
+            //if (TriviaPlayer.Instance._pickPoison_page == null)
             //{
-            //    QuestionName = "Q&A Defined in CS",
-            //    Type = "Q&A",
-            //    QuestionText = "Things we lost in the fire",
-            //    AnswerText = "Agenda",
-            //    Points = 10,
-            //    BonusPoints = 5,
-            //    Penalty = 0,
-            //    Time = TimeSpan.FromSeconds(30),
-            //    Team = ControlCenter.Instance.Team3
-            //});
+            //    TriviaPlayer.Instance._pickPoison_page = new PickYourPoison_Page(questions);
+            //}
+
+            gridItems.Add(new Question
+            {
+                Type = "Pick your poison",
+                QuestionName = "Round 1: Player 1",
+                NoClock = true,
+                Team = ControlCenter.Instance.Team1,
+                QuestionList = new List<Question>
+                {
+                    new Question
+                    {
+                        Type = "Q&A",
+                        CategoryName = "Life",
+                        QuestionText = "What is the end of life?",
+                        AnswerText = "Dread",
+                        Points = 10,
+                        BonusPoints = 5,
+                        Penalty = 0,
+                        Time = TimeSpan.FromSeconds(8),
+                        Team = ControlCenter.Instance.Team1
+                    },
+                    new Question
+                    {
+                        Type = "Q&A",
+                        CategoryName = "Life",
+                        QuestionText = "Too much good games",
+                        AnswerText = "Musica",
+                        Points = 10,
+                        BonusPoints = 5,
+                        Penalty = 0,
+                        Time = TimeSpan.FromSeconds(8),
+                        Team = ControlCenter.Instance.Team1
+                    },
+                    new Question
+                    {
+                        Type = "Q&A",
+                        CategoryName = "Life",
+                        QuestionText = "Smaller ends",
+                        AnswerText = "Zany",
+                        Points = 10,
+                        BonusPoints = 5,
+                        Penalty = 0,
+                        Time = TimeSpan.FromSeconds(8),
+                        Team = ControlCenter.Instance.Team1
+                    },
+                    new Question
+                    {
+                        Type = "Q&A",
+                        CategoryName = "Pain",
+                        QuestionText = "Is it really that abysmal?",
+                        AnswerText = "Crazy",
+                        Points = 10,
+                        BonusPoints = 5,
+                        Penalty = 0,
+                        Time = TimeSpan.FromSeconds(30),
+                        BackgroundImagePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}Images\\QuestionBackground2.jpg"),
+                    },
+                    new Question
+                    {
+                        Type = "Q&A",
+                        CategoryName = "Pain",
+                        QuestionText = "What is the peak",
+                        AnswerText = "Azimuth",
+                        Points = 10,
+                        BonusPoints = 5,
+                        Penalty = 0,
+                        Time = TimeSpan.FromSeconds(30),
+                        Team = ControlCenter.Instance.Team1
+                    }
+                }
+            });
 
             LoadQuestionsFromJson();
 
