@@ -292,11 +292,15 @@ namespace NOTE
         private void Play_pause_Button(object sender, RoutedEventArgs e)
         {
             var newQuestion = Questions_Page.Instance?.CategoryGrid?.SelectedItem as Question;
+            Question displayedPickYourPoisonQuestion = TriviaPlayer.Instance?._pickPoison_page?.displayedQuestion;
+
             if (newQuestion != currentQuestion)
             {
                 _Timer.Reset();
                 currentQuestion = newQuestion;
                 currentQuestionIndex = Questions_Page.Instance.CategoryGrid.SelectedIndex;
+
+                UpdateAnswerTextDisplay(currentQuestion);
             }
 
             if (PlayerWindowCounter() >= 1)
@@ -315,11 +319,13 @@ namespace NOTE
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateQuestion(1);
+            UpdateAnswerTextDisplay(currentQuestion);
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
             NavigateQuestion(-1);
+            UpdateAnswerTextDisplay(currentQuestion);
         }
 
         private void NavigateQuestion(int direction)
@@ -390,14 +396,20 @@ namespace NOTE
 
         private void HandleQAQuestion(Question question)
         {
-            TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            if (TriviaPlayer.Instance._pickPoison_page != null)
+            {
+                TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            }
             TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
             ShowQuestion(question);
         }
 
         private void HandleMediaQuestion(Question question, bool isPayItForward)
         {
-            TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            if (TriviaPlayer.Instance._pickPoison_page != null)
+            {
+                TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            }
             Questions_Page.Instance.ClearQuestionAnswerText();
             TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
             Correct_button.Content = "Correct";
@@ -447,7 +459,10 @@ namespace NOTE
 
         private void HandleBannerQuestion(Question question)
         {
-            TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            if (TriviaPlayer.Instance._pickPoison_page != null)
+            {
+                TriviaPlayer.Instance._pickPoison_page.ClearPickYourPoisonNavigationButtons();
+            }
             Questions_Page.Instance.ClearQuestionAnswerText();
             TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
             Correct_button.Content = "Correct";
@@ -463,10 +478,20 @@ namespace NOTE
         {
             if (PlayerWindowCounter() >= 1 && currentQuestion.Team != null)
             {
-                if (currentQuestion.Type == "Media")
+                if (currentQuestion.Type == "Media" || currentQuestion.Type == "Q&A")
                 {
                     AddPoints(currentQuestion.Team, currentQuestion.Points);
                     playSound(currentQuestion.Team.SoundPath);
+                }
+                else if (currentQuestion.Type == "Pick your poison")
+                {
+                    Question displayedPickYourPoisonQuestion = TriviaPlayer.Instance?._pickPoison_page?.displayedQuestion;
+
+                    if (displayedPickYourPoisonQuestion != null)
+                    {
+                        AddPoints(displayedPickYourPoisonQuestion.Team, displayedPickYourPoisonQuestion.Points);
+                        playSound(currentQuestion.Team.SoundPath);
+                    }
                 }
                 else if (currentQuestion.Type == "PayItForward")
                 {
@@ -495,6 +520,10 @@ namespace NOTE
                 {
                     HandleMediaWrongAnswer();
                 }
+                else if (currentQuestion.Type == "Pick your poison")
+                {
+                    HandlePickYourPoisonWrongAnswer();
+                }
                 else if (currentQuestion.Type == "PayItForward")
                 {
                     HandlePayItForwardWrongAnswer();
@@ -517,6 +546,29 @@ namespace NOTE
                 if (result == MessageBoxResult.Yes)
                 {
                     DeductPoints(currentQuestion.Team, currentQuestion.Penalty);
+                }
+            }
+        }
+
+        private void HandlePickYourPoisonWrongAnswer()
+        {
+            Question displayedPickYourPoisonQuestion = TriviaPlayer.Instance?._pickPoison_page?.displayedQuestion;
+
+            if (displayedPickYourPoisonQuestion != null)
+            {
+                if (displayedPickYourPoisonQuestion.Penalty == 0)
+                {
+                    WrongAnswer(displayedPickYourPoisonQuestion.Team);
+                }
+                else
+                {
+                    MessageBoxResult result = MessageBox.Show("Are you sure you want to deduct points?",
+                        "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                    if (result == MessageBoxResult.Yes)
+                    {
+                        DeductPoints(displayedPickYourPoisonQuestion.Team, displayedPickYourPoisonQuestion.Penalty);
+                    }
                 }
             }
         }
@@ -549,6 +601,16 @@ namespace NOTE
             {
                 Questions_Page.Instance.DisplayAnswerText(currentQuestion);
             }
+            else if (PlayerWindowCounter() >= 1 && currentQuestion?.Type == "Pick your poison")
+            {
+                Question displayedPickYourPoisonQuestion = TriviaPlayer.Instance?._pickPoison_page?.displayedQuestion;
+
+                if (displayedPickYourPoisonQuestion != null)
+                {
+                    Questions_Page.Instance.DisplayAnswerText(displayedPickYourPoisonQuestion);
+                }
+            }
+
         }
 
         private void Play_Button(object sender, RoutedEventArgs e)
@@ -679,6 +741,14 @@ namespace NOTE
             MediaPlayer_Page._media.Path = question.BackgroundImagePath;
             MediaPlayer_Page._media.Play();
             _Timer.Start();
+        }
+
+        public void UpdateAnswerTextDisplay(Question question)
+        {
+            if (question != null)
+            {
+                Answer_disp.Content = question.AnswerText;
+            }
         }
 
         public int PlayerWindowCounter()

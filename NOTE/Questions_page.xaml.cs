@@ -40,83 +40,6 @@ namespace NOTE
             DataContext = this;
             CategoryGrid.SelectedIndex = 0;
 
-            //// If PickYourPoison_Page hasn't been initialized yet or if it's for a different category, create a new instance.
-            //if (TriviaPlayer.Instance._pickPoison_page == null)
-            //{
-            //    TriviaPlayer.Instance._pickPoison_page = new PickYourPoison_Page(questions);
-            //}
-
-            gridItems.Add(new Question
-            {
-                Type = "Pick your poison",
-                QuestionName = "Round 1: Player 1",
-                NoClock = true,
-                Team = ControlCenter.Instance.Team1,
-                QuestionList = new List<Question>
-                {
-                    new Question
-                    {
-                        Type = "Q&A",
-                        CategoryName = "Life",
-                        QuestionText = "What is the end of life?",
-                        AnswerText = "Dread",
-                        Points = 10,
-                        BonusPoints = 5,
-                        Penalty = 0,
-                        Time = TimeSpan.FromSeconds(8),
-                        Team = ControlCenter.Instance.Team1
-                    },
-                    new Question
-                    {
-                        Type = "Q&A",
-                        CategoryName = "Life",
-                        QuestionText = "Too much good games",
-                        AnswerText = "Musica",
-                        Points = 10,
-                        BonusPoints = 5,
-                        Penalty = 0,
-                        Time = TimeSpan.FromSeconds(8),
-                        Team = ControlCenter.Instance.Team1
-                    },
-                    new Question
-                    {
-                        Type = "Q&A",
-                        CategoryName = "Life",
-                        QuestionText = "Smaller ends",
-                        AnswerText = "Zany",
-                        Points = 10,
-                        BonusPoints = 5,
-                        Penalty = 0,
-                        Time = TimeSpan.FromSeconds(8),
-                        Team = ControlCenter.Instance.Team1
-                    },
-                    new Question
-                    {
-                        Type = "Q&A",
-                        CategoryName = "Pain",
-                        QuestionText = "Is it really that abysmal?",
-                        AnswerText = "Crazy",
-                        Points = 10,
-                        BonusPoints = 5,
-                        Penalty = 0,
-                        Time = TimeSpan.FromSeconds(30),
-                        BackgroundImagePath = new Uri($"{AppDomain.CurrentDomain.BaseDirectory}Images\\QuestionBackground2.jpg"),
-                    },
-                    new Question
-                    {
-                        Type = "Q&A",
-                        CategoryName = "Pain",
-                        QuestionText = "What is the peak",
-                        AnswerText = "Azimuth",
-                        Points = 10,
-                        BonusPoints = 5,
-                        Penalty = 0,
-                        Time = TimeSpan.FromSeconds(30),
-                        Team = ControlCenter.Instance.Team1
-                    }
-                }
-            });
-
             LoadQuestionsFromJson();
 
             ControlCenter.Instance.currentQuestion = CategoryGrid.SelectedItem as Question;
@@ -128,7 +51,6 @@ namespace NOTE
             {
                 string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "questions.json");
                 string jsonContent = File.ReadAllText(jsonPath);
-
                 var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 var data = JsonSerializer.Deserialize<JsonDocument>(jsonContent, options);
 
@@ -150,38 +72,7 @@ namespace NOTE
                     // Add questions
                     foreach (var q in category.GetProperty("questions").EnumerateArray())
                     {
-                        var question = new Question
-                        {
-                            QuestionName = q.GetProperty("questionName").GetString(),
-                            Type = q.GetProperty("type").GetString(),
-                            Points = q.GetProperty("points").GetInt32(),
-                            BonusPoints = q.GetProperty("bonusPoints").GetInt32(),
-                            Penalty = q.GetProperty("penalty").GetInt32(),
-                            TricklePenalty = q.GetProperty("tricklePenalty").GetInt32(),
-                            Time = TimeSpan.FromSeconds(q.GetProperty("timeSeconds").GetInt32()),
-                            Team = GetTeamByIndex(q.GetProperty("teamIndex").GetInt32()),
-                            ClearClock = q.TryGetProperty("clearClock", out var cc) ? cc.GetBoolean() : true,
-                            NoClock = q.TryGetProperty("noClock", out var nc) && nc.GetBoolean()
-                        };
-
-                        // Handle optional QuestionText
-                        if (q.TryGetProperty("questionText", out var qt))
-                        {
-                            question.QuestionText = qt.GetString();
-                        }
-
-                        // Handle optional AnswerText
-                        if (q.TryGetProperty("answerText", out var at))
-                        {
-                            question.AnswerText = at.GetString();
-                        }
-
-                        // Handle optional FilePath (for Media types)
-                        if (q.TryGetProperty("filePath", out var fp))
-                        {
-                            question.FilePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fp.GetString()));
-                        }
-
+                        var question = CreateQuestionFromJson(q);
                         gridItems.Add(question);
                     }
                 }
@@ -194,6 +85,71 @@ namespace NOTE
                     System.Windows.MessageBoxButton.OK,
                     System.Windows.MessageBoxImage.Error);
             }
+        }
+
+        private Question CreateQuestionFromJson(JsonElement q)
+        {
+            var question = new Question();
+
+            // Required properties (with safe checks)
+            if (q.TryGetProperty("questionName", out var qn))
+                question.QuestionName = qn.GetString();
+
+            if (q.TryGetProperty("type", out var t))
+                question.Type = t.GetString();
+
+            // Optional numeric properties
+            if (q.TryGetProperty("points", out var pts))
+                question.Points = pts.GetInt32();
+
+            if (q.TryGetProperty("bonusPoints", out var bp))
+                question.BonusPoints = bp.GetInt32();
+
+            if (q.TryGetProperty("penalty", out var pen))
+                question.Penalty = pen.GetInt32();
+
+            if (q.TryGetProperty("tricklePenalty", out var tp))
+                question.TricklePenalty = tp.GetInt32();
+
+            if (q.TryGetProperty("timeSeconds", out var ts))
+                question.Time = TimeSpan.FromSeconds(ts.GetInt32());
+
+            if (q.TryGetProperty("teamIndex", out var ti))
+                question.Team = GetTeamByIndex(ti.GetInt32());
+
+            // Optional boolean properties
+            question.ClearClock = q.TryGetProperty("clearClock", out var cc) ? cc.GetBoolean() : true;
+            question.NoClock = q.TryGetProperty("noClock", out var nc) && nc.GetBoolean();
+
+            // Optional text properties
+            if (q.TryGetProperty("questionText", out var qt))
+                question.QuestionText = qt.GetString();
+
+            if (q.TryGetProperty("answerText", out var at))
+                question.AnswerText = at.GetString();
+
+            if (q.TryGetProperty("categoryName", out var cn))
+                question.CategoryName = cn.GetString();
+
+            // Optional file paths
+            if (q.TryGetProperty("filePath", out var fp))
+                question.FilePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fp.GetString()));
+
+            if (q.TryGetProperty("backgroundImagePath", out var bip))
+                question.BackgroundImagePath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, bip.GetString()));
+
+            // Handle nested question list (for "Pick your poison" type)
+            if (q.TryGetProperty("questionList", out var ql))
+            {
+                question.QuestionList = new List<Question>();
+                foreach (var nestedQ in ql.EnumerateArray())
+                {
+                    var nestedQuestion = CreateQuestionFromJson(nestedQ);
+                    question.QuestionList.Add(nestedQuestion);
+                }
+            }
+
+            return question;
         }
 
         private Teams GetTeamByIndex(int index)
@@ -310,7 +266,7 @@ namespace NOTE
                 // Remove the TextBlock
                 TriviaPlayer.Instance.TriviaPlayerGrid.Children.Remove(displayedAnswerTextBlock);
                 displayedAnswerTextBlock = null;
-                ControlCenter.Instance.ShowAnswer_button.Content = "Show answer";
+                ControlCenter.Instance.ShowAnswer_button.Content = "Reveal answer";
             }
             else
             {

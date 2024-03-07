@@ -23,6 +23,7 @@ namespace NOTE
         public List<Question> Questions { get; set; }
         public List<Question> CurrentCategoryQuestions { get; set; }
         private int CurrentQuestionIndex { get; set; }
+        public Question displayedQuestion { get; set; }
 
         public static PickYourPoison_Page Instance;
         public PickYourPoison_Page(List<Question> questions)
@@ -61,6 +62,7 @@ namespace NOTE
                 CurrentQuestionIndex = 0;
                 TriviaPlayer.Instance.TriviaPlayer_Frame.Content = TriviaPlayer.Instance._mediaPlayer_page;
                 UpdateQuestionDisplay();
+                ControlCenter.Instance.UpdateAnswerTextDisplay(displayedQuestion);
 
                 // Disable the clicked button.
                 button.IsEnabled = false;
@@ -73,6 +75,7 @@ namespace NOTE
             {
                 CurrentQuestionIndex--;
                 UpdateQuestionDisplay();
+                ControlCenter.Instance.UpdateAnswerTextDisplay(displayedQuestion);
             }
         }
 
@@ -82,6 +85,7 @@ namespace NOTE
             {
                 CurrentQuestionIndex++;
                 UpdateQuestionDisplay();
+                ControlCenter.Instance.UpdateAnswerTextDisplay(displayedQuestion);
             }
         }
 
@@ -93,7 +97,8 @@ namespace NOTE
 
         private void UpdateQuestionDisplay()
         {
-            ControlCenter.Instance.ShowQuestion(CurrentCategoryQuestions[CurrentQuestionIndex]);
+            displayedQuestion = CurrentCategoryQuestions[CurrentQuestionIndex];
+            ControlCenter.Instance.ShowQuestion(displayedQuestion);
 
             // Enable or disable the previous and next buttons based on the current question index.
             TriviaPlayer.Instance.prevButton.Visibility = CurrentQuestionIndex > 0 ? Visibility.Visible : Visibility.Hidden;
